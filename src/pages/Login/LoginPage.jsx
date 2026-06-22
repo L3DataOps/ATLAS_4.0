@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../auth/authService";
-import { useAuth } from "../hooks/useAuth";
+import { loginUser } from "../../auth/authService";
+import { useAuth } from "../../hooks/useAuth";
+import "./LoginPage.css";
+import logo from "../../images/logo.png";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -28,10 +30,9 @@ export default function Login() {
   };
 
   return (
-    <div className="login-page">
+    <div className="login">
+      <img src={logo} alt="Logo" id="logo" />
       <form className="login-form" onSubmit={handleSubmit}>
-        <h1>ATLAS</h1>
-
         {error && <div className="error">{error}</div>}
 
         <input
@@ -39,6 +40,7 @@ export default function Login() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          className="bubbleinput"
         />
 
         <input
@@ -46,9 +48,12 @@ export default function Login() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="bubbleinput"
         />
 
-        <button type="submit">Login</button>
+        <button type="submit" id="login">
+          Login
+        </button>
       </form>
     </div>
   );

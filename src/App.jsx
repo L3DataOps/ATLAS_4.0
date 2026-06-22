@@ -1,14 +1,26 @@
-import { useState } from "react";
-import LoginPage from "./pages/LoginPage";
+import { Routes, Route } from "react-router-dom";
+
+import ProtectedRoute from "./ProtectedRoute";
+import Layout from "./pages/Layout/Layout";
+
+import LoginPage from "./pages/Login/LoginPage";
+import HomePage from "./pages/Home/HomePage";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="App">
-      <h1>Vite + React</h1>
-      <LoginPage />
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/" element={<HomePage />} />
+      </Route>
+    </Routes>
   );
 }
 
