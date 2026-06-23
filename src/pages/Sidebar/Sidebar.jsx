@@ -20,7 +20,7 @@ function Sidebar() {
       <CurrentDate />
 
       <nav>
-        <NavLink to="/">Open Cases</NavLink>
+        <NavLink to="/open-cases">Open Cases</NavLink>
         <NavLink to="/closed-cases">Closed Cases</NavLink>
         <NavLink to="/create-case">Create Case</NavLink>
         <NavLink to="/rnm-dashboard">RNM Dashboard</NavLink>
