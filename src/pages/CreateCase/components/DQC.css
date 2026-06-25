@@ -1,0 +1,58 @@
+.dqc-container {
+  width: 100%;
+  margin-left: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.question-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.question-item p {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+}
+
+.radio-group {
+  display: flex;
+  gap: 12px;
+}
+
+/* option button */
+.answer-option {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  background: white;
+  font-size: 14px;
+}
+
+/* hover state */
+.answer-option:hover {
+  background: #f3f4f6;
+  border-color: #999;
+}
+
+/* selected state */
+.answer-option.selected {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* optional: make layout cleaner on small screens */
+@media (max-width: 600px) {
+  .radio-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

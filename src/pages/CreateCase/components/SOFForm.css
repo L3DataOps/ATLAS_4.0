@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.sof-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.form-row label {
+  width: 200px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.form-row input,
+.form-row select {
+  flex: 1;
+  width: 300px;
+  padding: 10px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
