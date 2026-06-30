@@ -1,8 +1,11 @@
-.search-input{
-    padding: 15px;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    margin-left: -10px;
+
+
+.search-tile input{
     width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+
 }

@@ -1,13 +1,13 @@
 import "./OpenCasesComponents.css";
 
-const SearchTile = ({ title }) => {
+const SearchTile = ({ title, value, onChange }) => {
   return (
     <div className="search-tile">
-      <h2>{title}</h2>
+      <label>{title}</label>
       <input
-        className="search-input"
-        type="text"
-        placeholder={`Search by ${title}`}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={`Search ${title}`}
       />
     </div>
   );
