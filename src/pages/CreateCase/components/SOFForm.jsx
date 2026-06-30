@@ -34,8 +34,10 @@ const SOFForm = ({
         <div className="form-row">
           <label>Category:</label>
           <select
-            onChange={(e) => setCategory(e.target.value)}
             value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
           >
             <option value="" disabled>
               Select Category

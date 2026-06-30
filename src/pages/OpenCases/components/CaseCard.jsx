@@ -1,32 +1,39 @@
+import "./CaseCard.css";
+
 const CaseCard = ({ case: caseItem }) => {
-  console.log(caseItem.siteid);
+  console.log(caseItem);
   return (
     <div className="case-card">
       <div className="section">
-        <h3>Ticket #</h3>
+        <h5>Ticket #</h5>
         <p>{caseItem.caseNumber}</p>
       </div>
       <div className="section">
-        <h3>{caseItem.siteid.siteName}</h3>
-        <p>Site Name</p>
+        <h5>{caseItem.site?.region || "Unknown Site"}</h5>
+        <p>{caseItem.site.siteName}</p>
       </div>
       <div className="section">
-        <h3>Problem</h3>
+        <h5>
+          {caseItem.tags?.reduce(
+            (a, b) => (b.priority > a.priority ? b : a),
+            caseItem.tags[0],
+          )?.name || "No Tags"}
+        </h5>
       </div>
       <div className="section">
-        <h3>Elapsed Time</h3>
+        <h5>Elapsed Time</h5>
       </div>
       <div className="section">
         <div className="split-section">
-          <h3>Icon</h3>
+          <h5>Icon</h5>
           <div className="section">
-            <h3>Status -</h3>
-            <h3>Action Taken</h3>
+            <h5>Status -</h5>
+            <h5>{caseItem.status}</h5>
           </div>
         </div>
       </div>
       <div className="section">
-        <h3>Equipment</h3>
+        <h5>Equipment</h5>
       </div>
     </div>
   );

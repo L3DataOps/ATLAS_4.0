@@ -10,7 +10,9 @@
     max-width: 500px;
     gap: 5px;
     margin-top: 10px;
-  
+    height: 200px;
+    overflow-y: auto;
+    
 }
 
 .tag {

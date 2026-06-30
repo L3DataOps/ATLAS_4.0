@@ -1,11 +1,14 @@
 .dqc-container {
   width: 100%;
   margin-left: 20px;
-  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
+
 .question-item {
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
   border-radius: 8px;
   background: #fafafa;
   padding: 12px;

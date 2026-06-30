@@ -11,3 +11,7 @@
   margin: 20px 0;
   border-radius: 5px;
 }
+
+.case-cards-container{
+  border: 1px solid red;
+}

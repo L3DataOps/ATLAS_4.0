@@ -28,26 +28,28 @@ const DQC = ({
           const answer = questionResponses?.[question];
 
           return (
-            <div key={index} className="question-item">
-              <p>{question}</p>
+            <div className="container">
+              <div key={index} className="question-item">
+                <p>{question}</p>
 
-              <div className="radio-group">
-                <div
-                  className={`answer-option ${
-                    answer === "Yes" ? "selected" : ""
-                  }`}
-                  onClick={() => handleAnswer(question, "Yes")}
-                >
-                  Yes
-                </div>
+                <div className="radio-group">
+                  <div
+                    className={`answer-option ${
+                      answer === "Yes" ? "selected" : ""
+                    }`}
+                    onClick={() => handleAnswer(question, "Yes")}
+                  >
+                    Yes
+                  </div>
 
-                <div
-                  className={`answer-option ${
-                    answer === "No" ? "selected" : ""
-                  }`}
-                  onClick={() => handleAnswer(question, "No")}
-                >
-                  No
+                  <div
+                    className={`answer-option ${
+                      answer === "No" ? "selected" : ""
+                    }`}
+                    onClick={() => handleAnswer(question, "No")}
+                  >
+                    No
+                  </div>
                 </div>
               </div>
             </div>
