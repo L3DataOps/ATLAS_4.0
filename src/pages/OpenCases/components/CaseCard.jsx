@@ -1,14 +1,23 @@
 import "./CaseCard.css";
 import TagBubble from "./TagBubble";
+import { useNavigate } from "react-router-dom";
 
 import openIcon from "../../../images/send.png";
 import dispatchedIcon from "../../../images/send.png";
 import inProgressIcon from "../../../images/active-user.png";
 import tacIcon from "../../../images/tac.png";
 import driveTimeIcon from "../../../images/awaitdrive.png";
+import awaitPMIcon from "../../../images/awaitpm.png";
+import resolvedIcon from "../../../images/accept.png";
+import enrouteIcon from "../../../images/lorry.png";
+import notDoneIcon from "../../../images/notdone.png";
+import quoteRequestedIcon from "../../../images/quoterequest.png";
+import quoteAwaitingApprovalIcon from "../../../images/awaitingapproval.png";
+import quoteApprovedIcon from "../../../images/approved.png";
+import morningDispatchIcon from "../../../images/morning.png";
 
 const CaseCard = ({ case: caseItem }) => {
-  console.log(caseItem);
+  const navigate = useNavigate();
   const sortedTags = [...(caseItem.tags || [])].sort(
     (a, b) => a.priority - b.priority,
   );
@@ -17,16 +26,31 @@ const CaseCard = ({ case: caseItem }) => {
     switch (status?.toLowerCase()) {
       case "assigned to tac":
         return tacIcon;
+      case "pm scheduled":
+        return awaitPMIcon;
       case "awaiting drive time":
         return driveTimeIcon;
       case "dispatched":
         return dispatchedIcon;
       case "in progress":
         return inProgressIcon;
-      case "closed":
-        return closedIcon;
+      case "resolved":
+        return resolvedIcon;
+      case "tech enroute":
+        return enrouteIcon;
+      case "not done":
+        return notDoneIcon;
+      case "quote requested":
+        return quoteRequestedIcon;
+      case "quote awaiting approval":
+        return quoteAwaitingApprovalIcon;
+      case "quote approved":
+        return quoteApprovedIcon;
+      case "morning dispatch":
+        return morningDispatchIcon;
+
       default:
-        return openIcon;
+        return dispatchedIcon;
     }
   };
 
@@ -59,7 +83,10 @@ const CaseCard = ({ case: caseItem }) => {
     return result.length ? result.join(" ") : "just now";
   };
   return (
-    <div className="case-card">
+    <div
+      className="case-card"
+      onClick={() => navigate(`/cases/${caseItem._id}`)}
+    >
       <div className="section">
         <h5>Ticket #</h5>
         <p>{caseItem.caseNumber}</p>
@@ -85,7 +112,7 @@ const CaseCard = ({ case: caseItem }) => {
 
           <div className="status-row">
             <h5>Status -</h5>
-            <h5>{caseItem.status}</h5>
+            <h5 className="case-status">{caseItem.status}</h5>
           </div>
         </div>
       </div>

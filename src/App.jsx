@@ -8,6 +8,7 @@ import LoginPage from "./pages/Login/LoginPage";
 import HomePage from "./pages/Home/HomePage";
 import CreateCase from "./pages/CreateCase/CreateCase";
 import OpenCasesPage from "./pages/OpenCases/OpenCases";
+import CaseDetails from "./pages/CaseDetails/CaseDetails"
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       >
         <Route path="/" element={<HomePage />} />
         <Route path="/open-cases" element={<OpenCasesPage />} />
+        <Route path="/cases/:id" element={<CaseDetails />} />
       </Route>
     </Routes>
   );
