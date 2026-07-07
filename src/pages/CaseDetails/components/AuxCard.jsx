@@ -1,32 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import "./CaseDetailComponents.css";
 
 const API_URL = import.meta.env.VITE_API;
 
-const AuxCard = ({ caseItem, dispatchCenters = [] }) => {
+const AuxCard = ({ caseItem, dispatchCenters = [], setCaseItem }) => {
   const { token } = useAuth();
 
-  const [dispatchList, setDispatchList] = useState([]);
-
-  console.log(dispatchCenters)
-
-  useEffect(() => {
-    setDispatchList(dispatchCenters);
-  }, [dispatchCenters]);
-
   const handleToggle = async (id) => {
-    const updatedDispatch = dispatchList.map((dispatch) =>
+    const updatedDispatch = dispatchCenters.map((dispatch) =>
       dispatch._id === id
         ? {
             ...dispatch,
             hasBeenNotified: !dispatch.hasBeenNotified,
           }
-        : dispatch
+        : dispatch,
     );
 
-    // Update UI immediately
-    setDispatchList(updatedDispatch);
+    // Update parent immediately
+    setCaseItem((prev) => ({
+      ...prev,
+      dispatchCenterNotified: updatedDispatch,
+    }));
 
     try {
       const response = await fetch(`${API_URL}/cases/${caseItem._id}`, {
@@ -40,14 +35,11 @@ const AuxCard = ({ caseItem, dispatchCenters = [] }) => {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to update dispatch centers");
-      }
+      const updatedCase = await response.json();
+
+      setCaseItem(updatedCase);
     } catch (err) {
       console.error(err);
-
-      // rollback if update failed
-      setDispatchList(dispatchCenters);
     }
   };
 
@@ -55,11 +47,11 @@ const AuxCard = ({ caseItem, dispatchCenters = [] }) => {
     <div className="aux-card">
       <h3>Dispatch Centers</h3>
 
-      {dispatchList.map((dispatch) => (
+      {dispatchCenters.map((dispatch) => (
         <div className="dispatch-row" key={dispatch._id}>
           <div className="dispatch-info">
             <h4>{dispatch.dispatchName}</h4>
-            <p>{dispatch.phone}</p>
+            <p>{dispatch.dispatchPhoneNumber}</p>
           </div>
 
           <label className="switch">

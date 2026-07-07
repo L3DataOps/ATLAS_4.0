@@ -100,3 +100,10 @@ select:disabled {
     display: flex;
     flex-direction: column;
 }
+
+.across{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}

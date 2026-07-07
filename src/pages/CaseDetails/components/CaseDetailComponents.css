@@ -19,7 +19,8 @@
   border-radius: 15px;
   margin: 0px 10px;
   width: 100%;
-  height: 10vh;
+  height: 20vh;
+  overflow-y: auto;
   padding: 10px;
   border: 1px solid;
 }
@@ -118,6 +119,7 @@
 
 .aux-card {
   background: white;
+
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 16px;
@@ -185,4 +187,58 @@ input:checked + .slider {
 
 input:checked + .slider::before {
   transform: translateX(24px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.eq-info-card {
+  display: flex;
+  width: 100%;
+  overflow-y: scroll;
+  scrollbar-width: hidden;
+}
+
+
+.equipment-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
+    width: 100%;
+}
+
+.equipment-image {
+    width: 300px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.carousel-button {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.carousel-counter {
+    position: absolute;
+    bottom: -25px;
+    font-size: 14px;
 }

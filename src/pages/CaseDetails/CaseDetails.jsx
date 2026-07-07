@@ -187,16 +187,18 @@ const CaseDetails = () => {
         </div>
 
         <div className="across">
-            <div className="aux-card">
-                <AuxCard  caseItem={caseItem}  dispatchCenters={caseItem.dispatchCenterNotified}/>
-            </div>
-            <div className="eq-info-card">
-                <EqInfoCard />
-            </div>
+          <div className="aux-card">
+            <AuxCard
+              caseItem={caseItem}
+              dispatchCenters={caseItem.dispatchCenterNotified}
+              setCaseItem={setCaseItem}
+            />
+          </div>
+          <div className="eq-info-card">
+            <EqInfoCard caseItem={caseItem} />
+          </div>
         </div>
       </div>
-
-
     </div>
   );
 };
