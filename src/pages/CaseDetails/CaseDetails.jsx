@@ -9,6 +9,7 @@ import TimeTile from "./components/TimeTile";
 import InitialDesc from "./components/InitialDesc";
 import AuxCard from "./components/AuxCard";
 import EqInfoCard from "./components/EqInfoCard";
+import ActivityNoteSection from "./components/ActivityNoteSection";
 
 const API_URL = import.meta.env.VITE_API;
 
@@ -124,81 +125,85 @@ const CaseDetails = () => {
   // UI
   // =========================
   return (
-    <div className="container">
-      <div className="title-card">
-        <div className="title-head">
-          <div>
-            <h3>
-              {caseItem.equipment?.caseType}: {caseItem.caseNumber}
-            </h3>
+    <div className="case-details-page">
+      <div className="container">
+        <div className="title-card">
+          <div className="title-head">
+            <div>
+              <h3>
+                {caseItem.equipment?.caseType}: {caseItem.caseNumber}
+              </h3>
+            </div>
+
+            <img src={flagIcon} alt={caseItem.status} />
           </div>
 
-          <img src={flagIcon} alt={caseItem.status} />
-        </div>
+          <div className="title-subhead">
+            <div className="site-info">
+              <h4>{caseItem.site?.siteName}</h4>
+              <p>{caseItem.site?.region?.slice(0, 4)}</p>
+            </div>
 
-        <div className="title-subhead">
-          <div className="site-info">
-            <h4>{caseItem.site?.siteName}</h4>
-            <p>{caseItem.site?.region?.slice(0, 4)}</p>
+            <select value={category} onChange={handleCategoryChange}>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <select value={category} onChange={handleCategoryChange}>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="border"></div>
 
-        <div className="border"></div>
-
-        <div className="time-section">
-          <TimeTile
-            label={"Date Created"}
-            time={formatDateTime(caseItem.createdAt)}
-          />
-          <TimeTile
-            label={"Date Created"}
-            time={formatDateTime(caseItem.createdAt)}
-          />
-          <TimeTile
-            label={"Date Created"}
-            time={formatDateTime(caseItem.createdAt)}
-          />
-          <TimeTile
-            label={"Date Created"}
-            time={formatDateTime(caseItem.createdAt)}
-          />
-        </div>
-
-        <div className="border"></div>
-      </div>
-
-      <div className="sub-container">
-        <div className="initial-description-card">
-          <InitialDesc
-            user={user}
-            description={caseItem.description}
-            tags={caseItem.tags}
-            time={formatDateTime(caseItem.createdAt)}
-            casecategory={caseItem.category}
-          />
-        </div>
-
-        <div className="across">
-          <div className="aux-card">
-            <AuxCard
-              caseItem={caseItem}
-              dispatchCenters={caseItem.dispatchCenterNotified}
-              setCaseItem={setCaseItem}
+          <div className="time-section">
+            <TimeTile
+              label={"Date Created"}
+              time={formatDateTime(caseItem.createdAt)}
+            />
+            <TimeTile
+              label={"Date Created"}
+              time={formatDateTime(caseItem.createdAt)}
+            />
+            <TimeTile
+              label={"Date Created"}
+              time={formatDateTime(caseItem.createdAt)}
+            />
+            <TimeTile
+              label={"Date Created"}
+              time={formatDateTime(caseItem.createdAt)}
             />
           </div>
-          <div className="eq-info-card">
-            <EqInfoCard caseItem={caseItem} />
+
+          <div className="border"></div>
+        </div>
+
+        <div className="sub-container">
+          <div className="initial-description-card">
+            <InitialDesc
+              user={user}
+              description={caseItem.description}
+              tags={caseItem.tags}
+              time={formatDateTime(caseItem.createdAt)}
+              casecategory={caseItem.category}
+            />
+          </div>
+
+          <div className="across">
+            <div className="aux-card">
+              <AuxCard
+                caseItem={caseItem}
+                dispatchCenters={caseItem.dispatchCenterNotified}
+                setCaseItem={setCaseItem}
+              />
+            </div>
+            <div className="eq-info-card">
+              <EqInfoCard caseItem={caseItem} />
+            </div>
           </div>
         </div>
       </div>
+
+      <ActivityNoteSection caseItem={caseItem} />
     </div>
   );
 };

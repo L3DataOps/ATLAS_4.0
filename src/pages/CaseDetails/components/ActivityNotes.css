@@ -1,0 +1,70 @@
+.activity-note-section {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  width: 60%;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.activity-notes-container{
+    background-color: #858585;
+    padding: 10px;
+}
+
+
+.border {
+  height: 1px;
+  margin: 8px;
+  border: 1px solid #000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.activity-note-card{
+    margin: 10px 0px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.activity-note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+}
+
+.activity-note-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  margin-bottom: 10px
+}
+
+.add-note-button{
+padding: 10px 20px;
+border-radius: 9.5px;
+background: #192BEF;
+color: white
+}
+
+.note-tag{
+    font-size: 10px;
+    padding: 10px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 20px;
+    margin: 5px;
+}
+
+.activity-note-body {
+    margin: 10px;
+}
