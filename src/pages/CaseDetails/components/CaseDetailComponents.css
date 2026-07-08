@@ -1,89 +1,106 @@
+/* ==========================================
+   General
+========================================== */
+
 .border {
   height: 1px;
-  border: 1px solid black;
   margin: 8px;
+  border: 1px solid #000;
 }
+
+/* ==========================================
+   Time Tile
+========================================== */
 
 .time-tile {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0px 10px;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .time-tile p {
   font-weight: 800;
 }
 
+/* ==========================================
+   Initial Description
+========================================== */
+
 .initial-description {
-  border-radius: 15px;
-  margin: 0px 10px;
   width: 100%;
   height: 20vh;
-  overflow-y: auto;
+  margin: 0 10px;
   padding: 10px;
+  overflow-y: auto;
+
   border: 1px solid;
+  border-radius: 15px;
 }
 
-/* Critical */
+/* Severity / Category Colors */
+
 .initial-description.critical {
   background: #ffe5e5;
   border-color: #e53935;
 }
 
-/* Major */
 .initial-description.major {
   background: #ebbe76;
   border-color: #bc6904;
 }
 
-/* Minor */
 .initial-description.minor {
   background: #f0e780;
   border-color: #fdd835;
 }
 
-/* Network */
 .initial-description.network {
   background: #e3f2fd;
   border-color: #1e88e5;
 }
 
-/* Facilities */
 .initial-description.civil {
   background: #e8f5e9;
   border-color: #43a047;
 }
 
-/* Civil */
 .initial-description.facilities {
   background: #f3e5f5;
   border-color: #8e24aa;
 }
 
-/* Site Access */
 .initial-description.site-access {
   background: #3dfccc;
   border-color: #0d364a;
 }
 
-/* Fallback */
 .initial-description.default {
   background: #f8f9fa;
   border-color: #ced4da;
 }
+
+/* ==========================================
+   Initial Description Header
+========================================== */
 
 .init-desc-header {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
+
+.init-desc-header img {
+  width: 25px;
+}
+
 .init-desc-header-section {
   display: flex;
-  padding: 10px;
   align-items: center;
   justify-content: space-evenly;
+
   width: 200px;
+  padding: 10px;
 }
 
 .init-desc-header-second-section {
@@ -95,10 +112,6 @@
   margin-left: 15px;
 }
 
-.init-desc-header img {
-  width: 25px;
-}
-
 .tag-bubble {
   margin-top: 10px;
 }
@@ -107,28 +120,23 @@
   margin: 10px;
 }
 
-
-
-
-
-
-
-
-
-
+/* ==========================================
+   Auxiliary Card
+========================================== */
 
 .aux-card {
-  background: white;
+  padding: 16px;
 
+  background: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 16px;
 }
 
 .dispatch-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   padding: 12px 0;
   border-bottom: 1px solid #eee;
 }
@@ -148,10 +156,14 @@
   font-size: 13px;
 }
 
-/* Toggle Switch */
+/* ==========================================
+   Toggle Switch
+========================================== */
+
 .switch {
   position: relative;
   display: inline-block;
+
   width: 52px;
   height: 28px;
 }
@@ -163,22 +175,26 @@
 .slider {
   position: absolute;
   inset: 0;
+
+  cursor: pointer;
   background: #ccc;
   border-radius: 999px;
-  transition: .25s;
-  cursor: pointer;
+  transition: 0.25s;
 }
 
 .slider::before {
   content: "";
+
   position: absolute;
+  top: 3px;
+  left: 3px;
+
   width: 22px;
   height: 22px;
-  left: 3px;
-  top: 3px;
-  background: white;
+
+  background: #fff;
   border-radius: 50%;
-  transition: .25s;
+  transition: 0.25s;
 }
 
 input:checked + .slider {
@@ -189,56 +205,57 @@ input:checked + .slider::before {
   transform: translateX(24px);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* ==========================================
+   Equipment Carousel
+========================================== */
 
 .eq-info-card {
   display: flex;
   width: 100%;
-  overflow-y: scroll;
-  scrollbar-width: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
+.eq-info-card::-webkit-scrollbar {
+  display: none;
+}
 
 .equipment-carousel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    position: relative;
-    width: 100%;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  width: 100%;
 }
 
 .equipment-image {
-    width: 300px;
-    height: 200px;
-    object-fit: contain;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+  width: 300px;
+  height: 200px;
+
+  object-fit: contain;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
 .carousel-button {
-    background: none;
-    border: none;
-    font-size: 30px;
-    cursor: pointer;
+  border: none;
+  background: none;
+
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.carousel-button:hover {
+  opacity: 0.7;
 }
 
 .carousel-counter {
-    position: absolute;
-    bottom: -25px;
-    font-size: 14px;
+  position: absolute;
+  bottom: -25px;
+
+  font-size: 14px;
 }

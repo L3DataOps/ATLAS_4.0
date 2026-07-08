@@ -23,6 +23,11 @@ const EqInfoCard = ({ caseItem }) => {
     Security: "SEC",
   };
 
+  const siteInfo = caseItem.site?.additionalInfo?.trim() || "";
+  const equipmentInfo = caseItem.equipment?.additionalInfo?.trim() || "";
+
+  const showEquipmentInfo = equipmentInfo && siteInfo !== equipmentInfo;
+
   const siteFolder = caseItem.site.siteName;
 
   const equipmentFolder = `${typePrefixes[caseItem.equipment.type]}-${caseItem.equipment.equipmentID}`;
@@ -109,9 +114,15 @@ const EqInfoCard = ({ caseItem }) => {
       <div className="equipment-details">
         <h4>Address Information</h4>
         <h4>{caseItem.site?.address}</h4>
-        <p>{caseItem.site.additionalInfo}</p>
-        <h4>EQ Information</h4>
-        <p>{caseItem.equipment.additionalInfo}</p>
+
+        {siteInfo && <p>{siteInfo}</p>}
+
+        {showEquipmentInfo && (
+          <>
+            <h4>EQ Information</h4>
+            <p>{equipmentInfo}</p>
+          </>
+        )}
       </div>
     </div>
   );
