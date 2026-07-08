@@ -1,0 +1,261 @@
+/* ==========================================
+   General
+========================================== */
+
+.border {
+  height: 1px;
+  margin: 8px;
+  border: 1px solid #000;
+}
+
+/* ==========================================
+   Time Tile
+========================================== */
+
+.time-tile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.time-tile p {
+  font-weight: 800;
+}
+
+/* ==========================================
+   Initial Description
+========================================== */
+
+.initial-description {
+  width: 100%;
+  height: 20vh;
+  margin: 0 10px;
+  padding: 10px;
+  overflow-y: auto;
+
+  border: 1px solid;
+  border-radius: 15px;
+}
+
+/* Severity / Category Colors */
+
+.initial-description.critical {
+  background: #ffe5e5;
+  border-color: #e53935;
+}
+
+.initial-description.major {
+  background: #ebbe76;
+  border-color: #bc6904;
+}
+
+.initial-description.minor {
+  background: #f0e780;
+  border-color: #fdd835;
+}
+
+.initial-description.network {
+  background: #e3f2fd;
+  border-color: #1e88e5;
+}
+
+.initial-description.civil {
+  background: #e8f5e9;
+  border-color: #43a047;
+}
+
+.initial-description.facilities {
+  background: #f3e5f5;
+  border-color: #8e24aa;
+}
+
+.initial-description.site-access {
+  background: #3dfccc;
+  border-color: #0d364a;
+}
+
+.initial-description.default {
+  background: #f8f9fa;
+  border-color: #ced4da;
+}
+
+/* ==========================================
+   Initial Description Header
+========================================== */
+
+.init-desc-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.init-desc-header img {
+  width: 25px;
+}
+
+.init-desc-header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  width: 200px;
+  padding: 10px;
+}
+
+.init-desc-header-second-section {
+  display: flex;
+  align-items: center;
+}
+
+.init-desc-header-second-section h4 {
+  margin-left: 15px;
+}
+
+.tag-bubble {
+  margin-top: 10px;
+}
+
+.problem {
+  margin: 10px;
+}
+
+/* ==========================================
+   Auxiliary Card
+========================================== */
+
+.aux-card {
+  padding: 16px;
+
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.dispatch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.dispatch-row:last-child {
+  border-bottom: none;
+}
+
+.dispatch-info h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.dispatch-info p {
+  margin: 3px 0 0;
+  color: #666;
+  font-size: 13px;
+}
+
+/* ==========================================
+   Toggle Switch
+========================================== */
+
+.switch {
+  position: relative;
+  display: inline-block;
+
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+
+  cursor: pointer;
+  background: #ccc;
+  border-radius: 999px;
+  transition: 0.25s;
+}
+
+.slider::before {
+  content: "";
+
+  position: absolute;
+  top: 3px;
+  left: 3px;
+
+  width: 22px;
+  height: 22px;
+
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.25s;
+}
+
+input:checked + .slider {
+  background: #22c55e;
+}
+
+input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+/* ==========================================
+   Equipment Carousel
+========================================== */
+
+.eq-info-card {
+  display: flex;
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.eq-info-card::-webkit-scrollbar {
+  display: none;
+}
+
+.equipment-carousel {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  width: 100%;
+}
+
+.equipment-image {
+  width: 300px;
+  height: 200px;
+
+  object-fit: contain;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.carousel-button {
+  border: none;
+  background: none;
+
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.carousel-button:hover {
+  opacity: 0.7;
+}
+
+.carousel-counter {
+  position: absolute;
+  bottom: -25px;
+
+  font-size: 14px;
+}

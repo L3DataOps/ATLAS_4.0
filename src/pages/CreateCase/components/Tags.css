@@ -1,0 +1,31 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 500px;
+    gap: 5px;
+    margin-top: 10px;
+    height: 200px;
+    overflow-y: auto;
+    
+}
+
+.tag {
+    padding: 5px 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #818181;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tag.selected {
+    background-color: #00a035;
+    color: white;
+    border-color: #007bff;
+}

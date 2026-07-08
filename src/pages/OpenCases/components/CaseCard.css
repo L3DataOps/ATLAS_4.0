@@ -1,0 +1,140 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   CARD CONTAINER
+========================= */
+.case-card {
+  background: #ffffff;
+  border: 1px solid #e6e8ec;
+  border-radius: 14px;
+
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 120px 160px 1.2fr 1.5fr;
+
+  align-items: center;
+  gap: 14px;
+
+  padding: 14px 18px;
+  margin: 10px 0;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease-in-out;
+
+  cursor: pointer;
+}
+
+.case-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   BASE SECTION
+========================= */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.section h5 {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8a8f98;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.section p {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* =========================
+   SITE BLOCK EMPHASIS
+========================= */
+.section:nth-child(2) p {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* =========================
+   TAG HIGHLIGHT (TOP TAG)
+========================= */
+.section:nth-child(3) h5 {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* =========================
+   ICON + STATUS ROW (FIXED)
+========================= */
+.split-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.split-section img{
+    width: 25px;
+}
+
+h5.case-status{
+  color:black !important;
+  font-weight: 700 !important; 
+}
+
+.icon-box {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* status container */
+.status-block {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.status-block .label {
+  font-size: 10px;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.status-block .value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+/* =========================
+   TAGS
+========================= */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* =========================
+   EQUIPMENT
+========================= */
+.section:last-child p {
+  font-weight: 600;
+  color: #374151;
+}
