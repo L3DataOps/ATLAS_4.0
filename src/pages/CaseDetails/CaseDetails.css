@@ -107,3 +107,19 @@ select:disabled {
     align-items: center;
     padding: 10px;
 }
+
+.case-status-detail{
+    background-color: green;
+    color: white;
+    padding: 10px 10px;
+    border-radius: 10px;
+    margin: 10px;
+     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.case-status-detail p{
+    font-size: 18px;
+    font-weight: 600;
+}

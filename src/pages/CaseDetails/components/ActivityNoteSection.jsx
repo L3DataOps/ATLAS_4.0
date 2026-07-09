@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./ActivityNotes.css";
 import ActivityNoteNew from "./ActivityNoteNew";
 import ActivityNoteCard from "./ActivityNoteCard";
+import noteIcon from "../../../images/file (1).png";
 
 const ActivityNoteSection = ({ caseItem }) => {
   const [isAddingNote, setIsAddingNote] = useState(false);
@@ -27,6 +28,7 @@ const ActivityNoteSection = ({ caseItem }) => {
           disabled={isAddingNote}
         >
           Add Note
+          <img src={noteIcon} alt="Add Note" className="note-icon" />
         </button>
       </div>
 
@@ -41,9 +43,11 @@ const ActivityNoteSection = ({ caseItem }) => {
           />
         )}
 
-        {notes.map((note) => (
-          <ActivityNoteCard key={note.id} note={note} />
-        ))}
+        {[...notes]
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .map((note, index) => (
+            <ActivityNoteCard key={note._id || note.id || index} note={note} />
+          ))}
       </div>
     </div>
   );

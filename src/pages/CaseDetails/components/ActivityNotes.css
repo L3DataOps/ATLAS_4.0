@@ -1,70 +1,178 @@
 .activity-note-section {
-  margin-top: 20px;
-  background-color: #f9f9f9;
   width: 60%;
+  margin-top: 20px;
   padding: 10px;
+  background: #f9f9f9;
   border-radius: 8px;
 }
 
-.activity-notes-container{
-    background-color: #858585;
-    padding: 10px;
+.activity-notes-container {
+  padding: 10px;
+  background: #858585;
+  border-radius: 8px;
 }
-
 
 .border {
   height: 1px;
-  margin: 8px;
-  border: 1px solid #000;
+  margin: 8px 0;
+  background: #000;
 }
 
+/* ---------- New Note ---------- */
 
+.activity-note-new {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+}
 
+.activity-note-new-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
 
+.activity-note-new-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 50%;
+}
 
+.activity-note-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
 
+.activity-note-actions button {
+  padding: 10px 18px;
+  border: 1px solid rgb(136, 29, 29);
+  border-radius: 10px;
+  cursor: pointer;
+}
 
+/* ---------- Inputs ---------- */
 
+.activity-note-textarea,
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
 
+select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
 
+/* ---------- Note Card ---------- */
 
-
-.activity-note-card{
-    margin: 10px 0px;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: #ffffff;
+.activity-note-card {
+  margin: 10px 0;
+  padding: 14px;
+  background: #fff;
+  border-radius: 8px;
 }
 
 .activity-note-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 10px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.activity-note-header h4 {
+  margin: 0;
+}
+
+.activity-note-date {
+  font-size: 12px;
+  color: #666;
 }
 
 .activity-note-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  margin-bottom: 10px
-}
-
-.add-note-button{
-padding: 10px 20px;
-border-radius: 9.5px;
-background: #192BEF;
-color: white
-}
-
-.note-tag{
-    font-size: 10px;
-    padding: 10px;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 20px;
-    margin: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .activity-note-body {
-    margin: 10px;
+  margin-top: 10px;
+}
+
+.activity-note-body p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* ---------- Tags ---------- */
+
+.activity-note-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.note-tag {
+  padding: 5px 12px;
+  font-size: 11px;
+  border: 1px solid #000;
+  border-radius: 999px;
+}
+
+/* ---------- Buttons ---------- */
+
+.add-note-button {
+  padding: 10px 20px;
+  color: #fff;
+  background: #192bef;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+}
+
+.add-note-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.note-icon {
+  width: 20px;
+
+}
+
+.tag-dropdown-button{
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.tag-dropdown-menu {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
 }

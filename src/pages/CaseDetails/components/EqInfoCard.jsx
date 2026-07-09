@@ -1,27 +1,13 @@
 import { useEffect, useState } from "react";
 import "./CaseDetailComponents.css";
+import forwardIcon from "../../../images/next.png";
+import backIcon from "../../../images/back.png";
 
 const VITE_API = import.meta.env.VITE_API;
 
 const EqInfoCard = ({ caseItem }) => {
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const typePrefixes = {
-    "Mutual Aid": "MA",
-    Microwave: "MW",
-    Generator: "GEN",
-    HVAC: "HVAC",
-    Electrical: "ELEC",
-    UPS: "UPS",
-    ATS: "ATS",
-    "Fuel Tank": "FUEL",
-    "Tower Light": "TL",
-    Network: "NET",
-    Camera: "CAM",
-    Gate: "GATE",
-    Security: "SEC",
-  };
 
   const siteInfo = caseItem.site?.additionalInfo?.trim() || "";
   const equipmentInfo = caseItem.equipment?.additionalInfo?.trim() || "";
@@ -30,15 +16,13 @@ const EqInfoCard = ({ caseItem }) => {
 
   const siteFolder = caseItem.site.siteName;
 
-  const equipmentFolder = `${typePrefixes[caseItem.equipment.type]}-${caseItem.equipment.equipmentID}`;
+  const equipmentId = caseItem.equipment.equipmentID;
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          `${VITE_API}/equipment-images/${encodeURIComponent(
-            siteFolder,
-          )}/${encodeURIComponent(equipmentFolder)}`,
+          `${VITE_API}/equipment-images/${encodeURIComponent(siteFolder)}/${encodeURIComponent(equipmentId)}`,
         );
 
         if (!response.ok) {
@@ -55,10 +39,10 @@ const EqInfoCard = ({ caseItem }) => {
       }
     };
 
-    if (siteFolder && equipmentFolder) {
+    if (siteFolder && equipmentId) {
       fetchImages();
     }
-  }, [siteFolder, equipmentFolder]);
+  }, [siteFolder, equipmentId]);
 
   const nextImage = () => {
     if (images.length === 0) return;
@@ -75,7 +59,7 @@ const EqInfoCard = ({ caseItem }) => {
   const imageUrl = (image) =>
     `http://10.40.2.22:5000/equipment-images/${encodeURIComponent(
       siteFolder,
-    )}/${encodeURIComponent(equipmentFolder)}/${encodeURIComponent(image)}`;
+    )}/${encodeURIComponent(equipmentId)}/${encodeURIComponent(image)}`;
 
   return (
     <div className="eq-info-card">
@@ -87,7 +71,7 @@ const EqInfoCard = ({ caseItem }) => {
               className="carousel-button"
               aria-label="Previous image"
             >
-              ◀
+              <img src={backIcon} alt="Previous" className="forward-icon" />
             </button>
 
             <div className="carousel-image-container">
@@ -103,7 +87,7 @@ const EqInfoCard = ({ caseItem }) => {
               className="carousel-button"
               aria-label="Next image"
             >
-              ▶
+              <img src={forwardIcon} alt="Next" className="forward-icon" />
             </button>
           </>
         ) : (
@@ -113,6 +97,7 @@ const EqInfoCard = ({ caseItem }) => {
 
       <div className="equipment-details">
         <h4>Address Information</h4>
+        <div className="border"></div>
         <h4>{caseItem.site?.address}</h4>
 
         {siteInfo && <p>{siteInfo}</p>}

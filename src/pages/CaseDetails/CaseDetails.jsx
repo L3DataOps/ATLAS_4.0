@@ -175,12 +175,16 @@ const CaseDetails = () => {
           </div>
 
           <div className="border"></div>
+
+          <div className="case-status-detail">
+            <p>{caseItem.status}</p>
+          </div>
         </div>
 
         <div className="sub-container">
           <div className="initial-description-card">
             <InitialDesc
-              user={user}
+              caseItem={caseItem}
               description={caseItem.description}
               tags={caseItem.tags}
               time={formatDateTime(caseItem.createdAt)}

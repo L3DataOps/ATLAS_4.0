@@ -123,61 +123,63 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
           {user.firstname} {user.lastname}
         </h3>
 
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          {actionTakenStatuses.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
+        <div className="activity-note-new-controls">
+          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            {actionTakenStatuses.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
 
-        <div className="tag-dropdown">
-          <button
-            className="tag-dropdown-button"
-            onClick={() => setShowTags(!showTags)}
+          <div className="tag-dropdown">
+            <button
+              className="tag-dropdown-button"
+              onClick={() => setShowTags(!showTags)}
+            >
+              Tags ▼
+            </button>
+
+            {showTags && (
+              <div className="tag-dropdown-menu">
+                {tags.length > 0 ? (
+                  tags.map((tag) => {
+                    const tagName = tag.name;
+
+                    return (
+                      <label key={tagName} className="tag-option">
+                        <input
+                          type="checkbox"
+                          checked={selectedTags.includes(tagName)}
+                          disabled={
+                            !selectedTags.includes(tagName) &&
+                            selectedTags.length >= 5
+                          }
+                          onChange={() => toggleTag(tagName)}
+                        />
+
+                        {tagName}
+                      </label>
+                    );
+                  })
+                ) : (
+                  <p>No tags available</p>
+                )}
+              </div>
+            )}
+          </div>
+
+          <select
+            value={activityNoteStatus}
+            onChange={(e) => setActivityNoteStatus(e.target.value)}
           >
-            Tags ▼
-          </button>
-
-          {showTags && (
-            <div className="tag-dropdown-menu">
-              {tags.length > 0 ? (
-                tags.map((tag) => {
-                  const tagName = tag.name;
-
-                  return (
-                    <label key={tagName} className="tag-option">
-                      <input
-                        type="checkbox"
-                        checked={selectedTags.includes(tagName)}
-                        disabled={
-                          !selectedTags.includes(tagName) &&
-                          selectedTags.length >= 5
-                        }
-                        onChange={() => toggleTag(tagName)}
-                      />
-
-                      {tagName}
-                    </label>
-                  );
-                })
-              ) : (
-                <p>No tags available</p>
-              )}
-            </div>
-          )}
+            {activityNoteStatuses.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
         </div>
-
-        <select
-          value={activityNoteStatus}
-          onChange={(e) => setActivityNoteStatus(e.target.value)}
-        >
-          {activityNoteStatuses.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
       </div>
 
       <textarea

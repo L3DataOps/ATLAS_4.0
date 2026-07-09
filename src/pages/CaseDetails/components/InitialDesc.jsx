@@ -3,9 +3,8 @@ import "./CaseDetailComponents.css";
 
 import TagBubble from "./TagBubble";
 
-const InitialDesc = ({ user, description, tags, time, casecategory }) => {
-
-    const categoryClass = casecategory
+const InitialDesc = ({ caseItem, description, tags, time, casecategory }) => {
+  const categoryClass = casecategory
     ? casecategory.toLowerCase().replace(/\s+/g, "-")
     : "default";
 
@@ -14,12 +13,10 @@ const InitialDesc = ({ user, description, tags, time, casecategory }) => {
       <div className="init-desc-header">
         <div className="init-desc-header-section">
           <img src={userIcon} alt="User Icon"></img>
-          <h4>
-            {user.firstname} {user.lastname}
-          </h4>
+          <h4>{caseItem.createdBy}</h4>
         </div>
 
-        <div className="init-desc-header-second-section" >
+        <div className="init-desc-header-second-section">
           {tags.map((tag) => (
             <TagBubble key={tag.name} tag={tag} />
           ))}
