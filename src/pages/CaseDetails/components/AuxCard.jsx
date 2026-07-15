@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import "./CaseDetailComponents.css";
 
+import BundledCases from "./BundledCases";
+
 const API_URL = import.meta.env.VITE_API;
 
 const AuxCard = ({ caseItem, dispatchCenters = [], setCaseItem }) => {
@@ -64,6 +66,8 @@ const AuxCard = ({ caseItem, dispatchCenters = [], setCaseItem }) => {
           </label>
         </div>
       ))}
+
+      <BundledCases caseItem={caseItem} />
     </div>
   );
 };

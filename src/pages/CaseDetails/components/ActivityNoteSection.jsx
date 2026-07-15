@@ -1,21 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ActivityNotes.css";
 import ActivityNoteNew from "./ActivityNoteNew";
 import ActivityNoteCard from "./ActivityNoteCard";
 import noteIcon from "../../../images/file (1).png";
 
-const ActivityNoteSection = ({ caseItem }) => {
+const ActivityNoteSection = ({ caseItem, setCaseItem }) => {
   const [isAddingNote, setIsAddingNote] = useState(false);
-  const [notes, setNotes] = useState(caseItem?.caseNotes || []);
+  const [notes, setNotes] = useState([]);
 
-  const handleSaveNote = (note) => {
-    setNotes((prev) => [note, ...prev]);
+  // ActivityNoteNew already performs the save via its own fetch.
+  // This just syncs the resulting (updated) case into state — no second request.
+  const handleSaveNote = (updatedCase) => {
+    setCaseItem((prev) => ({
+      ...prev,
+      ...updatedCase,
+      site: updatedCase.site ?? prev.site,
+      equipment: updatedCase.equipment ?? prev.equipment,
+    }));
     setIsAddingNote(false);
   };
 
   const handleCancel = () => {
     setIsAddingNote(false);
   };
+
+  useEffect(() => {
+    setNotes(caseItem?.caseNotes || []);
+  }, [caseItem]);
 
   return (
     <div className="activity-note-section">

@@ -8,7 +8,7 @@
 
 .activity-notes-container {
   padding: 10px;
-  background: #858585;
+  background: #D9D9D9;
   border-radius: 8px;
 }
 
@@ -96,10 +96,21 @@ select {
 .activity-note-header h4 {
   margin: 0;
 }
+.activity-note-author {
+  font-size: 15px;
+  color: #272626;
+  margin-top: 10px;
+}
 
 .activity-note-date {
   font-size: 12px;
-  color: #666;
+  color: #272626;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  height: 30px;
+  padding: 2px 6px;
 }
 
 .activity-note-meta {

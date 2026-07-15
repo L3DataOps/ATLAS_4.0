@@ -123,3 +123,10 @@ select:disabled {
     font-size: 18px;
     font-weight: 600;
 }
+
+.across-mod{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding: 10px;
+}

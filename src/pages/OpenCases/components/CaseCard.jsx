@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import openIcon from "../../../images/send.png";
 import dispatchedIcon from "../../../images/send.png";
 import inProgressIcon from "../../../images/active-user.png";
+import followUpIcon from "../../../images/followup.png";
 import tacIcon from "../../../images/tac.png";
 import driveTimeIcon from "../../../images/awaitdrive.png";
 import awaitPMIcon from "../../../images/awaitpm.png";
@@ -48,6 +49,8 @@ const CaseCard = ({ case: caseItem }) => {
         return quoteApprovedIcon;
       case "morning dispatch":
         return morningDispatchIcon;
+      case "follow up required":
+        return followUpIcon;
 
       default:
         return dispatchedIcon;

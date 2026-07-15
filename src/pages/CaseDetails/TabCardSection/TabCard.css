@@ -1,0 +1,47 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.tab-card{
+    width: 40%;
+    height: 1000px;
+    background-color: #f3f4f6;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+  
+}
+
+.tab-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.tab-header{
+    display:flex;
+    align-items:center;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    background: transparent;
+    background-color:rgb(105, 105, 104, 0.1);
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+
+.tab-button.active {
+    background-color: #f6f8fc;
+    border-bottom: 3px solid #2563eb;
+    width: 10px;
+}

@@ -1,4 +1,4 @@
-const BundledCases = () => {
+const BundledCases = ({ caseItem }) => {
   return (
     <div className="bundled-card">
       <div className="bundled-header">

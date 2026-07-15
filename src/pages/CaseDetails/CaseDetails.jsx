@@ -10,6 +10,7 @@ import InitialDesc from "./components/InitialDesc";
 import AuxCard from "./components/AuxCard";
 import EqInfoCard from "./components/EqInfoCard";
 import ActivityNoteSection from "./components/ActivityNoteSection";
+import TabCard from "./TabCardSection/TabCard";
 
 const API_URL = import.meta.env.VITE_API;
 
@@ -206,8 +207,10 @@ const CaseDetails = () => {
           </div>
         </div>
       </div>
-
-      <ActivityNoteSection caseItem={caseItem} />
+      <div className="across-mod">
+        <ActivityNoteSection caseItem={caseItem} setCaseItem={setCaseItem} />
+        <TabCard caseItem={caseItem} setCaseItem={setCaseItem} />
+      </div>
     </div>
   );
 };

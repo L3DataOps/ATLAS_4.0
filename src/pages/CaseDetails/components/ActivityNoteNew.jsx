@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import "./ActivityNotes.css";
 
 const API_URL = import.meta.env.VITE_API;
 
 const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
 
   const [note, setNote] = useState("");
   const [status, setStatus] = useState(caseItem?.status || "Dispatched");
@@ -13,6 +13,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [showTags, setShowTags] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const actionTakenStatuses = [
     "Dispatched",
@@ -77,7 +78,19 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   };
 
   const handleSave = async () => {
-    if (!note.trim()) return;
+    if (!note.trim() || isSaving) return;
+
+    if (selectedTags.length === 0) {
+      alert("Please select at least one tag.");
+      return;
+    }
+
+    if (!activityNoteStatus) {
+      alert("Please select an activity note status.");
+      return;
+    }
+
+    setIsSaving(true);
 
     const newNote = {
       text: note.trim(),
@@ -96,6 +109,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newNote),
       });
@@ -104,15 +118,19 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         throw new Error("Failed to save note");
       }
 
-      const savedNote = await response.json();
+      // Backend returns the full updated case (not just the note)
+      const updatedCase = await response.json();
 
-      onSave(savedNote);
+      onSave(updatedCase);
 
       setNote("");
       setSelectedTags([]);
       setActivityNoteStatus("");
+      setShowTags(false);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -137,7 +155,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
               className="tag-dropdown-button"
               onClick={() => setShowTags(!showTags)}
             >
-              Tags ▼
+              Tags {selectedTags.length > 0 ? `(${selectedTags.length}) ` : ""}▼
             </button>
 
             {showTags && (
@@ -173,6 +191,9 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
             value={activityNoteStatus}
             onChange={(e) => setActivityNoteStatus(e.target.value)}
           >
+            <option value="" disabled>
+              Select type...
+            </option>
             {activityNoteStatuses.map((status) => (
               <option key={status} value={status}>
                 {status}
@@ -194,12 +215,21 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         <button
           className="save-note-button"
           onClick={handleSave}
-          disabled={!note.trim()}
+          disabled={
+            !note.trim() ||
+            selectedTags.length === 0 ||
+            !activityNoteStatus ||
+            isSaving
+          }
         >
-          Save
+          {isSaving ? "Saving..." : "Save"}
         </button>
 
-        <button className="cancel-note-button" onClick={onCancel}>
+        <button
+          className="cancel-note-button"
+          onClick={onCancel}
+          disabled={isSaving}
+        >
           Cancel
         </button>
       </div>
