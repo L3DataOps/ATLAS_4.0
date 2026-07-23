@@ -118,3 +118,10 @@
     padding: 3px 7px;
     border-radius: 10px;
 }
+
+.overview-case-list{
+    height: 500px;
+    border: 1px solid red;
+    overflow: hidden;
+    overflow-y: scroll;
+}

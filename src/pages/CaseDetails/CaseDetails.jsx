@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useParams } from "react-router-dom";
+import { CaseProvider, useCase } from "../../context/CaseContext";
 
 import "./CaseDetails.css";
 import flagIcon from "../../images/flag.png";
@@ -14,17 +15,18 @@ import TabCard from "./TabCardSection/TabCard";
 
 const API_URL = import.meta.env.VITE_API;
 
+// =========================
+// OUTER: fetches the case once, then hands off to the provider.
+// This component no longer holds the "live" caseItem — after the
+// initial load, the CaseProvider (and everything inside it) is the
+// single source of truth.
+// =========================
 const CaseDetails = () => {
   const { id } = useParams();
-  const { user, token } = useAuth();
 
-  const [caseItem, setCaseItem] = useState(null);
+  const [initialCase, setInitialCase] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState("");
 
-  // =========================
-  // FETCH CASE
-  // =========================
   useEffect(() => {
     const fetchCase = async () => {
       try {
@@ -35,8 +37,7 @@ const CaseDetails = () => {
         }
 
         const data = await response.json();
-
-        setCaseItem(data);
+        setInitialCase(data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -47,20 +48,32 @@ const CaseDetails = () => {
     fetchCase();
   }, [id]);
 
-  //============================
-  //Debugging Code
-  //============================
+  if (loading) return <h2>Loading...</h2>;
+  if (!initialCase) return <h2>Case not found.</h2>;
 
-  console.log(caseItem);
+  return (
+    <CaseProvider initialCase={initialCase}>
+      <CaseDetailsContent />
+    </CaseProvider>
+  );
+};
 
-  // =========================
-  // SYNC CATEGORY WHEN CASE LOADS
-  // =========================
+// =========================
+// INNER: everything that renders or mutates the case now reads
+// from context, so a toggle/patch in any child (AuxCard, TabCard,
+// ActivityNoteSection, etc.) is immediately visible everywhere else.
+// =========================
+const CaseDetailsContent = () => {
+  const { token } = useAuth();
+  const { caseItem, setCaseItem } = useCase();
+
+  const [category, setCategory] = useState(caseItem.category || "");
+
+  // Keep the category dropdown in sync if caseItem changes from
+  // elsewhere (e.g. another PATCH updates category indirectly).
   useEffect(() => {
-    if (caseItem) {
-      setCategory(caseItem.category || "");
-    }
-  }, [caseItem]);
+    setCategory(caseItem.category || "");
+  }, [caseItem.category]);
 
   const categories = [
     "Critical",
@@ -89,7 +102,7 @@ const CaseDetails = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          category: newCategory, // 🔥 FIXED
+          category: newCategory,
         }),
       });
 
@@ -99,19 +112,12 @@ const CaseDetails = () => {
 
       const updatedCase = await response.json();
 
-      // keep frontend in sync with backend
+      // keep the single shared caseItem in sync with backend
       setCaseItem(updatedCase);
-      setCategory(updatedCase.category || "");
     } catch (err) {
       console.error(err);
     }
   };
-
-  // =========================
-  // LOADING / GUARDS
-  // =========================
-  if (loading) return <h2>Loading...</h2>;
-  if (!caseItem) return <h2>Case not found.</h2>;
 
   const formatDateTime = (iso) => {
     const d = new Date(iso);
@@ -122,9 +128,6 @@ const CaseDetails = () => {
     return `${date} ${time}`;
   };
 
-  // =========================
-  // UI
-  // =========================
   return (
     <div className="case-details-page">
       <div className="container">
@@ -195,11 +198,7 @@ const CaseDetails = () => {
 
           <div className="across">
             <div className="aux-card">
-              <AuxCard
-                caseItem={caseItem}
-                dispatchCenters={caseItem.dispatchCenterNotified}
-                setCaseItem={setCaseItem}
-              />
+              <AuxCard dispatchCenters={caseItem.dispatchCenterNotified} />
             </div>
             <div className="eq-info-card">
               <EqInfoCard caseItem={caseItem} />

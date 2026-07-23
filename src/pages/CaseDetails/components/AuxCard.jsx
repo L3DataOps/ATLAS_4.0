@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import { useCase } from "../../../context/CaseContext";
 import "./CaseDetailComponents.css";
 
 import BundledCases from "./BundledCases";
 
 const API_URL = import.meta.env.VITE_API;
 
-const AuxCard = ({ caseItem, dispatchCenters = [], setCaseItem }) => {
+const AuxCard = ({ dispatchCenters }) => {
   const { token } = useAuth();
+  const { caseItem, setCaseItem } = useCase();
+
+  console.log("Dispatch", caseItem);
 
   const handleToggle = async (id) => {
     const updatedDispatch = dispatchCenters.map((dispatch) =>
@@ -39,7 +43,12 @@ const AuxCard = ({ caseItem, dispatchCenters = [], setCaseItem }) => {
 
       const updatedCase = await response.json();
 
-      setCaseItem(updatedCase);
+      setCaseItem((prev) => {
+        return {
+          ...updatedCase,
+          bundledCases: prev.bundledCases,
+        };
+      });
     } catch (err) {
       console.error(err);
     }
@@ -67,7 +76,7 @@ const AuxCard = ({ caseItem, dispatchCenters = [], setCaseItem }) => {
         </div>
       ))}
 
-      <BundledCases caseItem={caseItem} />
+      <BundledCases />
     </div>
   );
 };

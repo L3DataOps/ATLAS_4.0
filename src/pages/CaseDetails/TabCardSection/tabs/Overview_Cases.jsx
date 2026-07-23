@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MiniCaseCard from "./MiniCaseCard";
+import "./Tabs.css";
 
 const API_URL = import.meta.env.VITE_API;
 
