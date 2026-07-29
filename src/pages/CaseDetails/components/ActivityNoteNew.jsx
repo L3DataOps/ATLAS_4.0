@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import AssignTechModal from "./AssignTechModal";
 import "./ActivityNotes.css";
 
 const API_URL = import.meta.env.VITE_API;
@@ -13,6 +14,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [showTags, setShowTags] = useState(false);
+  const [showAssignTech, setShowAssignTech] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   const actionTakenStatuses = [
@@ -200,6 +202,22 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
               </option>
             ))}
           </select>
+
+          <div className="assign-tech-anchor">
+            <button
+              className="assign-tech-button"
+              onClick={() => setShowAssignTech((prev) => !prev)}
+            >
+              Assign Techs{" "}
+              {caseItem?.techsAssigned?.length
+                ? `(${caseItem.techsAssigned.length})`
+                : ""}
+            </button>
+
+            {showAssignTech && (
+              <AssignTechModal onClose={() => setShowAssignTech(false)} />
+            )}
+          </div>
         </div>
       </div>
 

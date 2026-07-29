@@ -11,8 +11,6 @@ const AuxCard = ({ dispatchCenters }) => {
   const { token } = useAuth();
   const { caseItem, setCaseItem } = useCase();
 
-  console.log("Dispatch", caseItem);
-
   const handleToggle = async (id) => {
     const updatedDispatch = dispatchCenters.map((dispatch) =>
       dispatch._id === id

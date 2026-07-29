@@ -5,7 +5,6 @@ import "./Tabs.css";
 const API_URL = import.meta.env.VITE_API;
 
 const OverviewCases = ({ site }) => {
-  console.log("OverviewCases site:", site);
   const [activeTab, setActiveTab] = useState("open");
 
   const [openCases, setOpenCases] = useState([]);
@@ -16,13 +15,9 @@ const OverviewCases = ({ site }) => {
 
     const fetchCases = async () => {
       try {
-        console.log("Fetching cases for:", site);
-
         const res = await fetch(`${API_URL}/cases/site/${site}`);
 
         const data = await res.json();
-
-        console.log("API RESPONSE:", data);
 
         setOpenCases(data.openCases || []);
         setClosedCases(data.closedCases || []);

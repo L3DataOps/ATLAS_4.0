@@ -27,6 +27,8 @@ const CaseDetails = () => {
   const [initialCase, setInitialCase] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log("Case Contex: ", initialCase);
+
   useEffect(() => {
     const fetchCase = async () => {
       try {
