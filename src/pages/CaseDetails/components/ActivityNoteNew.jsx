@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import AssignTechModal from "./AssignTechModal";
+import TagSelectModal from "./TagSelectModal";
 import "./ActivityNotes.css";
 
 const API_URL = import.meta.env.VITE_API;
@@ -11,10 +12,19 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   const [note, setNote] = useState("");
   const [status, setStatus] = useState(caseItem?.status || "Dispatched");
   const [activityNoteStatus, setActivityNoteStatus] = useState("");
+
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
+
+  // Techs added THIS session that are not yet saved to the case.
+  // Committed techs (already on caseItem.techsAssigned) are locked
+  // and managed live inside AssignTechModal — they are never part
+  // of this state and are never removable from here.
+  const [pendingNewTechs, setPendingNewTechs] = useState([]);
+
   const [showTags, setShowTags] = useState(false);
   const [showAssignTech, setShowAssignTech] = useState(false);
+
   const [isSaving, setIsSaving] = useState(false);
 
   const actionTakenStatuses = [
@@ -33,6 +43,10 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   ];
 
   const activityNoteStatuses = ["Customer Facing", "Internal", "Resolved"];
+
+  // ====================================
+  // Load Tags
+  // ====================================
 
   useEffect(() => {
     if (!caseItem?.equipment?.type) {
@@ -65,10 +79,14 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
     fetchTags();
   }, [caseItem]);
 
+  // ====================================
+  // Tag Selection
+  // ====================================
+
   const toggleTag = (tagName) => {
     setSelectedTags((prev) => {
       if (prev.includes(tagName)) {
-        return prev.filter((tag) => tag !== tagName);
+        return prev.filter((t) => t !== tagName);
       }
 
       if (prev.length >= 5) {
@@ -78,6 +96,21 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
       return [...prev, tagName];
     });
   };
+
+  // ====================================
+  // Cancel — discard the note AND any not-yet-saved tech additions.
+  // Already-committed techs live in the case itself and are
+  // untouched by this.
+  // ====================================
+
+  const handleCancel = () => {
+    setPendingNewTechs([]);
+    onCancel();
+  };
+
+  // ====================================
+  // Save Note (+ newly added techs, together)
+  // ====================================
 
   const handleSave = async () => {
     if (!note.trim() || isSaving) return;
@@ -120,14 +153,39 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         throw new Error("Failed to save note");
       }
 
-      // Backend returns the full updated case (not just the note)
-      const updatedCase = await response.json();
+      let updatedCase = await response.json();
+
+      // Append any newly-picked techs to whatever is already
+      // committed on the case. Existing (committed) techs and their
+      // live-tracked status are never overwritten here.
+      if (pendingNewTechs.length > 0) {
+        const combinedTechs = [
+          ...(updatedCase.techsAssigned || []),
+          ...pendingNewTechs,
+        ];
+
+        const techResponse = await fetch(`${API_URL}/cases/${caseItem._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ techsAssigned: combinedTechs }),
+        });
+
+        if (!techResponse.ok) {
+          throw new Error("Failed to save assigned techs");
+        }
+
+        updatedCase = await techResponse.json();
+      }
 
       onSave(updatedCase);
 
       setNote("");
       setSelectedTags([]);
       setActivityNoteStatus("");
+      setPendingNewTechs([]);
       setShowTags(false);
     } catch (err) {
       console.error(err);
@@ -135,6 +193,9 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
       setIsSaving(false);
     }
   };
+
+  const totalAssignedCount =
+    (caseItem?.techsAssigned?.length || 0) + pendingNewTechs.length;
 
   return (
     <div className="activity-note-new">
@@ -144,6 +205,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         </h3>
 
         <div className="activity-note-new-controls">
+          {/* Action Taken */}
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
             {actionTakenStatuses.map((status) => (
               <option key={status} value={status}>
@@ -152,43 +214,16 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
             ))}
           </select>
 
-          <div className="tag-dropdown">
-            <button
-              className="tag-dropdown-button"
-              onClick={() => setShowTags(!showTags)}
-            >
-              Tags {selectedTags.length > 0 ? `(${selectedTags.length}) ` : ""}▼
-            </button>
+          {/* Tags */}
+          <button
+            className="assign-tech-button"
+            onClick={() => setShowTags(true)}
+          >
+            Tags
+            {selectedTags.length ? ` (${selectedTags.length})` : ""}
+          </button>
 
-            {showTags && (
-              <div className="tag-dropdown-menu">
-                {tags.length > 0 ? (
-                  tags.map((tag) => {
-                    const tagName = tag.name;
-
-                    return (
-                      <label key={tagName} className="tag-option">
-                        <input
-                          type="checkbox"
-                          checked={selectedTags.includes(tagName)}
-                          disabled={
-                            !selectedTags.includes(tagName) &&
-                            selectedTags.length >= 5
-                          }
-                          onChange={() => toggleTag(tagName)}
-                        />
-
-                        {tagName}
-                      </label>
-                    );
-                  })
-                ) : (
-                  <p>No tags available</p>
-                )}
-              </div>
-            )}
-          </div>
-
+          {/* Activity Note Status */}
           <select
             value={activityNoteStatus}
             onChange={(e) => setActivityNoteStatus(e.target.value)}
@@ -196,6 +231,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
             <option value="" disabled>
               Select type...
             </option>
+
             {activityNoteStatuses.map((status) => (
               <option key={status} value={status}>
                 {status}
@@ -203,31 +239,33 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
             ))}
           </select>
 
-          <div className="assign-tech-anchor">
-            <button
-              className="assign-tech-button"
-              onClick={() => setShowAssignTech((prev) => !prev)}
-            >
-              Assign Techs{" "}
-              {caseItem?.techsAssigned?.length
-                ? `(${caseItem.techsAssigned.length})`
-                : ""}
-            </button>
-
-            {showAssignTech && (
-              <AssignTechModal onClose={() => setShowAssignTech(false)} />
-            )}
-          </div>
+          {/* Assign Techs */}
+          <button
+            className="assign-tech-button"
+            onClick={() => setShowAssignTech(true)}
+          >
+            Assign Techs
+            {totalAssignedCount ? ` (${totalAssignedCount})` : ""}
+            {pendingNewTechs.length > 0 ? " •" : ""}
+          </button>
         </div>
       </div>
 
       <textarea
         className="activity-note-textarea"
         placeholder="Enter activity note..."
+        rows={5}
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        rows={5}
       />
+
+      {pendingNewTechs.length > 0 && (
+        <p className="assign-tech-pending-hint">
+          {pendingNewTechs.length} new tech
+          {pendingNewTechs.length !== 1 ? "s" : ""} will be assigned when this
+          note is saved.
+        </p>
+      )}
 
       <div className="activity-note-actions">
         <button
@@ -245,12 +283,31 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
 
         <button
           className="cancel-note-button"
-          onClick={onCancel}
+          onClick={handleCancel}
           disabled={isSaving}
         >
           Cancel
         </button>
       </div>
+
+      {/* Tag Modal */}
+      {showTags && (
+        <TagSelectModal
+          tags={tags}
+          selectedTags={selectedTags}
+          onToggleTag={toggleTag}
+          onClose={() => setShowTags(false)}
+        />
+      )}
+
+      {/* Assign Tech Modal */}
+      {showAssignTech && (
+        <AssignTechModal
+          pendingNewTechs={pendingNewTechs}
+          onChangePendingNewTechs={setPendingNewTechs}
+          onClose={() => setShowAssignTech(false)}
+        />
+      )}
     </div>
   );
 };
