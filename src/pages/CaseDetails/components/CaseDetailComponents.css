@@ -490,16 +490,6 @@
   padding: 30px 0;
 }
 
-/* ==========================
-   Add Tech Modal
-========================== */
-
-
-
-
-
-
-
 
 
 
@@ -521,7 +511,7 @@
 }
 
 /* =============================
-   Modal Container
+   Tech Modal - Modal Container
 ============================= */
 
 .assign-tech-popup {
@@ -557,7 +547,7 @@
 }
 
 /* =============================
-   Header
+   Tech Modal - Header
 ============================= */
 
 .assign-tech-header {
@@ -590,7 +580,7 @@
 }
 
 /* =============================
-   Search
+   Tech Modal - Search
 ============================= */
 
 .assign-tech-search {
@@ -605,7 +595,7 @@
 }
 
 /* =============================
-   User List
+   Tech Modal - User List
 ============================= */
 
 .assign-tech-list {
@@ -641,7 +631,7 @@
 }
 
 /* =============================
-   User Row
+   Tech Modal - User Row
 ============================= */
 
 .assign-tag-option {
@@ -691,7 +681,7 @@
 }
 
 /* =============================
-   Empty State
+   Tech Modal - Empty State
 ============================= */
 
 .assign-tech-list p {
@@ -701,7 +691,7 @@
 }
 
 /* =============================
-   Footer
+   Tech Modal - Footer
 ============================= */
 
 .assign-tech-footer {
@@ -759,7 +749,7 @@
 
 
 /* ==========================================
-   Dispatch Card*/
+   Tech Modal - Dispatch Card*/
 
 /* ==================================================
    Expanded Tech Details
@@ -867,7 +857,7 @@
 }
 
 /* ==================================================
-   Remove Button
+   Tech Modal - Remove Button
 ================================================== */
 
 .assign-tech-save-btn {
@@ -923,7 +913,373 @@
 
 
 
+/*
 
+Eq information
+*/
+/* =========================================================
+   EQ INFO CARD
+   ========================================================= */
+
+.eq-info-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   CAROUSEL
+   ========================================================= */
+
+.equipment-carousel {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f3f4f6;
+  
+}
+
+.carousel-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+}
+
+.equipment-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+
+}
+
+
+/* =========================================================
+   CAROUSEL BUTTONS
+   ========================================================= */
+
+.carousel-button {
+  position: absolute;
+  z-index: 2;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.55);
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.carousel-button:hover {
+  background: rgba(0, 0, 0, 0.75);
+  transform: scale(1.05);
+}
+
+.carousel-button-left {
+  left: 15px;
+}
+
+.carousel-button-right {
+  right: 15px;
+}
+
+.forward-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   IMAGE COUNTER
+   ========================================================= */
+
+.carousel-counter {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   NO IMAGES
+   ========================================================= */
+
+.no-equipment-images {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #777;
+}
+
+
+/* =========================================================
+   BOTTOM ACTION BUTTONS
+   ========================================================= */
+
+.eq-info-actions {
+  display: flex;
+  gap: 10px;
+
+  padding: 12px;
+
+  border-top: 1px solid #ddd;
+  background: #ffffff;
+}
+
+.eq-info-action-button {
+  flex: 1;
+
+  min-height: 42px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #2f3e52;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.eq-info-action-button:hover {
+  background: #1f2b3a;
+}
+
+.eq-info-action-button:active {
+  transform: scale(0.98);
+}
+
+.eq-info-action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MODAL OVERLAY
+   ========================================================= */
+
+.eq-info-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, 0.55);
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.eq-info-modal {
+  width: 100%;
+  max-width: 650px;
+  max-height: 85vh;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: white;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   MODAL HEADER
+   ========================================================= */
+
+.eq-info-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 20px;
+
+  border-bottom: 1px solid #ddd;
+}
+
+.eq-info-modal-header h3 {
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.eq-info-modal-close {
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  font-size: 26px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.eq-info-modal-close:hover {
+  background: #f0f0f0;
+}
+
+
+/* =========================================================
+   MODAL CONTENT
+   ========================================================= */
+
+.eq-info-modal-content {
+  padding: 20px;
+
+  overflow-y: auto;
+}
+
+.eq-modal-section {
+  padding-bottom: 20px;
+}
+
+.eq-modal-section + .eq-modal-section {
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.eq-modal-section h4 {
+  margin: 0 0 15px;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   MODAL FIELDS
+   ========================================================= */
+
+.eq-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  margin-bottom: 14px;
+}
+
+.eq-modal-field span,
+.eq-modal-description span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #777;
+  text-transform: uppercase;
+}
+
+.eq-modal-field strong {
+  font-size: 14px;
+  color: #222;
+}
+
+.eq-modal-description {
+  margin-top: 10px;
+}
+
+.eq-modal-description p {
+  margin: 5px 0 0;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  color: #333;
+}
+
+
+/* =========================================================
+   MODAL FOOTER
+   ========================================================= */
+
+.eq-info-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 12px 20px;
+
+  border-top: 1px solid #ddd;
+}
+
+.eq-info-modal-close-button {
+  padding: 9px 20px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #2f3e52;
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.eq-info-modal-close-button:hover {
+  background: #1f2b3a;
+}
 
 
 

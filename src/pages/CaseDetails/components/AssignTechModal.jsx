@@ -290,6 +290,18 @@ const AssignTechModal = ({
     setDraftTech(null);
   };
 
+  // Removes a tech that was added THIS session but hasn't been
+  // saved to the case yet — e.g. the wrong person was picked.
+  // Committed techs have no equivalent; once saved to the case
+  // they're permanent.
+  const removePendingTech = (userId) => {
+    onChangePendingNewTechs(pendingNewTechs.filter((t) => t.userId !== userId));
+
+    if (expandedUserId === userId) {
+      setExpandedUserId(null);
+    }
+  };
+
   // Status change for a tech NOT yet saved to the case but already
   // committed to pendingNewTechs — stays local, saved to the case
   // together with the rest of the assignment on note save.
@@ -426,6 +438,15 @@ const AssignTechModal = ({
             Save
           </button>
         )}
+
+        {row._kind === "pending" && (
+          <button
+            className="assign-tech-remove-btn"
+            onClick={() => removePendingTech(row.userId)}
+          >
+            Remove
+          </button>
+        )}
       </div>
     );
   };
@@ -469,6 +490,11 @@ const AssignTechModal = ({
                     )}
                     {row._kind === "pending" && (
                       <span className="assign-tech-pending-label">Pending</span>
+                    )}
+                    {row._kind === "available" && row._isDefaultVendor && (
+                      <span className="assign-tech-vendor-label">
+                        Preferred Vendor
+                      </span>
                     )}
                   </div>
 

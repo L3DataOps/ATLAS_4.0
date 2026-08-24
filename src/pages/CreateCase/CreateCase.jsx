@@ -94,9 +94,18 @@ const CreateCase = () => {
         const data = await res.json();
 
         const allEquipment = [
-          ...data.mutualaid,
+          ...data.channels,
           ...data.microwave,
-          ...data.generators,
+          ...data.generator,
+          ...data.hvac,
+          ...data.ups,
+          ...data.mutualaid,
+          ...data.conventional_cp,
+          ...data.fuel,
+          ...data.compound,
+          ...data.network,
+          ...data.shelter,
+          ...data.tower,
         ];
 
         const filtered = allEquipment.filter(
