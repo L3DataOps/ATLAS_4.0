@@ -540,6 +540,22 @@
   box-shadow: 0 10px 30px rgba(0,0,0,.25);
 }
 
+.assign-tag-popup {
+  width: 5000px;
+  max-width: 75vw;
+  max-height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+
+  background: white;
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
 /* =============================
    Header
 ============================= */
@@ -605,6 +621,14 @@
   gap: 10px;
 }
 
+.assign-tag-list {
+
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 5px;
+}
+
 /* Scrollbar */
 
 .assign-tech-list::-webkit-scrollbar {
@@ -619,6 +643,22 @@
 /* =============================
    User Row
 ============================= */
+
+.assign-tag-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px;
+  
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
 
 .assign-tech-option {
   display: flex;
@@ -718,10 +758,160 @@
 
 
 
+/* ==========================================
+   Dispatch Card*/
 
+/* ==================================================
+   Expanded Tech Details
+================================================== */
 
+.assign-tech-expanded {
+  margin-top: 10px;
+  padding: 12px;
 
+  background: #f8fafc;
 
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ==================================================
+   Status Select
+================================================== */
+
+.assign-tech-expanded select {
+  width: 100%;
+
+  padding: 9px 10px;
+
+  background: #fff;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  color: #111827;
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.assign-tech-expanded select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, .1);
+}
+
+.assign-tech-expanded select:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* ==================================================
+   Status Statistics
+================================================== */
+
+.assign-tech-status-stats {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(100px, 1fr)
+  );
+
+  gap: 8px;
+
+  margin-top: 10px;
+}
+
+/* ==================================================
+   Individual Statistic
+================================================== */
+
+.status-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  min-height: 48px;
+
+  padding: 8px 10px;
+
+  background: #fff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+}
+
+.status-stat small {
+  margin-bottom: 3px;
+
+  color: #6b7280;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.status-stat strong {
+  color: #111827;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Onsite status */
+
+.status-stat:first-child strong {
+  color: #16a34a;
+}
+
+/* ==================================================
+   Remove Button
+================================================== */
+
+.assign-tech-save-btn {
+  margin-top: 10px;
+
+  padding: 7px 12px;
+
+  background: #1f50d8;
+
+  border: 1px solid #4231e0;
+  border-radius: 6px;
+
+  color: #f7f4f4;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.assign-tech-save-btn:hover {
+  background: #7c8fe7;
+  border-color: #191ceb;
+}
+
+.assign-tech-row-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 8px 10px;
+ 
+}
+.assign-tech-row {
+  border: 1px solid rgb(8, 8, 8);
+  border-radius: 8px;
+  padding: 10px
+
+}
+
+.assign-tech-row:hover {
+  cursor: pointer;
+  
+}
 
 
 
