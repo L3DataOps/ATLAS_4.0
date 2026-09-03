@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useParams } from "react-router-dom";
 import { CaseProvider, useCase } from "../../context/CaseContext";
@@ -12,22 +12,22 @@ import AuxCard from "./components/AuxCard";
 import EqInfoCard from "./components/EqInfoCard";
 import ActivityNoteSection from "./components/ActivityNoteSection";
 import TabCard from "./TabCardSection/TabCard";
+import Timecard from "./components/Timecard";
+import TechCard from "./components/TechCard";
+import DQC from "./components/DQC";
+import Checklist from "./components/Checklist";
 
 const API_URL = import.meta.env.VITE_API;
+const POLL_INTERVAL_MS = 10000; // 10s — adjust to taste
 
 // =========================
 // OUTER: fetches the case once, then hands off to the provider.
-// This component no longer holds the "live" caseItem — after the
-// initial load, the CaseProvider (and everything inside it) is the
-// single source of truth.
 // =========================
 const CaseDetails = () => {
   const { id } = useParams();
 
   const [initialCase, setInitialCase] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  console.log("Case Contex: ", initialCase);
 
   useEffect(() => {
     const fetchCase = async () => {
@@ -61,9 +61,10 @@ const CaseDetails = () => {
 };
 
 // =========================
-// INNER: everything that renders or mutates the case now reads
-// from context, so a toggle/patch in any child (AuxCard, TabCard,
-// ActivityNoteSection, etc.) is immediately visible everywhere else.
+// INNER: everything reads from context. This component now also
+// polls the backend on an interval so edits made by other users
+// (in another tab, another device) show up here without a manual
+// page refresh.
 // =========================
 const CaseDetailsContent = () => {
   const { token } = useAuth();
@@ -71,11 +72,56 @@ const CaseDetailsContent = () => {
 
   const [category, setCategory] = useState(caseItem.category || "");
 
+  // Track the latest caseItem in a ref so the polling interval
+  // (set up once) always has access to the current id without
+  // needing to restart the interval every time caseItem changes.
+  const caseItemRef = useRef(caseItem);
+  useEffect(() => {
+    caseItemRef.current = caseItem;
+  }, [caseItem]);
+
   // Keep the category dropdown in sync if caseItem changes from
-  // elsewhere (e.g. another PATCH updates category indirectly).
+  // elsewhere (e.g. a poll picks up another user's edit).
   useEffect(() => {
     setCategory(caseItem.category || "");
   }, [caseItem.category]);
+
+  // =========================
+  // POLL FOR UPDATES
+  // Periodically re-fetches this case so changes made by other
+  // logged-in users show up here automatically.
+  // =========================
+  useEffect(() => {
+    const id = caseItemRef.current._id;
+    if (!id) return;
+
+    const intervalId = setInterval(async () => {
+      try {
+        const response = await fetch(`${API_URL}/cases/${id}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to refresh case.");
+        }
+
+        const freshCase = await response.json();
+
+        // Only update if something actually changed, to avoid
+        // needless re-renders / disrupting in-progress edits
+        // (e.g. a user mid-typing in a note or reason field).
+        setCaseItem((prev) => {
+          const changed = JSON.stringify(prev) !== JSON.stringify(freshCase);
+          return changed ? freshCase : prev;
+        });
+      } catch (err) {
+        console.error("CASE POLL ERROR:", err);
+      }
+    }, POLL_INTERVAL_MS);
+
+    return () => clearInterval(intervalId);
+    // Intentionally only depends on the case id, not the whole
+    // caseItem, so the interval isn't torn down/recreated on
+    // every local update.
+  }, [caseItemRef.current._id, setCaseItem]);
 
   const categories = [
     "Critical",
@@ -93,7 +139,6 @@ const CaseDetailsContent = () => {
   const handleCategoryChange = async (e) => {
     const newCategory = e.target.value;
 
-    // optimistic UI update
     setCategory(newCategory);
 
     try {
@@ -113,8 +158,6 @@ const CaseDetailsContent = () => {
       }
 
       const updatedCase = await response.json();
-
-      // keep the single shared caseItem in sync with backend
       setCaseItem(updatedCase);
     } catch (err) {
       console.error(err);
@@ -163,21 +206,27 @@ const CaseDetailsContent = () => {
 
           <div className="time-section">
             <TimeTile
-              label={"Date Created"}
+              label={"Created"}
               time={formatDateTime(caseItem.createdAt)}
             />
             <TimeTile
-              label={"Date Created"}
-              time={formatDateTime(caseItem.createdAt)}
+              label={"Enroute"}
+              time={formatDateTime(caseItem.techEnroute)}
             />
             <TimeTile
-              label={"Date Created"}
-              time={formatDateTime(caseItem.createdAt)}
+              label={"Onsite"}
+              time={formatDateTime(caseItem.techOnsite)}
             />
             <TimeTile
-              label={"Date Created"}
-              time={formatDateTime(caseItem.createdAt)}
+              label={"Completed"}
+              time={formatDateTime(caseItem.completedAt)}
             />
+          </div>
+
+          <div className="border"></div>
+
+          <div className="tech-names">
+            <TechCard />
           </div>
 
           <div className="border"></div>
@@ -212,6 +261,11 @@ const CaseDetailsContent = () => {
         <ActivityNoteSection caseItem={caseItem} setCaseItem={setCaseItem} />
         <TabCard caseItem={caseItem} setCaseItem={setCaseItem} />
       </div>
+      <div className="across">
+        <Timecard />
+        <DQC />
+      </div>
+      <Checklist />
     </div>
   );
 };

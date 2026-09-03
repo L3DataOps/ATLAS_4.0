@@ -19,6 +19,7 @@ import morningDispatchIcon from "../../../images/morning.png";
 
 const CaseCard = ({ case: caseItem }) => {
   const navigate = useNavigate();
+  console.log("caseItem", caseItem);
   const sortedTags = [...(caseItem.tags || [])].sort(
     (a, b) => a.priority - b.priority,
   );

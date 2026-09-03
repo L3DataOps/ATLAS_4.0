@@ -1,0 +1,495 @@
+/***********************************************DQC Responses CSS************************************************/
+
+.dqc {
+  width: 50%;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.dqc-header {
+  display: flex;
+  align-items: center;
+
+  padding: 14px 18px;
+
+  border-bottom: 1px solid #e2e5e9;
+  background: #f8f9fa;
+}
+
+.dqc-header h2 {
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 700;
+  color: #273142;
+}
+
+
+/* =========================
+   CONTENT
+   ========================= */
+
+.dqc-content {
+  display: flex;
+  flex-direction: column;
+
+  padding: 8px 18px;
+}
+
+
+/* =========================
+   QUESTION ROW
+   ========================= */
+
+.dqc-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  min-height: 48px;
+
+  border-bottom: 1px solid #edf0f2;
+}
+
+.dqc-question:last-child {
+  border-bottom: none;
+}
+
+
+/* =========================
+   QUESTION TEXT
+   ========================= */
+
+.dqc-question-text {
+  flex: 1;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #333b48;
+}
+
+
+/* =========================
+   ANSWER
+   ========================= */
+
+.dqc-answer {
+  min-width: 55px;
+
+  padding: 5px 12px;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  background: #eef1f4;
+  color: #4a5563;
+}
+
+
+/* =========================
+   EMPTY STATE
+   ========================= */
+
+.dqc-empty {
+  margin: 15px 0;
+
+  font-size: 14px;
+  color: #7b8491;
+  text-align: center;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+  .dqc-question {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding: 12px 0;
+  }
+
+  .dqc-answer {
+    min-width: 45px;
+  }
+}
+
+.dqc-answer-yes {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.dqc-answer-no {
+  background: #fbe9e7;
+  color: #c62828;
+}
+
+/***********************************************Tech Name Cards CSS************************************************/
+.tech-card-row{
+  border: 1px solid rgb(0, 0, 0);
+  background-color: #ebebeb;
+  padding: 5px ;
+  border-radius: 5px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  margin:10px 3px;
+}
+
+.tech-name{
+  font-size:12px
+}
+.tech-time{
+  font-size:12px
+}
+
+/***********************************************DowntimeCard CSS************************************************/
+
+/* =========================================================
+   TIME CARD
+   ========================================================= */
+
+.time-card {
+  width: 50%;
+  height: 250px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+
+  margin-top: 16px;
+
+  background: #ffffff;
+  border: 1px solid #e1e5e9;
+  border-radius: 10px;
+
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 0px 10px
+}
+
+
+/* =========================================================
+   ELAPSED TIME
+   ========================================================= */
+
+.time-card > div:first-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 20px 24px;
+
+  background: #f7f8fa;
+  border-right: 1px solid #e1e5e9;
+}
+
+.time-card h4 {
+  margin: 0 0 8px;
+
+  color: #6b7480;
+
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.time-card > div:first-child p {
+  margin: 0;
+
+  color: #252d38;
+
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+
+/* =========================================================
+   SITE DOWNTIME CARD
+   ========================================================= */
+
+.site-downtime-card {
+  display: flex;
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 16px 20px;
+
+  background: #ffffff;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   DATE FIELDS
+   ========================================================= */
+
+.site-downtime-fields {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  flex: 1;
+}
+
+.site-time-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  min-width: 0;
+  flex: 1;
+}
+
+.site-time-field label {
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #6b7480;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   DATETIME INPUT
+   ========================================================= */
+
+.site-time-input-wrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  height: 38px;
+
+  border: 1px solid #d7dce1;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.site-time-input-wrapper:focus-within {
+  border-color: #536d88;
+
+  box-shadow: 0 0 0 2px rgba(83, 109, 136, 0.12);
+}
+
+.calendar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+
+  font-size: 14px;
+
+  pointer-events: none;
+}
+
+.site-time-input-wrapper input {
+  width: 100%;
+  height: 100%;
+
+  padding: 0 8px 0 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #303844;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   TOTAL DOWNTIME
+   ========================================================= */
+
+.site-total-downtime {
+  min-width: 120px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-left: 18px;
+
+  border-left: 1px solid #e5e8eb;
+}
+
+.site-total-downtime span {
+  margin-bottom: 5px;
+
+  color: #7a838e;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.site-total-downtime strong {
+  color: #27313d;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+   ========================================================= */
+
+.site-downtime-save {
+  height: 38px;
+
+  padding: 0 16px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #35465a;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.site-downtime-save:hover {
+  background: #293849;
+}
+
+.site-downtime-save:active {
+  transform: scale(0.98);
+}
+
+.site-downtime-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .time-card {
+    grid-template-columns: 180px 1fr;
+  }
+
+  .site-downtime-card {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .site-downtime-fields {
+    gap: 8px;
+  }
+
+  .site-total-downtime {
+    min-width: 100px;
+    padding-left: 12px;
+  }
+
+  .site-downtime-save {
+    padding: 0 12px;
+  }
+}
+
+
+@media (max-width: 850px) {
+  .time-card {
+    grid-template-columns: 1fr;
+  }
+
+  .time-card > div:first-child {
+    border-right: none;
+    border-bottom: 1px solid #e1e5e9;
+
+    padding: 14px 18px;
+  }
+
+  .time-card > div:first-child p {
+    font-size: 22px;
+  }
+
+  .site-downtime-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .site-downtime-fields {
+    width: 100%;
+  }
+
+  .site-total-downtime {
+    padding: 12px 0 0;
+
+    border-left: none;
+    border-top: 1px solid #e5e8eb;
+  }
+
+  .site-downtime-save {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 550px) {
+  .site-downtime-fields {
+    flex-direction: column;
+  }
+
+  .site-time-field {
+    width: 100%;
+  }
+
+  .site-time-input-wrapper {
+    width: 100%;
+  }
+}

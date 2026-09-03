@@ -248,6 +248,8 @@ const CreateCase = () => {
     return null;
   };
 
+  console.log("Selecte Equipment:", selectedEquipment);
+
   // =====================================================
   // Create Case
   // =====================================================
