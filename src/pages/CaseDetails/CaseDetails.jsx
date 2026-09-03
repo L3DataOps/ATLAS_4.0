@@ -18,7 +18,7 @@ import DQC from "./components/DQC";
 import Checklist from "./components/Checklist";
 
 const API_URL = import.meta.env.VITE_API;
-const POLL_INTERVAL_MS = 10000; // 10s — adjust to taste
+const POLL_INTERVAL_MS = 1000; // 10s — adjust to taste
 
 // =========================
 // OUTER: fetches the case once, then hands off to the provider.
