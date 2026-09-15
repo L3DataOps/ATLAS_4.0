@@ -70,6 +70,8 @@ const CaseDetailsContent = () => {
   const { token } = useAuth();
   const { caseItem, setCaseItem } = useCase();
 
+  console.log("Case Context", caseItem);
+
   const [category, setCategory] = useState(caseItem.category || "");
 
   // Track the latest caseItem in a ref so the polling interval
@@ -165,10 +167,19 @@ const CaseDetailsContent = () => {
   };
 
   const formatDateTime = (iso) => {
+    if (!iso) {
+      return "N/A";
+    }
+
     const d = new Date(iso);
 
-    const date = `${d.getMonth() + 1}/${d.getDate()}/${String(d.getFullYear()).slice(2)}`;
-    const time = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+    const date = `${d.getMonth() + 1}/${d.getDate()}/${String(
+      d.getFullYear(),
+    ).slice(2)}`;
+
+    const time = `${String(d.getHours()).padStart(2, "0")}:${String(
+      d.getMinutes(),
+    ).padStart(2, "0")}`;
 
     return `${date} ${time}`;
   };

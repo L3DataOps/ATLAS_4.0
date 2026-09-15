@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import "./OpenCases.css";
+import "./ClosedCases.css";
 import SearchTile from "./components/SearchTile";
 import CaseCard from "./components/CaseCard";
 import SearchBar from "./components/SearchBar";
 
-const OpenCases = () => {
+const ClosedCases = () => {
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -30,7 +30,9 @@ const OpenCases = () => {
   useEffect(() => {
     const fetchCases = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API}/cases/open`);
+        const response = await fetch(
+          `${import.meta.env.VITE_API}/cases/closed`,
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch cases");
@@ -147,4 +149,4 @@ const OpenCases = () => {
   );
 };
 
-export default OpenCases;
+export default ClosedCases;
