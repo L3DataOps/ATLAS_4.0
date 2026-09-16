@@ -135,7 +135,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
       createdBy: {
         firstname: user.firstname,
         lastname: user.lastname,
-        userId: user._id,
+        userId: user.id,
       },
     };
 

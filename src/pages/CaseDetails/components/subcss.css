@@ -167,10 +167,7 @@
 
 .time-card {
   width: 50%;
-  height: 250px;
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 0;
+  height: 300px;
 
   margin-top: 16px;
 
@@ -180,235 +177,137 @@
 
   overflow: hidden;
   box-sizing: border-box;
-  margin: 0px 10px
+  margin: 0 10px 0px 0px;
 }
 
+.time-card-header{
+  display:flex;
+  justify-content: space-between;
+  margin: 5px 20px;
+  font-size: 36px;
+  font-weight:bold;
+  font-style:italic;
+}
 
-/* =========================================================
-   ELAPSED TIME
-   ========================================================= */
-
-.time-card > div:first-child {
+/* =========================
+   CARD CONTAINER
+========================= */
+.site-downtime-card {
+  background: #ffffff;
+  border: 1px solid #e6e8ec;
+  border-radius: 14px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-
-  padding: 20px 24px;
-
-  background: #f7f8fa;
-  border-right: 1px solid #e1e5e9;
+  gap: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.time-card h4 {
-  margin: 0 0 8px;
-
-  color: #6b7480;
-
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-}
-
-.time-card > div:first-child p {
-  margin: 0;
-
-  color: #252d38;
-
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-
-/* =========================================================
-   SITE DOWNTIME CARD
-   ========================================================= */
-
-.site-downtime-card {
-  display: flex;
-  align-items: center;
-
-  gap: 20px;
-
-  padding: 16px 20px;
-
-  background: #ffffff;
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   DATE FIELDS
-   ========================================================= */
-
+/* =========================
+   INPUT FIELDS ROW
+========================= */
 .site-downtime-fields {
   display: flex;
-  align-items: center;
-
-  gap: 14px;
-
-  flex: 1;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .site-time-field {
   display: flex;
   flex-direction: column;
-
   gap: 6px;
-
-  min-width: 0;
   flex: 1;
+  min-width: 180px;
 }
 
 .site-time-field label {
   font-size: 11px;
-  font-weight: 700;
-
-  color: #6b7480;
-
+  font-weight: 600;
+  color: #8a8f98;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
 
-
-/* =========================================================
-   DATETIME INPUT
-   ========================================================= */
-
 .site-time-input-wrapper {
-  position: relative;
-
   display: flex;
   align-items: center;
-
-  height: 38px;
-
-  border: 1px solid #d7dce1;
-  border-radius: 6px;
-
-  background: #ffffff;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  gap: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #f9fafb;
+  transition: border-color 0.15s ease-in-out;
 }
 
 .site-time-input-wrapper:focus-within {
-  border-color: #536d88;
-
-  box-shadow: 0 0 0 2px rgba(83, 109, 136, 0.12);
+  border-color: #2563eb;
+  background: #ffffff;
 }
 
 .calendar-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.site-time-input-wrapper input[type="datetime-local"] {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+  color: #1f2937;
+  width: 100%;
+  min-width: 0;
+}
+
+/* =========================
+   TOTAL DOWNTIME
+========================= */
+.site-total-downtime {
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  width: 36px;
-
-  font-size: 14px;
-
-  pointer-events: none;
-}
-
-.site-time-input-wrapper input {
-  width: 100%;
-  height: 100%;
-
-  padding: 0 8px 0 0;
-
-  border: none;
-  outline: none;
-
-  background: transparent;
-
-  color: #303844;
-
-  font-family: inherit;
-  font-size: 13px;
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   TOTAL DOWNTIME
-   ========================================================= */
-
-.site-total-downtime {
-  min-width: 120px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  padding-left: 18px;
-
-  border-left: 1px solid #e5e8eb;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: #f3f4f6;
+  border-radius: 10px;
 }
 
 .site-total-downtime span {
-  margin-bottom: 5px;
-
-  color: #7a838e;
-
-  font-size: 11px;
-  font-weight: 700;
-
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .site-total-downtime strong {
-  color: #27313d;
-
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-
-  white-space: nowrap;
+  color: #111827;
 }
 
-
-/* =========================================================
+/* =========================
    SAVE BUTTON
-   ========================================================= */
-
+========================= */
 .site-downtime-save {
-  height: 38px;
-
-  padding: 0 16px;
-
-  border: none;
-  border-radius: 6px;
-
-  background: #35465a;
+  align-self: flex-end;
+  background: #2563eb;
   color: #ffffff;
-
-  font-family: inherit;
-  font-size: 13px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
-
-  white-space: nowrap;
-
-  transition:
-    background 0.2s ease,
-    transform 0.1s ease;
+  transition: background 0.15s ease-in-out;
 }
 
-.site-downtime-save:hover {
-  background: #293849;
-}
-
-.site-downtime-save:active {
-  transform: scale(0.98);
+.site-downtime-save:hover:not(:disabled) {
+  background: #1d4ed8;
 }
 
 .site-downtime-save:disabled {
-  opacity: 0.6;
+  background: #9ca3af;
   cursor: not-allowed;
 }
 

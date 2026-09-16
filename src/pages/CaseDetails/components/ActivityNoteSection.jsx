@@ -8,8 +8,6 @@ const ActivityNoteSection = ({ caseItem, setCaseItem }) => {
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [notes, setNotes] = useState([]);
 
-  // ActivityNoteNew already performs the save via its own fetch.
-  // This just syncs the resulting (updated) case into state — no second request.
   const handleSaveNote = (updatedCase) => {
     setCaseItem((prev) => ({
       ...prev,
@@ -18,6 +16,17 @@ const ActivityNoteSection = ({ caseItem, setCaseItem }) => {
       equipment: updatedCase.equipment ?? prev.equipment,
     }));
     setIsAddingNote(false);
+  };
+
+  // Shared by edit + delete: same shape of response (a full,
+  // repopulated case), same sync-into-context logic.
+  const handleNoteUpdated = (updatedCase) => {
+    setCaseItem((prev) => ({
+      ...prev,
+      ...updatedCase,
+      site: updatedCase.site ?? prev.site,
+      equipment: updatedCase.equipment ?? prev.equipment,
+    }));
   };
 
   const handleCancel = () => {
@@ -57,7 +66,13 @@ const ActivityNoteSection = ({ caseItem, setCaseItem }) => {
         {[...notes]
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .map((note, index) => (
-            <ActivityNoteCard key={note._id || note.id || index} note={note} />
+            <ActivityNoteCard
+              key={note._id || note.id || index}
+              note={note}
+              caseId={caseItem._id}
+              caseItem={caseItem}
+              onUpdated={handleNoteUpdated}
+            />
           ))}
       </div>
     </div>

@@ -12,9 +12,13 @@ const Timecard = () => {
 
     const calculateElapsedTime = () => {
       const created = new Date(caseItem.createdAt);
-      const now = new Date();
+      // Use completedAt as the end point once the case is done;
+      // otherwise keep counting up against "now".
+      const end = caseItem.completedAt
+        ? new Date(caseItem.completedAt)
+        : new Date();
 
-      let totalSeconds = Math.floor((now - created) / 1000);
+      let totalSeconds = Math.floor((end - created) / 1000);
 
       if (totalSeconds < 0) {
         totalSeconds = 0;
@@ -54,17 +58,25 @@ const Timecard = () => {
 
     calculateElapsedTime();
 
+    // Once the case is completed, elapsed time is fixed — no need
+    // to keep ticking every second. Only run the live interval
+    // while the case is still open (completedAt is null).
+    if (caseItem.completedAt) {
+      return;
+    }
+
     const interval = setInterval(calculateElapsedTime, 1000);
 
     return () => clearInterval(interval);
-  }, [caseItem?.createdAt]);
+  }, [caseItem?.createdAt, caseItem?.completedAt]);
 
   return (
     <div className="time-card">
-      <div>
+      <div className="time-card-header">
         <h4>Elapsed Time</h4>
         <p>{elapsedTime}</p>
       </div>
+      <div className="border"></div>
       <SiteDowntime />
     </div>
   );
