@@ -216,7 +216,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
 
           {/* Tags */}
           <button
-            className="assign-tech-button"
+            className="assign-tag-button"
             onClick={() => setShowTags(true)}
           >
             Tags
@@ -244,8 +244,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
             className="assign-tech-button"
             onClick={() => setShowAssignTech(true)}
           >
-            Assign Techs
-            {totalAssignedCount ? ` (${totalAssignedCount})` : ""}
+            Techs{totalAssignedCount ? ` (${totalAssignedCount})` : ""}
             {pendingNewTechs.length > 0 ? " •" : ""}
           </button>
         </div>

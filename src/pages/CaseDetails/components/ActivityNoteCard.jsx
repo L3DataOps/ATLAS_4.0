@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import TagSelectModal from "./TagSelectModal";
 import "./ActivityNotes.css";
+import editIcon from "../../../images/editing.png";
 
 const API_URL = import.meta.env.VITE_API;
 
@@ -159,47 +160,57 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
           </h4>
         </div>
 
-        <div className="activity-note-meta">
-          <div className="activity-note-status">
-            {!isEditing && note.tags?.length > 0 && (
-              <div className="activity-note-tags">
-                {note.tags.map((tag, index) => {
-                  const label = typeof tag === "string" ? tag : tag?.name;
-                  if (!label) return null;
+        <div className="activity-note-meta-container">
+          <div className="activity-note-meta">
+            <div className="activity-note-status">
+              {!isEditing && note.tags?.length > 0 && (
+                <div className="activity-note-tags">
+                  {note.tags.map((tag, index) => {
+                    const label = typeof tag === "string" ? tag : tag?.name;
+                    if (!label) return null;
 
-                  const key =
-                    typeof tag === "string"
-                      ? `${tag}-${index}`
-                      : tag?._id || `${tag.name}-${index}`;
+                    const key =
+                      typeof tag === "string"
+                        ? `${tag}-${index}`
+                        : tag?._id || `${tag.name}-${index}`;
 
-                  return (
-                    <span key={key} className="note-tag">
-                      {label}
-                    </span>
-                  );
-                })}
-              </div>
-            )}
+                    return (
+                      <span key={key} className="note-tag">
+                        {label}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <span className="activity-note-date">
+              <span className="activity-note-status">{note.status}</span>
+              {isEditing ? (
+                <input
+                  type="datetime-local"
+                  className="activity-note-date-edit"
+                  value={editCreatedAt}
+                  onChange={(e) => setEditCreatedAt(e.target.value)}
+                />
+              ) : (
+                <strong>{formattedDate}</strong>
+              )}
+              {formattedEditedDate && !isEditing && (
+                <em className="activity-note-edited">
+                  {" "}
+                  (edited {formattedEditedDate})
+                </em>
+              )}
+            </span>
           </div>
-          <span className="activity-note-date">
-            <span className="activity-note-status">{note.status}</span>
-            {isEditing ? (
-              <input
-                type="datetime-local"
-                className="activity-note-date-edit"
-                value={editCreatedAt}
-                onChange={(e) => setEditCreatedAt(e.target.value)}
-              />
-            ) : (
-              <strong>{formattedDate}</strong>
-            )}
-            {formattedEditedDate && !isEditing && (
-              <em className="activity-note-edited">
-                {" "}
-                (edited {formattedEditedDate})
-              </em>
-            )}
-          </span>
+
+          {isOwner && !isEditing && (
+            <div className="activity-note-owner-actions">
+              <button onClick={() => setIsEditing(true)}>
+                <img src={editIcon} alt="Edit" className="note-icon" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -253,12 +264,6 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
           <p>{note.text}</p>
         )}
       </div>
-
-      {isOwner && !isEditing && (
-        <div className="activity-note-owner-actions">
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-        </div>
-      )}
 
       {showTagModal && (
         <TagSelectModal
