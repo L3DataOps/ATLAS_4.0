@@ -188,6 +188,12 @@ Closing Question Component Styles
 
 .fuel-level-value {
   font-weight: 600;
+  font-size: 1rem;
+}
+
+.fuel-last-updated-value {
+  font-style: italic;
+  color: #888;
 }
 
 .fuel-update-row {

@@ -5,6 +5,7 @@ import { CaseProvider, useCase } from "../../context/CaseContext";
 
 import "./CaseDetails.css";
 import flagIcon from "../../images/flag.png";
+import redFlagIcon from "../../images/red-flag.png";
 
 import TimeTile from "./components/TimeTile";
 import InitialDesc from "./components/InitialDesc";
@@ -21,7 +22,7 @@ const API_URL = import.meta.env.VITE_API;
 const POLL_INTERVAL_MS = 1000;
 
 // =========================
-// OUTER: fetches the case once, then hands off to the provider.
+// OUTER: unchanged
 // =========================
 const CaseDetails = () => {
   const { id } = useParams();
@@ -61,38 +62,26 @@ const CaseDetails = () => {
 };
 
 // =========================
-// INNER: everything reads from context. This component now also
-// polls the backend on an interval so edits made by other users
-// (in another tab, another device) show up here without a manual
-// page refresh.
+// INNER
 // =========================
 const CaseDetailsContent = () => {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const { caseItem, setCaseItem } = useCase();
 
-  console.log("Case Context", caseItem);
-
   const [category, setCategory] = useState(caseItem.category || "");
+  const [togglingFlag, setTogglingFlag] = useState(false);
 
-  // Track the latest caseItem in a ref so the polling interval
-  // (set up once) always has access to the current id without
-  // needing to restart the interval every time caseItem changes.
+  console.log("Rendering CaseDetailsContent with caseItem:", caseItem);
+
   const caseItemRef = useRef(caseItem);
   useEffect(() => {
     caseItemRef.current = caseItem;
   }, [caseItem]);
 
-  // Keep the category dropdown in sync if caseItem changes from
-  // elsewhere (e.g. a poll picks up another user's edit).
   useEffect(() => {
     setCategory(caseItem.category || "");
   }, [caseItem.category]);
 
-  // =========================
-  // POLL FOR UPDATES
-  // Periodically re-fetches this case so changes made by other
-  // logged-in users show up here automatically.
-  // =========================
   useEffect(() => {
     const id = caseItemRef.current._id;
     if (!id) return;
@@ -107,9 +96,6 @@ const CaseDetailsContent = () => {
 
         const freshCase = await response.json();
 
-        // Only update if something actually changed, to avoid
-        // needless re-renders / disrupting in-progress edits
-        // (e.g. a user mid-typing in a note or reason field).
         setCaseItem((prev) => {
           const changed = JSON.stringify(prev) !== JSON.stringify(freshCase);
           return changed ? freshCase : prev;
@@ -120,9 +106,6 @@ const CaseDetailsContent = () => {
     }, POLL_INTERVAL_MS);
 
     return () => clearInterval(intervalId);
-    // Intentionally only depends on the case id, not the whole
-    // caseItem, so the interval isn't torn down/recreated on
-    // every local update.
   }, [caseItemRef.current._id, setCaseItem]);
 
   const categories = [
@@ -135,12 +118,8 @@ const CaseDetailsContent = () => {
     "Site Access",
   ];
 
-  // =========================
-  // PATCH CATEGORY
-  // =========================
   const handleCategoryChange = async (e) => {
     const newCategory = e.target.value;
-
     setCategory(newCategory);
 
     try {
@@ -150,9 +129,7 @@ const CaseDetailsContent = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          category: newCategory,
-        }),
+        body: JSON.stringify({ category: newCategory }),
       });
 
       if (!response.ok) {
@@ -163,6 +140,50 @@ const CaseDetailsContent = () => {
       setCaseItem(updatedCase);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  // =========================
+  // TOGGLE FLAG
+  // Adds/removes the current user's id from flaggedUsers so they
+  // can later view all cases they've flagged on a separate page.
+  // =========================
+  const isFlaggedByMe = (caseItem.flaggedUsers || []).includes(user?.id);
+
+  const handleToggleFlag = async () => {
+    if (!user?.id || togglingFlag) return;
+
+    const currentFlags = caseItem.flaggedUsers || [];
+    const updatedFlags = isFlaggedByMe
+      ? currentFlags.filter((uid) => uid !== user.id)
+      : [...currentFlags, user.id];
+
+    // Optimistic update
+    setCaseItem((prev) => ({ ...prev, flaggedUsers: updatedFlags }));
+    setTogglingFlag(true);
+
+    try {
+      const response = await fetch(`${API_URL}/cases/${caseItem._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ flaggedUsers: updatedFlags }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update flag");
+      }
+
+      const updatedCase = await response.json();
+      setCaseItem(updatedCase);
+    } catch (err) {
+      console.error("FLAG TOGGLE ERROR:", err);
+      // Revert on failure
+      setCaseItem((prev) => ({ ...prev, flaggedUsers: currentFlags }));
+    } finally {
+      setTogglingFlag(false);
     }
   };
 
@@ -195,7 +216,16 @@ const CaseDetailsContent = () => {
               </h3>
             </div>
 
-            <img src={flagIcon} alt={caseItem.status} />
+            <img
+              src={isFlaggedByMe ? redFlagIcon : flagIcon}
+              alt={isFlaggedByMe ? "Unflag case" : "Flag case"}
+              onClick={handleToggleFlag}
+              className="flag-icon"
+              style={{
+                cursor: togglingFlag ? "not-allowed" : "pointer",
+                opacity: togglingFlag ? 0.6 : 1,
+              }}
+            />
           </div>
 
           <div className="title-subhead">

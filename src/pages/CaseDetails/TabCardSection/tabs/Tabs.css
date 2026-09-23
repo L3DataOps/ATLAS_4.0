@@ -121,7 +121,45 @@
 
 .overview-case-list{
     height: 500px;
-    border: 1px solid red;
     overflow: hidden;
     overflow-y: scroll;
+}
+
+/* =========================
+   TAB CONTAINER
+========================= */
+.overview-tabs {
+  display: flex;
+  border-bottom: 2px solid #e6e8ec;
+  gap: 4px;
+}
+
+/* =========================
+   TAB BUTTONS
+========================= */
+.overview-tabs button {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  color: #abacad88; /* grayed out by default */
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px; /* sits on top of the container's border */
+
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.overview-tabs button:hover {
+  color: #4b5563;
+}
+
+/* =========================
+   ACTIVE TAB
+========================= */
+.overview-tabs button.active {
+  color: #000000;
+  border-bottom: 2px solid #2563eb;
 }
