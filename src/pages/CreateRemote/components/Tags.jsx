@@ -2,14 +2,10 @@ import "./Tags.css";
 
 const Tags = ({ tags, selectedTags, setSelectedTags }) => {
   const handleTagClick = (tag) => {
-    const isSelected = selectedTags.some(
-      (selected) => selected.name === tag.name,
-    );
+    const isSelected = selectedTags.includes(tag);
 
     if (isSelected) {
-      setSelectedTags(
-        selectedTags.filter((selected) => selected.name !== tag.name),
-      );
+      setSelectedTags(selectedTags.filter((selected) => selected !== tag));
       return;
     }
 
@@ -25,15 +21,11 @@ const Tags = ({ tags, selectedTags, setSelectedTags }) => {
     <div className="tags-container">
       {tags.map((tag) => (
         <p
-          key={tag.name}
-          className={`tag ${
-            selectedTags.some((selected) => selected.name === tag.name)
-              ? "selected"
-              : ""
-          }`}
+          key={tag}
+          className={`tag ${selectedTags.includes(tag) ? "selected" : ""}`}
           onClick={() => handleTagClick(tag)}
         >
-          {tag.name}
+          {tag}
         </p>
       ))}
     </div>

@@ -22,6 +22,14 @@ function App() {
         element={
           <ProtectedRoute>
             <CreateCase />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/create-remote"
+        element={
+          <ProtectedRoute>
             <CreateRemote />
           </ProtectedRoute>
         }

@@ -24,7 +24,7 @@ const CreateCase = () => {
   // =====================================================
   const [loading, setLoading] = useState(true);
 
-  const [customers, setCustomers] = useState([]);
+  const [customers, setCustomers] = useState([]);l
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const [sites, setSites] = useState([]);
@@ -34,7 +34,6 @@ const CreateCase = () => {
   const [selectedEquipment, setSelectedEquipment] = useState(null);
 
   const [category, setCategory] = useState("");
-  const [severity, setSeverity] = useState("");
   const [description, setDescription] = useState("");
 
   const [tags, setTags] = useState([]);
@@ -116,35 +115,30 @@ const CreateCase = () => {
   }, [selectedSite?._id]);
 
   // =====================================================
-  // Fetch Tags
-  // =====================================================
-  useEffect(() => {
-    if (!selectedEquipment?.type) {
+// Fetch Tags for the selected equipment's type
+// =====================================================
+useEffect(() => {
+  setTags([]);
+  setSelectedTags([]);
+
+  if (!selectedEquipment?.type) return;
+
+  const fetchTags = async () => {
+    try {
+      const res = await fetch(
+        `${API_URL}/rnm/tags/${selectedEquipment.type}`,
+      );
+      if (!res.ok) throw new Error("Failed to fetch tags");
+
+      setTags(await res.json());
+    } catch (err) {
+      console.error(err);
       setTags([]);
-      return;
     }
+  };
 
-    const fetchTags = async () => {
-      try {
-        const res = await fetch(`${API_URL}/tags`);
-        if (!res.ok) throw new Error("Failed to fetch tags");
-
-        const data = await res.json();
-        const match = data.find(
-          (t) =>
-            t.type?.toLowerCase() === selectedEquipment.type?.toLowerCase(),
-        );
-
-        setTags(match?.tags || []);
-      } catch (err) {
-        console.error(err);
-        setTags([]);
-      }
-    };
-
-    fetchTags();
-  }, [selectedEquipment]);
-
+  fetchTags();
+}, [selectedEquipment?.type]);
   // =====================================================
   // Reset form fields on Equipment Change
   // =====================================================
@@ -198,7 +192,6 @@ const CreateCase = () => {
       siteId: selectedSite._id,
       equipmentId: selectedEquipment._id,
       category,
-      severity,
       description,
       tags: selectedTags,
 
@@ -207,7 +200,7 @@ const CreateCase = () => {
     };
 
     try {
-      const res = await fetch(`${API_URL}/cases`, {
+      const res = await fetch(`${API_URL}/rnm/case/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -262,6 +255,8 @@ const CreateCase = () => {
       />
     );
   };
+
+
 
   return (
     <div>
