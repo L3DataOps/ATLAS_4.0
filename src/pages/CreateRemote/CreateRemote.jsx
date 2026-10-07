@@ -24,7 +24,7 @@ const CreateCase = () => {
   // =====================================================
   const [loading, setLoading] = useState(true);
 
-  const [customers, setCustomers] = useState([]);l
+  const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const [sites, setSites] = useState([]);
@@ -115,30 +115,30 @@ const CreateCase = () => {
   }, [selectedSite?._id]);
 
   // =====================================================
-// Fetch Tags for the selected equipment's type
-// =====================================================
-useEffect(() => {
-  setTags([]);
-  setSelectedTags([]);
+  // Fetch Tags for the selected equipment's type
+  // =====================================================
+  useEffect(() => {
+    setTags([]);
+    setSelectedTags([]);
 
-  if (!selectedEquipment?.type) return;
+    if (!selectedEquipment?.type) return;
 
-  const fetchTags = async () => {
-    try {
-      const res = await fetch(
-        `${API_URL}/rnm/tags/${selectedEquipment.type}`,
-      );
-      if (!res.ok) throw new Error("Failed to fetch tags");
+    const fetchTags = async () => {
+      try {
+        const res = await fetch(
+          `${API_URL}/rnm/tags/${selectedEquipment.type}`,
+        );
+        if (!res.ok) throw new Error("Failed to fetch tags");
 
-      setTags(await res.json());
-    } catch (err) {
-      console.error(err);
-      setTags([]);
-    }
-  };
+        setTags(await res.json());
+      } catch (err) {
+        console.error(err);
+        setTags([]);
+      }
+    };
 
-  fetchTags();
-}, [selectedEquipment?.type]);
+    fetchTags();
+  }, [selectedEquipment?.type]);
   // =====================================================
   // Reset form fields on Equipment Change
   // =====================================================
@@ -255,8 +255,6 @@ useEffect(() => {
       />
     );
   };
-
-
 
   return (
     <div>
