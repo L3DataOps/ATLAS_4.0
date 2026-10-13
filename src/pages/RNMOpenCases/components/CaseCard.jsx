@@ -2,7 +2,6 @@ import "./CaseCard.css";
 import TagBubble from "./TagBubble";
 import { useNavigate } from "react-router-dom";
 
-import openIcon from "../../../images/send.png";
 import dispatchedIcon from "../../../images/send.png";
 import inProgressIcon from "../../../images/active-user.png";
 import followUpIcon from "../../../images/followup.png";
@@ -19,10 +18,10 @@ import morningDispatchIcon from "../../../images/morning.png";
 
 const CaseCard = ({ case: caseItem }) => {
   const navigate = useNavigate();
-  console.log("caseItem", caseItem);
-  const sortedTags = [...(caseItem.tags || [])].sort(
-    (a, b) => a.priority - b.priority,
-  );
+
+  // RNM tags are plain strings; normalize so TagBubble (which expects
+  // an object with a name) keeps working.
+  const tags = caseItem.tags || [];
 
   const getStatusIcon = (status) => {
     switch (status?.toLowerCase()) {
@@ -52,7 +51,6 @@ const CaseCard = ({ case: caseItem }) => {
         return morningDispatchIcon;
       case "follow up required":
         return followUpIcon;
-
       default:
         return dispatchedIcon;
     }
@@ -86,30 +84,30 @@ const CaseCard = ({ case: caseItem }) => {
 
     return result.length ? result.join(" ") : "just now";
   };
+
   return (
     <div
       className="case-card"
-      onClick={() => navigate(`/cases/${caseItem._id}`)}
+      onClick={() => navigate(`/rnm/case/${caseItem._id}`)}
     >
       <div className="section">
-        <h5>Ticket #</h5>
+        <h5>RNM #</h5>
         <p>{caseItem.caseNumber}</p>
       </div>
+
       <div className="section">
-        <h5>{caseItem.site?.region || "Unknown Site"}</h5>
-        <p>{caseItem.site.siteName}</p>
+        <h5>{caseItem.customer?.customerName || "Unknown Customer"}</h5>
+        <p>{caseItem.site?.siteName || "Unknown Site"}</p>
       </div>
+
       <div className="section">
-        <h5>
-          {caseItem.tags?.reduce(
-            (a, b) => (b.priority > a.priority ? b : a),
-            caseItem.tags[0],
-          )?.name || "No Tags"}
-        </h5>
+        <h5>{tags[0] || "No Tags"}</h5>
       </div>
+
       <div className="section">
         <h5>{formatElapsedTime(caseItem.createdAt)}</h5>
       </div>
+
       <div className="section">
         <div className="split-section">
           <img src={getStatusIcon(caseItem.status)} alt={caseItem.status} />
@@ -120,13 +118,15 @@ const CaseCard = ({ case: caseItem }) => {
           </div>
         </div>
       </div>
+
       <div className="section">
-        <h5>{caseItem.equipment.equipmentName}</h5>
+        <h5>{caseItem.equipment?.equipmentName || "Unknown Equipment"}</h5>
       </div>
+
       <div className="section">
         <div className="tag-list">
-          {sortedTags.map((tag) => (
-            <TagBubble key={tag.name} tag={tag} />
+          {tags.map((tag) => (
+            <TagBubble key={tag} tag={tag} />
           ))}
         </div>
       </div>

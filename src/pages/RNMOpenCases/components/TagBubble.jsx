@@ -1,9 +1,8 @@
 import "./TagBubble.css";
 
 const TagBubble = ({ tag }) => {
-  return (
-    <div className={`tag-bubble priority-${tag.priority}`}>{tag.name}</div>
-  );
+  console.log("TagBubble rendered with tag:", tag); // Debugging line
+  return <div className={`tag-bubble priority-${tag.priority}`}>{tag}</div>;
 };
 
 export default TagBubble;

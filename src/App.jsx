@@ -11,6 +11,8 @@ import CreateRemote from "./pages/CreateRemote/CreateRemote";
 import OpenCasesPage from "./pages/OpenCases/OpenCases";
 import CaseDetails from "./pages/CaseDetails/CaseDetails";
 import ClosedCasesPage from "./pages/ClosedCases/ClosedCases";
+import RNMOpenCases from "./pages/RNMOpenCases/RNMOpenCases";
+import RnmCaseDetails from "./pages/RNMCaseDetails/RNMCaseDetails";
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
         <Route path="/cases/:id" element={<CaseDetails />} />
         <Route path="/closed-cases" element={<ClosedCasesPage />} />
         <Route path="/create-remote" element={<CreateRemote />} />
+        <Route path="/rnm-open-cases" element={<RNMOpenCases />} />
+        <Route path="/rnm/case/:id" element={<RnmCaseDetails />} />
       </Route>
     </Routes>
   );

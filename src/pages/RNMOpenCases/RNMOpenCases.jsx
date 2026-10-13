@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import "./OpenCases.css";
+import "./RNMOpenCases.css";
 import SearchTile from "./components/SearchTile";
 import CaseCard from "./components/CaseCard";
 import SearchBar from "./components/SearchBar";
@@ -29,7 +29,7 @@ const RNMOpenCases = () => {
   useEffect(() => {
     const fetchCases = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API}/cases/open`);
+        const response = await fetch(`${import.meta.env.VITE_API}/rnm/case/`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch cases");
@@ -146,4 +146,4 @@ const RNMOpenCases = () => {
   );
 };
 
-export default OpenCases;
+export default RNMOpenCases;
