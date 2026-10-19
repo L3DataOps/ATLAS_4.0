@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./ActivityNotes.css";
-import ActivityNoteNew from "./ActivityNoteNew";
+import RNMActivityNoteNew from "./RNMActivityNoteNew";
 import ActivityNoteCard from "./ActivityNoteCard";
 import noteIcon from "../../../images/file (1).png";
 
@@ -56,7 +56,7 @@ const ActivityNoteSection = ({ caseItem, setCaseItem }) => {
 
       <div className="activity-notes-container">
         {isAddingNote && (
-          <ActivityNoteNew
+          <RNMActivityNoteNew
             onSave={handleSaveNote}
             onCancel={handleCancel}
             caseItem={caseItem}

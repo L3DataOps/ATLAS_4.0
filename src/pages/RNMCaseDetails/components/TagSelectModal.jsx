@@ -28,7 +28,7 @@ const TagSelectModal = ({ tags, selectedTags, onToggleTag, onClose }) => {
         <div className="assign-tag-list">
           {tags.length ? (
             tags.map((tag) => {
-              const tagName = tag.name;
+              const tagName = tag;
 
               return (
                 <label key={tagName} className="assign-tag-option">

@@ -121,13 +121,14 @@ const CreateCase = () => {
     setTags([]);
     setSelectedTags([]);
 
-    if (!selectedEquipment?.type) return;
+    if (!selectedEquipment) return;
 
     const fetchTags = async () => {
       try {
-        const res = await fetch(
-          `${API_URL}/rnm/tags/${selectedEquipment.type}`,
-        );
+        const type = selectedEquipment.type ?? "null";
+
+        const res = await fetch(`${API_URL}/rnm/tags/${type}`);
+
         if (!res.ok) throw new Error("Failed to fetch tags");
 
         setTags(await res.json());
@@ -138,7 +139,7 @@ const CreateCase = () => {
     };
 
     fetchTags();
-  }, [selectedEquipment?.type]);
+  }, [selectedEquipment?.type, selectedEquipment]);
   // =====================================================
   // Reset form fields on Equipment Change
   // =====================================================

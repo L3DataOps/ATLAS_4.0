@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "../components/CreateCaseComponents.css";
 
 const CaseButtons = ({ onCancel, onCreate }) => {
   const navigate = useNavigate();

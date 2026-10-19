@@ -2,9 +2,8 @@ import { useCase } from "../../../context/CaseContext";
 import resolvedIcon from "../../../images/accept.png";
 import notDoneIcon from "../../../images/close.png";
 import "./temp.css";
-import ClosingQuestion from "./ClosingQuestion";
-import Fuel from "./Fuel";
-import CloseCaseButton from "./CloseCaseButton";
+
+import RNMCloseCaseButton from "./RNMCloseCaseButton";
 
 const Checklist = () => {
   const { caseItem } = useCase();
@@ -31,17 +30,8 @@ const Checklist = () => {
     techsAssigned.length === 0 ||
     techsAssigned.every((tech) => tech.currentStatus === "Offsite");
 
-  // -----------------------------------------------------
-  // 3) Every dispatch center must have hasBeenNotified === false
-  // -----------------------------------------------------
-  const dispatchCenters = caseItem.dispatchCenterNotified || [];
-  const allDispatchNotNotified =
-    dispatchCenters.length > 0 &&
-    dispatchCenters.every((dc) => dc.hasBeenNotified === false);
-
   // Overall: every requirement fulfilled
-  const allFulfilled =
-    hasResolvedNote && allTechsOffsite && allDispatchNotNotified;
+  const allFulfilled = hasResolvedNote && allTechsOffsite;
 
   return (
     <div className="checklist">
@@ -61,7 +51,7 @@ const Checklist = () => {
         />
       </div>
 
-      <CloseCaseButton />
+      <RNMCloseCaseButton />
     </div>
   );
 };

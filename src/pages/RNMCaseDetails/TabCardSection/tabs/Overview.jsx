@@ -1,6 +1,13 @@
 import "./Tabs.css";
 
+const API_URL = import.meta.env.VITE_API;
+
 const Overview = ({ caseItem }) => {
+  const matrixPath = caseItem.customer?.alarmMatrix;
+  const fileName = matrixPath?.split(/[\\/]/).pop();
+  const fileUrl = fileName
+    ? `${API_URL}/alarm-matrices/${encodeURIComponent(fileName)}`
+    : null;
   console.log("caseItem", caseItem);
   return (
     <div className="overview-tab">
@@ -31,15 +38,17 @@ const Overview = ({ caseItem }) => {
         <div className="border"></div>
         <div className="across">
           <h5>Alarm Matrix</h5>
-          <h5>
-            <a
-              href={caseItem.customer.alarmMatrix}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {caseItem.customer.alarmMatrix}
-            </a>
-          </h5>
+          {fileUrl ? (
+            <h5>
+              <a href={`ms-excel:ofe|u|${fileUrl}`}>{fileName}</a>
+              {" · "}
+              <a href={fileUrl} download>
+                Download
+              </a>
+            </h5>
+          ) : (
+            <h5>N/A</h5>
+          )}
         </div>
       </div>
     </div>

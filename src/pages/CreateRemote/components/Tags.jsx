@@ -18,15 +18,15 @@ const Tags = ({ tags, selectedTags, setSelectedTags }) => {
   };
 
   return (
-    <div className="tags-container">
+    <div className="rnm-tags-container">
       {tags.map((tag) => (
-        <p
+        <div
           key={tag}
           className={`tag ${selectedTags.includes(tag) ? "selected" : ""}`}
           onClick={() => handleTagClick(tag)}
         >
           {tag}
-        </p>
+        </div>
       ))}
     </div>
   );

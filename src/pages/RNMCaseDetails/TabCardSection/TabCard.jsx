@@ -2,18 +2,12 @@ import { useState } from "react";
 import "./TabCard.css";
 
 import Overview from "./tabs/Overview";
-import Details from "./tabs/Details";
-import Parts from "./tabs/Parts";
-import Invoices from "./tabs/Invoices";
+import VPN from "./tabs/VPN";
 import Email from "./tabs/Email";
-import Attachments from "./tabs/Attachments";
 
 import mainIcon from "../../../images/home.png";
-import infoIcon from "../../../images/info.png";
-import partIcon from "../../../images/tools.png";
-import invoicesIcon from "../../../images/invoice.png";
+import infoIcon from "../../../images/vpn.png";
 import emailIcon from "../../../images/mail.png";
-import attachmentsIcon from "../../../images/attach-file.png";
 
 const TabCard = ({ caseItem, setCaseItem }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -25,9 +19,9 @@ const TabCard = ({ caseItem, setCaseItem }) => {
       component: <Overview caseItem={caseItem} />,
     },
     {
-      name: "IP Information",
+      name: "VPN Instruction",
       icon: infoIcon,
-      component: <Details caseItem={caseItem} />,
+      component: <VPN caseItem={caseItem} />,
     },
     {
       name: "Email List",

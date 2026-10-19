@@ -29,7 +29,9 @@ const RNMOpenCases = () => {
   useEffect(() => {
     const fetchCases = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API}/rnm/case/`);
+        const response = await fetch(
+          `${import.meta.env.VITE_API}/rnm/case/open`,
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch cases");

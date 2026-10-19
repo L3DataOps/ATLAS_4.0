@@ -37,6 +37,19 @@
     justify-content: center;
 }
 
+.site-card-all {
+   margin: 5px;
+    width: auto;
+    background-color: #919191;
+    color: white;
+    border:2px solid #030303;
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+}
+
 .customer-card{
     margin: 5px;
     width: auto;
@@ -173,4 +186,29 @@
 
 .frame{
     margin: -10px 10px;
+}
+
+.button-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.button-section button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.cancel{
+    background-color: #f8bcbc;
+    color: #851616;
+}
+
+.create{
+    background-color: #2433ff;
+    color: #ffffff;
 }

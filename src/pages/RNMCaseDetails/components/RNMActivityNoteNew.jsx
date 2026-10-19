@@ -5,8 +5,9 @@ import TagSelectModal from "./TagSelectModal";
 import "./ActivityNotes.css";
 
 const API_URL = import.meta.env.VITE_API;
+const RNM_CASE_URL = `${API_URL}/rnm/case`;
 
-const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
+const RNMActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   const { user, token } = useAuth();
 
   const [note, setNote] = useState("");
@@ -16,15 +17,11 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
-  // Techs added THIS session that are not yet saved to the case.
-  // Committed techs (already on caseItem.techsAssigned) are locked
-  // and managed live inside AssignTechModal — they are never part
-  // of this state and are never removable from here.
+  // Techs added this session that are not yet saved to the case
   const [pendingNewTechs, setPendingNewTechs] = useState([]);
 
   const [showTags, setShowTags] = useState(false);
   const [showAssignTech, setShowAssignTech] = useState(false);
-
   const [isSaving, setIsSaving] = useState(false);
 
   const actionTakenStatuses = [
@@ -32,12 +29,6 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
     "Tech Enroute",
     "In Progress",
     "Follow Up Required",
-    "Assigned to TAC",
-    "Awaiting Drive Time",
-    "Not Done",
-    "Quote Requested",
-    "Quote Awaiting Approval",
-    "Quote Approved",
     "Morning Dispatch",
     "Resolved",
   ];
@@ -45,9 +36,8 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   const activityNoteStatuses = ["Customer Facing", "Internal", "Resolved"];
 
   // ====================================
-  // Load Tags
+  // Load RNM tags (plain strings for the equipment type)
   // ====================================
-
   useEffect(() => {
     if (!caseItem?.equipment?.type) {
       setTags([]);
@@ -56,20 +46,12 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
 
     const fetchTags = async () => {
       try {
-        const res = await fetch(`${API_URL}/tags`);
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch tags");
-        }
-
-        const data = await res.json();
-
-        const match = data.find(
-          (t) =>
-            t.type?.toLowerCase() === caseItem.equipment.type.toLowerCase(),
+        const res = await fetch(
+          `${API_URL}/rnm/tags/${encodeURIComponent(caseItem.equipment.type)}`,
         );
+        if (!res.ok) throw new Error("Failed to fetch tags");
 
-        setTags(match?.tags || []);
+        setTags(await res.json());
       } catch (err) {
         console.error(err);
         setTags([]);
@@ -77,31 +59,17 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
     };
 
     fetchTags();
-  }, [caseItem]);
-
-  // ====================================
-  // Tag Selection
-  // ====================================
+    // Type only: the case is polled every second, so depending on the
+    // whole object would refetch tags constantly.
+  }, [caseItem?.equipment?.type]);
 
   const toggleTag = (tagName) => {
     setSelectedTags((prev) => {
-      if (prev.includes(tagName)) {
-        return prev.filter((t) => t !== tagName);
-      }
-
-      if (prev.length >= 5) {
-        return prev;
-      }
-
+      if (prev.includes(tagName)) return prev.filter((t) => t !== tagName);
+      if (prev.length >= 5) return prev;
       return [...prev, tagName];
     });
   };
-
-  // ====================================
-  // Cancel — discard the note AND any not-yet-saved tech additions.
-  // Already-committed techs live in the case itself and are
-  // untouched by this.
-  // ====================================
 
   const handleCancel = () => {
     setPendingNewTechs([]);
@@ -109,9 +77,8 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   };
 
   // ====================================
-  // Save Note (+ newly added techs, together)
+  // Save note (+ newly added techs)
   // ====================================
-
   const handleSave = async () => {
     if (!note.trim() || isSaving) return;
 
@@ -140,7 +107,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/cases/${caseItem._id}/notes`, {
+      const response = await fetch(`${RNM_CASE_URL}/${caseItem._id}/notes`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -149,22 +116,17 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         body: JSON.stringify(newNote),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to save note");
-      }
+      if (!response.ok) throw new Error("Failed to save note");
 
       let updatedCase = await response.json();
 
-      // Append any newly-picked techs to whatever is already
-      // committed on the case. Existing (committed) techs and their
-      // live-tracked status are never overwritten here.
       if (pendingNewTechs.length > 0) {
         const combinedTechs = [
           ...(updatedCase.techsAssigned || []),
           ...pendingNewTechs,
         ];
 
-        const techResponse = await fetch(`${API_URL}/cases/${caseItem._id}`, {
+        const techResponse = await fetch(`${RNM_CASE_URL}/${caseItem._id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -173,9 +135,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
           body: JSON.stringify({ techsAssigned: combinedTechs }),
         });
 
-        if (!techResponse.ok) {
-          throw new Error("Failed to save assigned techs");
-        }
+        if (!techResponse.ok) throw new Error("Failed to save assigned techs");
 
         updatedCase = await techResponse.json();
       }
@@ -205,25 +165,21 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         </h3>
 
         <div className="activity-note-new-controls">
-          {/* Action Taken */}
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            {actionTakenStatuses.map((status) => (
-              <option key={status} value={status}>
-                {status}
+            {actionTakenStatuses.map((s) => (
+              <option key={s} value={s}>
+                {s}
               </option>
             ))}
           </select>
 
-          {/* Tags */}
           <button
             className="assign-tag-button"
             onClick={() => setShowTags(true)}
           >
-            Tags
-            {selectedTags.length ? ` (${selectedTags.length})` : ""}
+            Tags{selectedTags.length ? ` (${selectedTags.length})` : ""}
           </button>
 
-          {/* Activity Note Status */}
           <select
             value={activityNoteStatus}
             onChange={(e) => setActivityNoteStatus(e.target.value)}
@@ -231,15 +187,13 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
             <option value="" disabled>
               Select type...
             </option>
-
-            {activityNoteStatuses.map((status) => (
-              <option key={status} value={status}>
-                {status}
+            {activityNoteStatuses.map((s) => (
+              <option key={s} value={s}>
+                {s}
               </option>
             ))}
           </select>
 
-          {/* Assign Techs */}
           <button
             className="assign-tech-button"
             onClick={() => setShowAssignTech(true)}
@@ -289,7 +243,6 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         </button>
       </div>
 
-      {/* Tag Modal */}
       {showTags && (
         <TagSelectModal
           tags={tags}
@@ -299,7 +252,6 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
         />
       )}
 
-      {/* Assign Tech Modal */}
       {showAssignTech && (
         <AssignTechModal
           pendingNewTechs={pendingNewTechs}
@@ -311,4 +263,4 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   );
 };
 
-export default ActivityNoteNew;
+export default RNMActivityNoteNew;
