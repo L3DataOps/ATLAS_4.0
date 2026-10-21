@@ -52,7 +52,7 @@ const TabCard = ({ caseItem, setCaseItem }) => {
   ];
 
   return (
-    <div className="tab-card">
+    <div className="sof-tab-card">
       <div className="tab-header">
         {tabs.map((tab, index) => (
           <button
