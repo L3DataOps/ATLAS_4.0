@@ -152,19 +152,19 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
   };
 
   return (
-    <div className="activity-note-card">
-      <div className="activity-note-header">
-        <div className="activity-note-author">
+    <div className="sof-activity-note-card">
+      <div className="sof-activity-note-header">
+        <div className="sof-activity-note-author">
           <h4>
             {note.createdBy?.firstname || ""} {note.createdBy?.lastname || ""}
           </h4>
         </div>
 
-        <div className="activity-note-meta-container">
-          <div className="activity-note-meta">
+        <div className="sof-activity-note-meta-container">
+          <div className="sof-activity-note-meta">
             <div className="activity-note-status">
               {!isEditing && note.tags?.length > 0 && (
-                <div className="activity-note-tags">
+                <div className="sof-activity-note-tags">
                   {note.tags.map((tag, index) => {
                     const label = typeof tag === "string" ? tag : tag?.name;
                     if (!label) return null;
@@ -175,7 +175,7 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
                         : tag?._id || `${tag.name}-${index}`;
 
                     return (
-                      <span key={key} className="note-tag">
+                      <span key={key} className="sof-note-tag">
                         {label}
                       </span>
                     );
@@ -183,7 +183,7 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
                 </div>
               )}
             </div>
-            <span className="activity-note-date">
+            <span className="sof-activity-note-date">
               <span className="activity-note-status">{note.status}</span>
               {isEditing ? (
                 <input
@@ -205,9 +205,9 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
           </div>
 
           {isOwner && !isEditing && (
-            <div className="activity-note-owner-actions">
+            <div className="sof-activity-note-owner-actions">
               <button onClick={() => setIsEditing(true)}>
-                <img src={editIcon} alt="Edit" className="note-icon" />
+                <img src={editIcon} alt="Edit" className="sof-note-icon" />
               </button>
             </div>
           )}
@@ -216,7 +216,7 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
 
       <div className="border"></div>
 
-      <div className="activity-note-body">
+      <div className="sof-activity-note-body">
         {isEditing ? (
           <div className="activity-note-edit">
             <textarea
@@ -227,9 +227,9 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
 
             <div className="activity-note-tag-editor">
               {editTags.length > 0 && (
-                <div className="activity-note-tags">
+                <div className="sof-activity-note-tags">
                   {editTags.map((tag) => (
-                    <span key={tag} className="note-tag">
+                    <span key={tag} className="sof-note-tag">
                       {tag}
                     </span>
                   ))}
@@ -237,14 +237,14 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
               )}
               <button
                 type="button"
-                className="activity-note-edit-tags-btn"
+                className="sof-activity-note-edit-tags-btn"
                 onClick={() => setShowTagModal(true)}
               >
                 Edit Tags {editTags.length ? `(${editTags.length})` : ""}
               </button>
             </div>
 
-            <div className="activity-note-edit-actions">
+            <div className="sof-activity-note-edit-actions">
               <button onClick={handleSaveEdit} disabled={isSaving}>
                 {isSaving ? "Saving..." : "Save"}
               </button>

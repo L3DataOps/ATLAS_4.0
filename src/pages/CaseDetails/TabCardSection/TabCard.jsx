@@ -53,14 +53,14 @@ const TabCard = ({ caseItem, setCaseItem }) => {
 
   return (
     <div className="sof-tab-card">
-      <div className="tab-header">
+      <div className="sof-tab-header">
         {tabs.map((tab, index) => (
           <button
             key={tab.name}
-            className={`tab-button ${activeTab === index ? "active" : ""}`}
+            className={`sof-tab-button ${activeTab === index ? "active" : ""}`}
             onClick={() => setActiveTab(index)}
           >
-            <img src={tab.icon} alt={tab.name} className="tab-icon" />
+            <img src={tab.icon} alt={tab.name} className="sof-tab-icon" />
           </button>
         ))}
       </div>

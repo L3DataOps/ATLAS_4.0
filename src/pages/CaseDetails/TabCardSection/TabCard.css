@@ -14,18 +14,18 @@
   
 }
 
-.tab-icon {
+.sof-tab-icon {
     width: 28px;
     height: 28px;
     object-fit: contain;
 }
 
-.tab-header{
+.sof-tab-header{
     display:flex;
     align-items:center;
 }
 
-.tab-button {
+.sof-tab-button {
     flex: 1;
     padding: 8px;
     border: none;
@@ -39,7 +39,7 @@
 }
 
 
-.tab-button.active {
+.sof-tab-button.active {
     background-color: #f6f8fc;
     border-bottom: 3px solid #2563eb;
     width: 10px;

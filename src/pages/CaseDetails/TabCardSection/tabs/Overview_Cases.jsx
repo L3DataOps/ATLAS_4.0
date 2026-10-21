@@ -33,7 +33,7 @@ const OverviewCases = ({ site }) => {
 
   return (
     <div>
-      <div className="overview-tabs">
+      <div className="sof-overview-tabs">
         <button
           onClick={() => setActiveTab("open")}
           className={activeTab === "open" ? "active" : ""}
@@ -49,7 +49,7 @@ const OverviewCases = ({ site }) => {
         </button>
       </div>
 
-      <div className="overview-case-list">
+      <div className="sof-overview-case-list">
         {cases.map((item) => (
           <MiniCaseCard key={item._id} caseItem={item} />
         ))}

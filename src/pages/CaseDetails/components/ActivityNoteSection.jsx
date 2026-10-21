@@ -48,7 +48,7 @@ const ActivityNoteSection = ({ caseItem, setCaseItem }) => {
           disabled={isAddingNote}
         >
           Add Note
-          <img src={noteIcon} alt="Add Note" className="note-icon" />
+          <img src={noteIcon} alt="Add Note" className="sof-note-icon" />
         </button>
       </div>
 

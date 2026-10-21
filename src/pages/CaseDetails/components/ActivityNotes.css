@@ -103,7 +103,7 @@ select {
 
 /* ---------- Note Card ---------- */
 
-.activity-note-card {
+.sof-activity-note-card {
   margin: 10px 0;
   padding: 14px;
   background: #fff;
@@ -111,23 +111,23 @@ select {
   height: 100%;
 }
 
-.activity-note-header {
+.sof-activity-note-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 10px;
 }
 
-.activity-note-header h4 {
+.sof-activity-note-header h4 {
   margin: 0;
 }
-.activity-note-author {
+.sof-activity-note-author {
   font-size: 15px;
   color: #272626;
   margin-top: 10px;
 }
 
-.activity-note-date {
+.sof-activity-note-date {
   font-size: 12px;
   color: #272626;
   display: flex;
@@ -138,31 +138,31 @@ select {
   padding: 2px 6px;
 }
 
-.activity-note-meta {
+.sof-activity-note-meta {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.activity-note-body {
+.sof-activity-note-body {
   margin-top: 10px;
 }
 
-.activity-note-body p {
+.sof-activity-note-body p {
   margin: 0;
   white-space: pre-wrap;
 }
 
 /* ---------- Tags ---------- */
 
-.activity-note-tags {
+.sof-activity-note-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
 }
 
-.note-tag {
+.sof-note-tag {
   padding: 5px 12px;
   font-size: 11px;
   border: 1px solid #000;
@@ -190,7 +190,7 @@ select {
   cursor: not-allowed;
 }
 
-.note-icon {
+.sof-note-icon {
   width: 20px;
 
 }
@@ -220,11 +220,11 @@ select {
 
 
 
-.activity-note-meta-container{
+.sof-activity-note-meta-container{
   display: flex;
 }
 
-.activity-note-owner-actions button {
+.sof-activity-note-owner-actions button {
   background: transparent;
   border: none;
   padding: 0;
@@ -232,14 +232,14 @@ select {
   cursor: pointer;
 }
 
-.note-icon {
+.sof-note-icon {
   width: 20px;
   height: 20px;
   cursor: pointer;
   background-color: transparent;
 }
 
-.activity-note-edit-tags-btn {
+.sof-activity-note-edit-tags-btn {
  padding: 5px;
  margin: 5px;
   border: 1px solid rgb(0, 0, 0);
@@ -248,7 +248,7 @@ select {
    white-space: nowrap;
 }
 
-.activity-note-edit-actions button {
+.sof-activity-note-edit-actions button {
  padding: 5px;
  margin: 5px;
   border: 1px solid rgb(0, 0, 0);

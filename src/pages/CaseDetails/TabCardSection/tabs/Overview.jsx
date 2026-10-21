@@ -4,7 +4,7 @@ import OverviewCases from "./Overview_Cases";
 
 const Overview = ({ caseItem }) => {
   return (
-    <div className="overview-tab">
+    <div className="sof-overview-tab">
       <div className="overview-section">
         <div className="simple">
           <h4>Region</h4>
@@ -21,7 +21,7 @@ const Overview = ({ caseItem }) => {
           </p>
         </div>
 
-        <div className="complex">
+        <div className="sof-complex">
           <div className="simple">
             <h4>Owner</h4>
             <p>{caseItem.site?.towerOwner}</p>
@@ -32,7 +32,7 @@ const Overview = ({ caseItem }) => {
           </div>
         </div>
 
-        <div className="complex">
+        <div className="sof-complex">
           <div className="simple">
             <h4>Primary Vendor</h4>
             <p>{caseItem.site?.towerOwner}</p>
@@ -43,7 +43,7 @@ const Overview = ({ caseItem }) => {
           </div>
         </div>
 
-        <div className="border"></div>
+        <div className="sof-border"></div>
 
         <div className="across">
           <h5>Equipment Name</h5>

@@ -19,28 +19,28 @@ const CaseCard = ({ caseItem }) => {
       className={`mini-case-card ${expanded ? "expanded" : ""}`}
       onClick={() => setExpanded(!expanded)}
     >
-      <div className="case-number">#{caseItem.caseNumber}</div>
+      <div className="sof-case-number">#{caseItem.caseNumber}</div>
 
       <div></div>
 
-      <div className="case-info">
+      <div className="sof-case-info">
         <span>{caseItem.status}</span>
       </div>
 
-      <div className="case-tags">
+      <div className="sof-case-tags">
         {mainTag && (
-          <span className="priority-tag">
+          <span className="sof-priority-tag">
             {typeof mainTag === "object" ? mainTag.name : mainTag}
           </span>
         )}
 
         {remainingCount > 0 && (
-          <span className="tag-count">+{remainingCount}</span>
+          <span className="sof-tag-count">+{remainingCount}</span>
         )}
       </div>
 
       {expanded && (
-        <div className="case-details">
+        <div className="sof-case-details">
           <p>
             <strong>Category:</strong> {caseItem.category}
           </p>
@@ -57,7 +57,7 @@ const CaseCard = ({ caseItem }) => {
             <strong>Description:</strong> {caseItem.description}
           </p>
 
-          <div className="all-tags">
+          <div className="sof-all-tags">
             {tags.map((tag, index) => (
               <span key={index}>
                 {typeof tag === "object" ? `${tag.name} ` : tag}
