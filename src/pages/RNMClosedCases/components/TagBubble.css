@@ -1,0 +1,75 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   TAG CONTAINER
+========================= */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* =========================
+   TAG BUBBLE (MODERN CHIP)
+========================= */
+.tag-bubble {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  color: #374151;
+  background: #f3f4f6;
+
+  border: 2px solid #e5e7eb;
+
+  transition: all 0.15s ease-in-out;
+  cursor: default;
+}
+
+/* hover effect */
+.tag-bubble:hover {
+  transform: translateY(-1px);
+  background: #e5e7eb;
+}
+
+/* =========================
+   PRIORITY COLORS (OPTIONAL BUT POWERFUL)
+========================= */
+
+/* highest priority */
+.tag-bubble.priority-1 {
+
+  border-color: #ef4444;
+  color: #000000;
+}
+
+/* medium */
+.tag-bubble.priority-2 {
+
+  border-color: #f59e0b;
+  color: #040404;
+}
+
+/* low */
+.tag-bubble.priority-3 {
+  border-color: #EDD02E;
+
+  color: #000000;
+}
+
+/* lowest */
+.tag-bubble.priority-4,
+.tag-bubble.priority-5 {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #374151;
+}

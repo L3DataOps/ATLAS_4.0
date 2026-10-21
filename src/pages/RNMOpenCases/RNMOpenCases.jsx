@@ -50,6 +50,8 @@ const RNMOpenCases = () => {
     fetchCases();
   }, []);
 
+  console.log("Fetched cases:", cases);
+
   const filteredCases = cases.filter((c) => {
     const globalQuery = search.toLowerCase().trim();
 
@@ -59,7 +61,7 @@ const RNMOpenCases = () => {
     if (globalQuery) {
       return (
         String(c.caseNumber).includes(globalQuery) ||
-        c.category?.toLowerCase().includes(globalQuery) ||
+        c.customer.customerName?.toLowerCase().includes(globalQuery) ||
         c.site?.siteName?.toLowerCase().includes(globalQuery) ||
         c.site?.region?.toLowerCase().includes(globalQuery) ||
         c.equipment?.equipmentName?.toLowerCase().includes(globalQuery) ||
@@ -73,8 +75,10 @@ const RNMOpenCases = () => {
     // =========================
     return (
       (!filters.ticket || String(c.caseNumber).includes(filters.ticket)) &&
-      (!filters.category ||
-        c.category?.toLowerCase().includes(filters.category.toLowerCase())) &&
+      (!filters.customer ||
+        c.customer.customerName
+          ?.toLowerCase()
+          .includes(filters.customer.toLowerCase())) &&
       (!filters.siteName ||
         c.site?.siteName
           ?.toLowerCase()
@@ -97,15 +101,15 @@ const RNMOpenCases = () => {
       <SearchBar value={search} onChange={setSearch} />
       <div className="header-container">
         <SearchTile
-          title="Ticket #"
+          title="RNM #"
           value={filters.ticket}
           onChange={(v) => updateFilter("ticket", v)}
         />
 
         <SearchTile
-          title="Category"
-          value={filters.category}
-          onChange={(v) => updateFilter("category", v)}
+          title="Customer"
+          value={filters.customer}
+          onChange={(v) => updateFilter("customer", v)}
         />
 
         <SearchTile
@@ -115,27 +119,9 @@ const RNMOpenCases = () => {
         />
 
         <SearchTile
-          title="Region"
-          value={filters.region}
-          onChange={(v) => updateFilter("region", v)}
-        />
-
-        <SearchTile
-          title="Problem"
-          value={filters.tags}
-          onChange={(v) => updateFilter("tags", v)}
-        />
-
-        <SearchTile
           title="Action Taken"
           value={filters.actionTaken}
           onChange={(v) => updateFilter("actionTaken", v)}
-        />
-
-        <SearchTile
-          title="Equipment"
-          value={filters.equipment}
-          onChange={(v) => updateFilter("equipment", v)}
         />
       </div>
       <div className="break"></div>
