@@ -206,10 +206,10 @@ const CaseDetailsContent = () => {
   };
 
   return (
-    <div className="case-details-page">
-      <div className="container">
-        <div className="title-card">
-          <div className="title-head">
+    <div className="sof-case-details-page">
+      <div className="sof-container">
+        <div className="sof-title-card">
+          <div className="sof-title-head">
             <div>
               <h3>
                 {caseItem.equipment?.caseType}: {caseItem.caseNumber}
@@ -228,8 +228,8 @@ const CaseDetailsContent = () => {
             />
           </div>
 
-          <div className="title-subhead">
-            <div className="site-info">
+          <div className="sof-title-subhead">
+            <div className="sof-site-info">
               <h4>{caseItem.site?.siteName}</h4>
               <p>{caseItem.site?.region?.slice(0, 4)}</p>
             </div>
@@ -243,7 +243,7 @@ const CaseDetailsContent = () => {
             </select>
           </div>
 
-          <div className="border"></div>
+          <div className="sof-border"></div>
 
           <div className="time-section">
             <TimeTile
@@ -264,21 +264,21 @@ const CaseDetailsContent = () => {
             />
           </div>
 
-          <div className="border"></div>
+          <div className="sof-border"></div>
 
           <div className="tech-names">
             <TechCard />
           </div>
 
-          <div className="border"></div>
+          <div className="sof-border"></div>
 
-          <div className="case-status-detail">
+          <div className="sof-case-status-detail">
             <p>{caseItem.status}</p>
           </div>
         </div>
 
-        <div className="sub-container">
-          <div className="initial-description-card">
+        <div className="sof-sub-container">
+          <div className="sof-initial-description-card">
             <InitialDesc
               caseItem={caseItem}
               description={caseItem.description}
@@ -288,21 +288,21 @@ const CaseDetailsContent = () => {
             />
           </div>
 
-          <div className="across">
-            <div className="aux-card">
+          <div className="sof-across">
+            <div className="sof-aux-card">
               <AuxCard dispatchCenters={caseItem.dispatchCenterNotified} />
             </div>
-            <div className="eq-info-card">
+            <div className="sof-eq-info-card">
               <EqInfoCard caseItem={caseItem} />
             </div>
           </div>
         </div>
       </div>
-      <div className="across-mod">
+      <div className="sof-across-mod">
         <ActivityNoteSection caseItem={caseItem} setCaseItem={setCaseItem} />
         <TabCard caseItem={caseItem} setCaseItem={setCaseItem} />
       </div>
-      <div className="across">
+      <div className="sof-across">
         <Timecard />
         <DQC />
       </div>

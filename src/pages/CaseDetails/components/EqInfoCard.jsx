@@ -77,7 +77,7 @@ const EqInfoCard = ({ caseItem }) => {
   };
 
   return (
-    <div className="eq-info-card">
+    <div className="sof-eq-info-card">
       {/* ================= CAROUSEL ================= */}
       <div className="equipment-carousel">
         {images.length > 0 ? (

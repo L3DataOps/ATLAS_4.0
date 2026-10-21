@@ -4,12 +4,12 @@
     box-sizing: border-box;
 }
 
-.complex{
+.sof-complex{
     display: flex;
     justify-content: space-between;
 }
 
-.border{
+.sof-border{
     height: 1px;
     border: 1px solid black;
 
@@ -41,13 +41,13 @@
 }
 
 
-.case-number {
+.sof-case-number {
     font-weight: 700;
     min-width: 60px;
 }
 
 
-.case-info span {
+.sof-case-info span {
     background: #dbeafe;
     color: #1d4ed8;
 
@@ -59,14 +59,14 @@
 }
 
 
-.case-tags {
+.sof-case-tags {
     display: flex;
     gap: 5px;
     margin-left: auto;
 }
 
 
-.priority-tag {
+.sof-priority-tag {
     background: #fee2e2;
     color: #b91c1c;
 
@@ -77,7 +77,7 @@
 }
 
 
-.tag-count {
+.sof-tag-count {
     background: #f1f5f9;
     color: #475569;
 
@@ -88,7 +88,7 @@
 
 /* Expanded section */
 
-.case-details {
+.sof-case-details {
     width: 100%;
     margin-top: 12px;
 
@@ -99,12 +99,12 @@
 }
 
 
-.case-details p {
+.sof-case-details p {
     margin: 4px 0;
 }
 
 
-.all-tags {
+.sof-all-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
@@ -113,13 +113,13 @@
 }
 
 
-.all-tags span {
+.sof-all-tags span {
     background: #f1f5f9;
     padding: 3px 7px;
     border-radius: 10px;
 }
 
-.overview-case-list{
+.sof-overview-case-list{
     height: 500px;
     overflow: hidden;
     overflow-y: scroll;
@@ -128,7 +128,7 @@
 /* =========================
    TAB CONTAINER
 ========================= */
-.overview-tabs {
+.sof-overview-tabs {
   display: flex;
   border-bottom: 2px solid #e6e8ec;
   gap: 4px;
@@ -137,7 +137,7 @@
 /* =========================
    TAB BUTTONS
 ========================= */
-.overview-tabs button {
+.sof-overview-tabs button {
   padding: 10px 20px;
   border: none;
   background: transparent;
@@ -152,14 +152,14 @@
   transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
 
-.overview-tabs button:hover {
+.sof-overview-tabs button:hover {
   color: #4b5563;
 }
 
 /* =========================
    ACTIVE TAB
 ========================= */
-.overview-tabs button.active {
+.sof-overview-tabs button.active {
   color: #000000;
   border-bottom: 2px solid #2563eb;
 }
