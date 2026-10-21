@@ -294,7 +294,7 @@ const CreateCase = () => {
       console.log("Case created:", data);
 
       resetForm();
-      navigate("/open-cases");
+      navigate(`/cases/${data._id}`);
     } catch (err) {
       console.error(err);
     }

@@ -1,12 +1,15 @@
 import "./Tabs.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../../context/AuthContext";
+import { useCase } from "../../../../context/CaseContext";
 
 const API_URL = import.meta.env.VITE_API;
 const RNM_CASE_URL = `${API_URL}/rnm/case`;
 
 const Overview = ({ caseItem }) => {
-  const { token, user } = useAuth();
+  const { token } = useAuth();
+  const { setCaseItem } = useCase();
+
   const handleEquipmentChange = async (e) => {
     const newEquipmentId = e.target.value;
     setSelectedEquipmentId(newEquipmentId);

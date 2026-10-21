@@ -212,8 +212,9 @@ const CreateCase = () => {
 
       if (!res.ok) throw new Error("Failed to create case");
 
+      const createdCase = await res.json();
       resetForm();
-      navigate("/open-cases");
+      navigate(`/rnm/case/${createdCase._id}`);
     } catch (err) {
       console.error(err);
     }

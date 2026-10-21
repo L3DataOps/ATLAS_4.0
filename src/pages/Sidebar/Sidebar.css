@@ -11,10 +11,24 @@
   left: 0;
   top: 0;
   font-family: "Raleway", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.sidebar h2 {
-  margin-bottom: 30px;
+.settings button{
+ background: none;
+ border: none;
+ margin: 10px 0px;
+}
+
+.settings button:hover {
+ background: none;
+  cursor: pointer;
+}
+
+.settings button img{
+ width: 30px;
 }
 
 .sidebar nav {
