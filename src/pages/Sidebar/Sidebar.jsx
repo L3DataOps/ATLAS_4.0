@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import logo from "../../images/logo.png";
 import CurrentTime from "./CurrentTime";
 import CurrentDate from "./CurrentDate";
+import logoutIcon from "../../images/logout.png";
 
 import "./Sidebar.css";
 
@@ -15,18 +16,20 @@ function Sidebar() {
 
   return (
     <div className="sidebar">
-      <CurrentTime />
-      <img src={logo} alt="Logo" className="logo" />
-      <CurrentDate />
+      <div className="top">
+        <CurrentTime />
+        <img src={logo} alt="Logo" className="logo" />
+        <CurrentDate />
 
-      <nav>
-        <NavLink to="/open-cases">Open Cases</NavLink>
-        <NavLink to="/closed-cases">Closed Cases</NavLink>
-        <NavLink to="/rnm-open-cases">RNM Open Cases</NavLink>
-        <NavLink to="/rnm-closed-cases">RNM Closed Cases</NavLink>
-        <NavLink to="/create-case">Create Case</NavLink>
-        <NavLink to="/rnm-dashboard">RNM Dashboard</NavLink>
-      </nav>
+        <nav>
+          <NavLink to="/open-cases">Open Cases</NavLink>
+          <NavLink to="/closed-cases">Closed Cases</NavLink>
+          <NavLink to="/rnm-open-cases">RNM Open Cases</NavLink>
+          <NavLink to="/rnm-closed-cases">RNM Closed Cases</NavLink>
+          <NavLink to="/create-case">Create Case</NavLink>
+          <NavLink to="/rnm-dashboard">RNM Dashboard</NavLink>
+        </nav>
+      </div>
 
       <div className="settings">
         <br />
@@ -37,7 +40,9 @@ function Sidebar() {
         <h2>
           {user?.firstname} {user?.lastname}
         </h2>
-        <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleLogout}>
+          <img src={logoutIcon} alt="Logout" />
+        </button>
       </div>
     </div>
   );
