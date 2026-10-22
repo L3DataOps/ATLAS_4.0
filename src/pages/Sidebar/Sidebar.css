@@ -43,6 +43,13 @@
   font-size: 18px;
 }
 
+.sidebar a.active {
+  color: #fafafa;
+  font-weight: bold;
+  border-left: 4px solid #38bdf8;
+  padding-left: 10px;
+}
+
 .sidebar a:hover {
   color: #38bdf8;
 }
@@ -69,4 +76,18 @@
 
 .settings h3{
   font-weight: 300;
+}
+
+.create-button {
+  background-color: #117bf5;
+  border: 2px solid rgb(247, 243, 243);
+  color: white;
+  padding: 10px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 15px;
 }

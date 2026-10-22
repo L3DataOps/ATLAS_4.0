@@ -2,6 +2,7 @@ import "./Tabs.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../../context/AuthContext";
 import { useCase } from "../../../../context/CaseContext";
+import { Fragment } from "react";
 
 const API_URL = import.meta.env.VITE_API;
 const RNM_CASE_URL = `${API_URL}/rnm/case`;
@@ -77,6 +78,11 @@ const Overview = ({ caseItem }) => {
     ? `${API_URL}/alarm-matrices/${encodeURIComponent(fileName)}`
     : null;
   console.log("caseItem", caseItem);
+
+  const instructions = caseItem.equipment?.responseAction || "";
+
+  // Split on "~" and put a line break between each piece
+  const lines = instructions.split("~");
   return (
     <div className="overview-tab">
       <div className="overview-section">
@@ -108,9 +114,13 @@ const Overview = ({ caseItem }) => {
         <div className="border"></div>
 
         <h3>Response Actions</h3>
-        <p>
-          {caseItem.equipment?.responseAction ||
-            "No response actions available."}
+        <p className="response-actions">
+          {lines.map((line, index) => (
+            <Fragment key={index}>
+              {line.trim()}
+              {index < lines.length - 1 && <br />}
+            </Fragment>
+          ))}
         </p>
       </div>
 

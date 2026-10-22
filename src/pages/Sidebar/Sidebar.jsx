@@ -26,11 +26,13 @@ function Sidebar() {
           <NavLink to="/closed-cases">Closed Cases</NavLink>
           <NavLink to="/rnm-open-cases">RNM Open Cases</NavLink>
           <NavLink to="/rnm-closed-cases">RNM Closed Cases</NavLink>
-          <NavLink to="/create-case">Create Case</NavLink>
         </nav>
       </div>
 
       <div className="settings">
+        <NavLink className="create-button" to="/create-case">
+          Create Case
+        </NavLink>
         <br />
         <br />
         <h3>
