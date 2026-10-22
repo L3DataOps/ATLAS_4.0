@@ -63,6 +63,7 @@ const SOFForm = ({
             </option>
             <option>Alarm</option>
             <option>Personnel Reported</option>
+            <option>Personnel Reported (DMS)</option>
             <option>PM Repair</option>
           </select>
         </div>
