@@ -19,9 +19,13 @@ import morningDispatchIcon from "../../../images/morning.png";
 const CaseCard = ({ case: caseItem }) => {
   const navigate = useNavigate();
 
-  // RNM tags are plain strings; normalize so TagBubble (which expects
-  // an object with a name) keeps working.
-  const tags = caseItem.tags || [];
+  const isRnm = caseItem.collection === "rnmCases";
+
+  // RNM tags are plain strings, regular case tags are { name, priority }.
+  // Normalize everything to objects so rendering and TagBubble stay consistent.
+  const tags = (caseItem.tags || []).map((tag) =>
+    typeof tag === "string" ? { name: tag } : tag,
+  );
 
   const getStatusIcon = (status) => {
     switch (status?.toLowerCase()) {
@@ -85,23 +89,39 @@ const CaseCard = ({ case: caseItem }) => {
     return result.length ? result.join(" ") : "just now";
   };
 
+  // Regular cases have no customer, so lead with the site instead
+  const primaryLabel = isRnm
+    ? caseItem.customer?.customerName || "Unknown Customer"
+    : caseItem.site?.siteName || "Unknown Site";
+
+  const secondaryLabel = isRnm
+    ? caseItem.site?.siteName || "Unknown Site"
+    : caseItem.category || "";
+
+  const equipmentLabel =
+    caseItem.equipment?.equipmentName ||
+    caseItem.equipment?.type ||
+    "Unknown Equipment";
+
+  // Adjust the non-RNM route to match your router
+  const detailPath = isRnm
+    ? `/rnm/case/${caseItem._id}`
+    : `/cases/${caseItem._id}`;
+
   return (
-    <div
-      className="case-card"
-      onClick={() => navigate(`/rnm/case/${caseItem._id}`)}
-    >
+    <div className="case-card" onClick={() => navigate(detailPath)}>
       <div className="section">
-        <h5>RNM #</h5>
+        <h5>{isRnm ? "RNM #" : "Ticket #"}</h5>
         <p>{caseItem.caseNumber}</p>
       </div>
 
       <div className="section">
-        <h5>{caseItem.customer?.customerName || "Unknown Customer"}</h5>
-        <p>{caseItem.site?.siteName || "Unknown Site"}</p>
+        <h5>{primaryLabel}</h5>
+        <p>{secondaryLabel}</p>
       </div>
 
       <div className="section">
-        <h5>{tags[0] || "No Tags"}</h5>
+        <h5>{tags[0]?.name || "No Tags"}</h5>
       </div>
 
       <div className="section">
@@ -120,13 +140,13 @@ const CaseCard = ({ case: caseItem }) => {
       </div>
 
       <div className="section">
-        <h5>{caseItem.equipment?.equipmentName || "Unknown Equipment"}</h5>
+        <h5>{equipmentLabel}</h5>
       </div>
 
       <div className="section">
         <div className="tag-list">
-          {tags.map((tag) => (
-            <TagBubble key={tag} tag={tag} />
+          {tags.map((tag, i) => (
+            <TagBubble key={`${tag.name}-${i}`} tag={tag} />
           ))}
         </div>
       </div>

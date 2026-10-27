@@ -25,28 +25,39 @@ const FlaggedCases = () => {
     }));
   };
 
-  // Fetch cases from the API when the component mounts
+  // Fetch the logged in user's flagged cases when the component mounts
   useEffect(() => {
-    const fetchCases = async () => {
+    const fetchFlaggedCases = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API}/cases/open`);
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          `${import.meta.env.VITE_API}/flagged-cases`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch cases");
+          throw new Error("Failed to fetch flagged cases");
         }
 
         const data = await response.json();
 
-        setCases(data);
+        setCases(data.flaggedCases);
       } catch (error) {
-        console.error("Error fetching cases:", error);
+        console.error("Error fetching flagged cases:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCases();
+    fetchFlaggedCases();
   }, []);
+
+  console.log("Flagged Cases:", cases);
 
   const filteredCases = cases.filter((c) => {
     const globalQuery = search.toLowerCase().trim();

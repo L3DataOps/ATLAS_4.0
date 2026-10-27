@@ -1,7 +1,7 @@
-import "./TagBubble.css";
-
 const TagBubble = ({ tag }) => {
-  return <div className={`tag-bubble priority-${tag.priority}`}>{tag}</div>;
+  const name = typeof tag === "string" ? tag : tag?.name;
+
+  return <div className="tag-bubble">{name}</div>;
 };
 
 export default TagBubble;

@@ -26,6 +26,7 @@ function Sidebar() {
           <NavLink to="/closed-cases">Closed Cases</NavLink>
           <NavLink to="/rnm-open-cases">RNM Open Cases</NavLink>
           <NavLink to="/rnm-closed-cases">RNM Closed Cases</NavLink>
+          <NavLink to="/flagged-cases">Flagged Cases</NavLink>
         </nav>
       </div>
 
