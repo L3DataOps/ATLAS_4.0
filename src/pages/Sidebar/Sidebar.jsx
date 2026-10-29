@@ -4,6 +4,7 @@ import logo from "../../images/logo.png";
 import CurrentTime from "./CurrentTime";
 import CurrentDate from "./CurrentDate";
 import logoutIcon from "../../images/logout.png";
+import settingsIcon from "../../images/setting.png";
 
 import "./Sidebar.css";
 
@@ -44,6 +45,10 @@ function Sidebar() {
         </h2>
         <button onClick={handleLogout}>
           <img src={logoutIcon} alt="Logout" />
+        </button>
+        <button>
+          <img src={settingsIcon} alt="Settings" />
+          <NavLink to="/settings">Settings</NavLink>
         </button>
       </div>
     </div>

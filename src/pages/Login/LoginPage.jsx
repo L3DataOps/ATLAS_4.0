@@ -20,8 +20,18 @@ export default function Login() {
       setError("");
 
       const data = await loginUser(username, password);
+      const { user } = data;
 
-      login(data.user, data.token);
+      login(
+        {
+          id: user.id,
+          username: user.username,
+          name: `${user.firstname ?? ""} ${user.lastname ?? ""}`.trim(),
+          email: user.email,
+          imagePath: user.imagePath,
+        },
+        data.token,
+      );
 
       navigate("/");
     } catch (err) {

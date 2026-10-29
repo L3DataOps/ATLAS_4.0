@@ -68,6 +68,15 @@ export function AuthProvider({ children }) {
     setToken(jwt);
   };
 
+  // inside AuthProvider, below `login`
+  const updateUser = (changes) => {
+    setUser((prev) => {
+      const updated = { ...prev, ...changes };
+      localStorage.setItem("user", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -75,6 +84,7 @@ export function AuthProvider({ children }) {
         token,
         login,
         logout,
+        updateUser,
         loading,
         isAuthenticated: !!token,
       }}

@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import SettingsPage from "./pages/UserPage/UserPage";
 import "../src/index.css";
 
 import ProtectedRoute from "./ProtectedRoute";
@@ -55,6 +56,7 @@ function App() {
         <Route path="/rnm-open-cases" element={<RNMOpenCases />} />
         <Route path="/rnm-closed-cases" element={<RNMClosedCases />} />
         <Route path="/rnm/case/:id" element={<RnmCaseDetails />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
     </Routes>
   );
