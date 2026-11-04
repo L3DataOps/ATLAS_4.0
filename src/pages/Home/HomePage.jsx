@@ -14,9 +14,7 @@ export default function HomePage() {
   return (
     <div>
       <h1>ATLAS Home</h1>
-      <h2>
-        Welcome {user?.firstname} {user?.lastname}
-      </h2>
+      <h2>Welcome {user?.name}</h2>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

@@ -1,93 +1,529 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --sidebar-bg: #172d50;
+  --sidebar-bg-light: #1e3c68;
+  --sidebar-accent: #38bdf8;
+  --sidebar-text: #dbe7f5;
+  --sidebar-muted: #ebedf0;
+  --sidebar-hover: rgba(255, 255, 255, 0.09);
+  --sidebar-border: rgba(255, 255, 255, 0.10);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar {
   width: 250px;
   height: 100vh;
-  background-color: #2755a0;
+  box-sizing: border-box;
+  background: linear-gradient(
+    180deg,
+    #2f61ac 0%,
+    #172d50 55%,
+    #132641 100%
+  );
+
   color: white;
-  padding: 20px;
+  padding: 25px 18px;
+
   position: fixed;
   left: 0;
   top: 0;
-  font-family: "Raleway", sans-serif;
+  z-index: 100;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  font-family: "Raleway", sans-serif;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 5px 0 20px rgba(15, 35, 65, 0.12);
 }
 
-.settings button{
- background: none;
- border: none;
- margin: 10px 0px;
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+  width: 195px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 5px auto ;
+  display: block;
 }
 
-.settings button:hover {
- background: none;
-  cursor: pointer;
-}
-
-.settings button img{
- width: 30px;
-}
+/* =========================
+   NAVIGATION
+========================= */
 
 .sidebar nav {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 8px;
 }
 
-.sidebar a {
-  color: white;
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+
+  color: var(--sidebar-text);
   text-decoration: none;
-  font-size: 18px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  padding: 13px 15px;
+  border-radius: 9px;
+
+  border-left: 3px solid transparent;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.sidebar a.active {
-  color: #fafafa;
-  font-weight: bold;
-  border-left: 4px solid #38bdf8;
-  padding-left: 10px;
+/* Hover */
+
+.sidebar nav a:hover {
+  background: var(--sidebar-hover);
+  color: white;
+  border-left-color: var(--sidebar-accent);
+  transform: translateX(3px);
 }
 
-.sidebar a:hover {
-  color: #38bdf8;
+/* Active Page */
+
+.sidebar nav a.active {
+  background: rgba(56, 189, 248, 0.13);
+  color: white;
+  font-weight: 700;
+  border-left: 3px solid var(--sidebar-accent);
+  padding-left: 15px;
+
+  box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.04);
 }
 
-.logo {
-  width: 200px;
- 
-}
+/* =========================
+   CREATE BUTTON
+========================= */
 
-#date {
-  font-size: 14px;
-  color: #ffffff;
+.create-button {
+  width: 100%;
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    135deg,
+    #1687f8,
+    #0865d5
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+
+  padding: 13px 20px;
+  margin-top: 15px;
+
+  text-align: center;
+  text-decoration: none;
+
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  align-items: center;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  border-radius: 10px;
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(0, 100, 220, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.create-button:hover {
+  background: linear-gradient(
+    135deg,
+    #2799ff,
+    #117bf5
+  );
+
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(0, 100, 220, 0.35);
+}
+
+.create-button:active {
+  transform: translateY(0);
+}
+
+/* =========================
+   DATE & TIME
+========================= */
+
+#date {
+  font-family: "Raleway", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sidebar-muted);
+
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
 }
 
 #time {
-  font-size: 14px;
-  color: #ffffff;
-  float: right;
   font-family: "Roboto", sans-serif;
-}
-
-.settings h3{
-  font-weight: 300;
-}
-
-.create-button {
-  background-color: #117bf5;
-  border: 2px solid rgb(247, 243, 243);
+  font-size: 19px;
+  font-weight: 500;
   color: white;
-  padding: 10px 40px;
+
   text-align: center;
+  display: block;
+
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings {
+  border-top: 1px solid var(--sidebar-border);
+  padding-top: 15px;
+}
+
+.settings h3 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sidebar-muted);
+
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+
+  margin: 5px 0 10px;
+}
+
+.settings button {
+  background: transparent;
+  border: none;
+
+  margin: 5px 0;
+  padding: 8px;
+
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.settings button:hover {
+  background: var(--sidebar-hover);
+}
+
+.settings button img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  display: block;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+.sidebar {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+.sidebar a:focus-visible,
+.sidebar button:focus-visible,
+.create-button:focus-visible {
+  outline: 2px solid var(--sidebar-accent);
+  outline-offset: 3px;
+}
+
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Regular navigation links */
+
+.sidebar nav > a {
+  display: flex;
+  align-items: center;
+
+  color: var(--sidebar-text);
   text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
-  border-radius: 15px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  padding: 13px 15px;
+  border-radius: 9px;
+
+  border-left: 3px solid transparent;
+
+  transition: all 0.2s ease;
+}
+
+.sidebar nav > a:hover {
+  background: var(--sidebar-hover);
+  color: white;
+  border-left-color: var(--sidebar-accent);
+  transform: translateX(3px);
+}
+
+.sidebar nav > a.active {
+  background: rgba(56, 189, 248, 0.13);
+  color: white;
+  border-left-color: var(--sidebar-accent);
+}
+
+/* =========================
+   DROPDOWN
+========================= */
+
+.sidebar-dropdown {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Dropdown header button */
+
+.dropdown-toggle {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 13px 15px;
+
+  background: transparent;
+  border: none;
+  border-left: 3px solid transparent;
+  border-radius: 9px;
+
+  color: var(--sidebar-text);
+
+  font-family: "Raleway", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.dropdown-toggle:hover,
+.dropdown-toggle.expanded {
+  background: var(--sidebar-hover);
+  color: white;
+}
+
+.dropdown-toggle:hover {
+  border-left-color: var(--sidebar-accent);
+}
+
+.dropdown-arrow {
+  font-size: 17px;
+  color: var(--sidebar-muted);
+
+  transition: transform 0.2s ease;
+}
+
+.dropdown-toggle.expanded .dropdown-arrow {
+  color: var(--sidebar-accent);
+}
+
+/* =========================
+   DROPDOWN CONTENT
+========================= */
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  max-height: 0;
+  overflow: hidden;
+
+  opacity: 0;
+
+  padding-left: 15px;
+
+  transition:
+    max-height 0.3s ease,
+    opacity 0.2s ease,
+    padding 0.3s ease;
+}
+
+.dropdown-content.show {
+  max-height: 150px;
+  opacity: 1;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+/* Dropdown child links */
+
+.sidebar nav .dropdown-content a {
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  color: var(--sidebar-muted);
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  padding: 11px 12px 11px 20px;
+
+  border-radius: 7px;
+  border-left: 2px solid transparent;
+
+  transition: all 0.2s ease;
+}
+
+/* Small indicator */
+
+.sidebar nav .dropdown-content a::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+
+  background: var(--sidebar-muted);
+  border-radius: 50%;
+
+  position: absolute;
+  left: 8px;
+}
+
+/* Hover */
+
+.sidebar nav .dropdown-content a:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: white;
+  padding-left: 24px;
+}
+
+/* Active child link */
+
+.sidebar nav .dropdown-content a.active {
+  background: rgba(56, 189, 248, 0.13);
+  color: white;
+  font-weight: 700;
+
+  border-left-color: var(--sidebar-accent);
+}
+
+.sidebar nav .dropdown-content a.active::before {
+  background: var(--sidebar-accent);
+  box-shadow: 0 0 7px var(--sidebar-accent);
+}
+
+/* =========================
+   USER SECTION
+========================= */
+
+.sidebar-user {
+  margin-top: 20px;
+}
+
+.sidebar-user h3 {
+  color: var(--sidebar-muted);
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 5px;
+}
+
+.sidebar-user h2 {
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* =========================
+   SIDEBAR ACTIONS
+========================= */
+
+.sidebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  margin-top: 15px;
+}
+
+.sidebar-actions button,
+.sidebar-actions .settings-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: transparent;
+  border: none;
+
+  color: var(--sidebar-text);
+  text-decoration: none;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 13px;
+
+  padding: 8px;
+  border-radius: 7px;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sidebar-actions button:hover,
+.sidebar-actions .settings-link:hover {
+  background: var(--sidebar-hover);
+  color: white;
+}
+
+.sidebar-actions img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
 }

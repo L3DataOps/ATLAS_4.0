@@ -91,7 +91,7 @@
 }
 
 .init-desc-header img {
-  width: 25px;
+  width: 50px;
 }
 
 .init-desc-header-section {
@@ -101,6 +101,12 @@
 
   width: 200px;
   padding: 10px;
+}
+
+
+.init-desc-header-section img {
+  width: 30px;
+  height: 30px;
 }
 
 .init-desc-header-second-section {

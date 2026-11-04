@@ -163,3 +163,173 @@
   color: #000000;
   border-bottom: 2px solid #2563eb;
 }
+
+
+
+
+
+
+
+
+
+/* =========================
+   EMAIL TAB
+========================= */
+
+
+.distribution-list-container {
+  width: 100%;
+  padding: 18px;
+  background: white;
+  border: 1px solid #dedede;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.distribution-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.distribution-list-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.distribution-list-header span {
+  display: block;
+  margin-top: 4px;
+  color: #777;
+  font-size: 12px;
+}
+
+.distribution-list-input {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.distribution-list-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 13px;
+}
+
+.distribution-list-input input:focus {
+  border-color: #3984c6;
+}
+
+.distribution-list-input button {
+  padding: 0 16px;
+  background: #2879b9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.distribution-list-input button:hover {
+  background: #1e639b;
+}
+
+.distribution-list-input button span {
+  font-size: 17px;
+  margin-right: 3px;
+}
+
+.distribution-list-emails {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.distribution-email {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 11px;
+  background: #f5f7f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.distribution-email-info {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.distribution-email-info span:last-child {
+  overflow-wrap: anywhere;
+}
+
+.distribution-email-icon {
+  color: #5686ad;
+}
+
+.distribution-email-remove {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: #d34b4b;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.distribution-email-remove:hover {
+  background: #ffe4e4;
+}
+
+.distribution-list-error {
+  color: #d43c3c;
+  font-size: 12px;
+  margin: 5px 0 12px;
+}
+
+.distribution-list-empty {
+  padding: 15px;
+  color: #888;
+  text-align: center;
+  font-size: 13px;
+}
+
+.distribution-list-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.distribution-save-button {
+  padding: 9px 16px;
+  background: #2879b9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.distribution-save-button:hover {
+  background: #1e639b;
+}
+
+.distribution-save-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

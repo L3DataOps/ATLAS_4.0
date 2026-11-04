@@ -271,12 +271,8 @@ const CreateCase = () => {
 
       tags: selectedTags,
       questionnaire: questionResponses,
-
-      createdBy: `${user.firstname} ${user.lastname}`,
       createdAt: new Date().toISOString(),
     };
-
-    console.log("Payload:", payload);
 
     try {
       const res = await fetch(`${API_URL}/cases`, {
@@ -291,7 +287,6 @@ const CreateCase = () => {
       if (!res.ok) throw new Error("Failed to create case");
 
       const data = await res.json();
-      console.log("Case created:", data);
 
       resetForm();
       navigate(`/cases/${data._id}`);

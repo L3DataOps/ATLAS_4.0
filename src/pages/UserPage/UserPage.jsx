@@ -9,8 +9,19 @@ const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 const PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MIN_PASSWORD_LENGTH = 8;
 
+// Server origin with any trailing /api or /api/auth removed, so this works
+// whatever VITE_API_URL points at (http://host:5000, .../api or .../api/auth)
+const SERVER_URL = (import.meta.env.VITE_API_URL ?? "").replace(
+  /\/api(\/auth)?\/?$/,
+  "",
+);
+const ACCOUNT_URL = `${SERVER_URL}/api/users`;
+// Uploaded files are served from the server root (/uploads/...)
+const fileSrc = (p) =>
+  !p ? null : /^https?:/.test(p) ? p : `${SERVER_URL}/${p}`;
+
 /* ------------------------------------------------------------------ */
-/* Default API calls (swap these out via props)                        */
+/* Helpers                                                             */
 /* ------------------------------------------------------------------ */
 
 async function readError(res, fallback) {
@@ -21,36 +32,6 @@ async function readError(res, fallback) {
     return fallback;
   }
 }
-
-// Expects: POST /api/user/avatar (multipart, field "avatar") -> { avatarUrl }
-async function defaultSavePhoto(file) {
-  const body = new FormData();
-  body.append("avatar", file);
-  const res = await fetch("/api/user/avatar", {
-    method: "POST",
-    body,
-    credentials: "include",
-  });
-  if (!res.ok)
-    throw new Error(await readError(res, "Couldn't upload your photo."));
-  return res.json();
-}
-
-// Expects: POST /api/user/password { currentPassword, newPassword }
-async function defaultChangePassword({ currentPassword, newPassword }) {
-  const res = await fetch("/api/user/password", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ currentPassword, newPassword }),
-  });
-  if (!res.ok)
-    throw new Error(await readError(res, "Couldn't change your password."));
-}
-
-/* ------------------------------------------------------------------ */
-/* Helpers                                                             */
-/* ------------------------------------------------------------------ */
 
 function initialsOf(name = "") {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -417,31 +398,35 @@ export default function UserPage({
   onChangePassword,
   onPhotoSaved,
 }) {
-  const { user, token } = useAuth();
+  const { user, token, updateUser } = useAuth();
 
   if (!user) return null; // or a loading/redirect state
 
   const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
 
+  // POST /api/users/avatar (multipart, field "avatar") -> { imagePath }
   const savePhoto =
     onSavePhoto ??
     (async (file) => {
       const body = new FormData();
       body.append("avatar", file);
-      const res = await fetch("/api/user/avatar", {
+      const res = await fetch(`${ACCOUNT_URL}/avatar`, {
         method: "POST",
         headers: authHeader, // don't set Content-Type; the browser sets the multipart boundary
         body,
       });
       if (!res.ok)
         throw new Error(await readError(res, "Couldn't upload your photo."));
-      return res.json(); // { avatarUrl }
+      const data = await res.json();
+      updateUser?.({ imagePath: data.imagePath }); // keeps the rest of the app in sync
+      return { avatarUrl: fileSrc(data.imagePath) };
     });
 
+  // POST /api/users/password { currentPassword, newPassword }
   const changePassword =
     onChangePassword ??
     (async ({ currentPassword, newPassword }) => {
-      const res = await fetch("/api/user/password", {
+      const res = await fetch(`${ACCOUNT_URL}/password`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...authHeader },
         body: JSON.stringify({ currentPassword, newPassword }),
@@ -449,8 +434,6 @@ export default function UserPage({
       if (!res.ok)
         throw new Error(await readError(res, "Couldn't change your password."));
     });
-
-  console.log(user);
 
   return (
     <main className="up-page">
@@ -464,7 +447,7 @@ export default function UserPage({
       </header>
 
       <PhotoSection
-        user={user}
+        user={{ ...user, avatarUrl: fileSrc(user.imagePath) }}
         onSavePhoto={savePhoto}
         onPhotoSaved={onPhotoSaved}
       />

@@ -155,9 +155,7 @@ const ActivityNoteCard = ({ note, caseId, caseItem, onUpdated }) => {
     <div className="activity-note-card">
       <div className="activity-note-header">
         <div className="activity-note-author">
-          <h4>
-            {note.createdBy?.firstname || ""} {note.createdBy?.lastname || ""}
-          </h4>
+          <h4>{note.createdBy?.name || ""}</h4>
         </div>
 
         <div className="activity-note-meta-container">

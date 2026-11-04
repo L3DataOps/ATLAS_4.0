@@ -100,8 +100,7 @@ const RNMActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
       activityNoteStatus,
       tags: selectedTags,
       createdBy: {
-        firstname: user.firstname,
-        lastname: user.lastname,
+        name: user.name,
         userId: user.id,
       },
     };
@@ -160,9 +159,7 @@ const RNMActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   return (
     <div className="activity-note-new">
       <div className="activity-note-new-header">
-        <h3>
-          {user.firstname} {user.lastname}
-        </h3>
+        <h3>{user.name}</h3>
 
         <div className="activity-note-new-controls">
           <select value={status} onChange={(e) => setStatus(e.target.value)}>

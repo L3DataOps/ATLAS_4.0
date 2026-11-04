@@ -87,8 +87,7 @@ function toIdString(value) {
 function blankTech(row) {
   return {
     userId: row.userId,
-    firstname: row.firstname,
-    lastname: row.lastname,
+    name: row.name,
     company: row.company,
     currentStatus: null,
     firstEnrouteTime: null,
@@ -136,7 +135,7 @@ const AssignTechModal = ({
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`${API_URL}/users`, {
+        const res = await fetch(`${API_URL}/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -145,6 +144,7 @@ const AssignTechModal = ({
         }
 
         const data = await res.json();
+        console.log("Fetched users:", data);
         setUsers(data);
       } catch (err) {
         console.error(err);
