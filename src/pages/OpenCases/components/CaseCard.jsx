@@ -88,7 +88,7 @@ const CaseCard = ({ case: caseItem }) => {
   };
   return (
     <div
-      className="case-card"
+      className={`case-card ${caseItem.category?.toLowerCase()}`}
       onClick={() => navigate(`/cases/${caseItem._id}`)}
     >
       <div className="section">
@@ -116,7 +116,11 @@ const CaseCard = ({ case: caseItem }) => {
 
           <div className="status-row">
             <h5>Status -</h5>
-            <h5 className="case-status">{caseItem.status}</h5>
+            <h5
+              className={`value ${caseItem.status?.toLowerCase().replace(/\s+/g, "-")}`}
+            >
+              {caseItem.status}
+            </h5>
           </div>
         </div>
       </div>

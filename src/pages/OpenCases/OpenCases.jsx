@@ -9,6 +9,7 @@ const OpenCases = () => {
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+
   const [filters, setFilters] = useState({
     ticket: "",
     category: "",
@@ -26,7 +27,6 @@ const OpenCases = () => {
     }));
   };
 
-  // Fetch cases from the API when the component mounts
   useEffect(() => {
     const fetchCases = async () => {
       try {
@@ -37,7 +37,6 @@ const OpenCases = () => {
         }
 
         const data = await response.json();
-
         setCases(data);
       } catch (error) {
         console.error("Error fetching cases:", error);
@@ -52,9 +51,6 @@ const OpenCases = () => {
   const filteredCases = cases.filter((c) => {
     const globalQuery = search.toLowerCase().trim();
 
-    // =========================
-    // MODE 1: GLOBAL SEARCH
-    // =========================
     if (globalQuery) {
       return (
         String(c.caseNumber).includes(globalQuery) ||
@@ -67,9 +63,6 @@ const OpenCases = () => {
       );
     }
 
-    // =========================
-    // MODE 2: INDIVIDUAL FILTERS
-    // =========================
     return (
       (!filters.ticket || String(c.caseNumber).includes(filters.ticket)) &&
       (!filters.category ||
@@ -92,9 +85,12 @@ const OpenCases = () => {
   });
 
   return (
-    <div>
-      <SearchBar value={search} onChange={setSearch} />
-      <div className="header-container">
+    <div className="sof-cases">
+      <div className="sof-cases-search">
+        <SearchBar value={search} onChange={setSearch} />
+      </div>
+
+      <div className="sof-cases-header">
         <SearchTile
           title="Ticket #"
           value={filters.ticket}
@@ -137,11 +133,19 @@ const OpenCases = () => {
           onChange={(v) => updateFilter("equipment", v)}
         />
       </div>
-      <div className="break"></div>
-      <div className="case-cards-container">
-        {filteredCases.map((caseItem) => (
-          <CaseCard key={caseItem._id} case={caseItem} />
-        ))}
+
+      <div className="sof-cases-break"></div>
+
+      <div className="sof-case-cards-container">
+        {loading ? (
+          <p className="sof-cases-message">Loading cases...</p>
+        ) : filteredCases.length > 0 ? (
+          filteredCases.map((caseItem) => (
+            <CaseCard key={caseItem._id} case={caseItem} />
+          ))
+        ) : (
+          <p className="sof-cases-message">No cases found.</p>
+        )}
       </div>
     </div>
   );

@@ -1,144 +1,197 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 /* =========================
-   CARD CONTAINER
+   SOF CASES
 ========================= */
-.case-card {
-  background: #ffffff;
-  border: 1px solid #e6e8ec;
-  border-radius: 14px;
 
+.sof-cases {
+  width: 100%;
+
+  font-family: "Raleway", sans-serif;
+}
+
+/* Search */
+
+.sof-cases .sof-cases-search {
+  margin-bottom: 15px;
+}
+
+/* Filter header */
+
+.sof-cases .sof-cases-header {
   display: grid;
-  grid-template-columns: 120px 1fr 1fr 120px 160px 1.2fr 1.5fr;
-
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
   align-items: center;
-  gap: 14px;
-
-  padding: 14px 18px;
-  margin: 10px 0;
-
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-  transition: all 0.15s ease-in-out;
-
-  cursor: pointer;
 }
 
-.case-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+/* Divider */
+
+.sof-cases .sof-cases-break {
+  width: 100%;
+  height: 1px;
+  background: #e2e8f0;
+  margin: 18px 0;
 }
 
-/* =========================
-   BASE SECTION
-========================= */
-.section {
+/* Case cards */
+
+.sof-cases .sof-case-cards-container {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 0;
+
 }
 
-.section h5 {
-  font-size: 11px;
-  font-weight: 600;
-  color: #8a8f98;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
+/* Scoped case card styling */
+
+.sof-cases .case-card {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
 }
 
-.section p {
+/* Messages */
+
+.sof-cases .sof-cases-message {
+  text-align: center;
+  color: #64748b;
   font-size: 14px;
-  font-family: Roboto;
   font-weight: 600;
-  color: #1f2937;
+  padding: 10px;
 }
 
-/* =========================
-   SITE BLOCK EMPHASIS
-========================= */
-.section:nth-child(2) p {
-  font-weight: 700;
-  color: #111827;
+/* Responsive */
+
+@media (max-width: 1200px) {
+  .sof-cases .sof-cases-header {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
-/* =========================
-   TAG HIGHLIGHT (TOP TAG)
-========================= */
-.section:nth-child(3) h5 {
-  font-weight: 700;
-  color: #111827;
+@media (max-width: 700px) {
+  .sof-cases {
+    padding: 10px;
+  }
+
+  .sof-cases .sof-cases-header {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* =========================
-   ICON + STATUS ROW (FIXED)
+   SOF CASE SEVERITY
 ========================= */
-.split-section {
-  display: flex;
-  flex-direction: row;
+
+.sof-cases .case-card {
+  border-left: 4px solid #cbd5e1;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sof-cases .case-card.critical {
+  border-left-color: #f71515;
+}
+
+.sof-cases .case-card.major {
+  border-left-color: #fa791d;
+}
+
+.sof-cases .case-card.minor {
+  border-left-color: #eab308;
+}
+
+
+/* =========================
+   SOF STATUS BADGES
+========================= */
+
+.sof-cases .status-block .value {
+  display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-}
+  width: fit-content;
 
-.split-section img{
-    width: 25px;
-}
+  padding: 5px 10px;
+  border-radius: 6px;
 
-h5.case-status{
-  color:black !important;
-  font-weight: 700 !important; 
-}
-
-.icon-box {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: #f3f4f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-/* status container */
-.status-block {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.status-block .label {
-  font-size: 10px;
-  color: #9ca3af;
-  text-transform: uppercase;
-}
-
-.status-block .value {
-  font-size: 13px;
-  font-weight: 700;
+  background: #eff6ff;
   color: #2563eb;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-/* =========================
-   TAGS
-========================= */
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* Resolved */
+
+.sof-cases .status-block .value.resolved {
+  background: #dcfce7;
+  color: #15803d;
 }
 
-/* =========================
-   EQUIPMENT
-========================= */
-.section:last-child p {
-  font-weight: 600;
-  color: #374151;
+/* Dispatched */
+
+.sof-cases .status-block .value.dispatched {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+/* Enroute */
+
+.sof-cases .status-block .value.enroute {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+/* In Progress */
+
+.sof-cases .status-block .value.in-progress {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+/* Follow Up Required */
+
+.sof-cases .status-block .value.follow-up-required {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+/* Awaiting Part */
+
+.sof-cases .status-block .value.awaiting-part {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+/* Quote Requested */
+
+.sof-cases .status-block .value.quote-requested {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+/* Quote Approved */
+
+.sof-cases .status-block .value.quote-approved {
+  background: #ccfbf1;
+  color: #0f766e;
 }
