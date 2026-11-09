@@ -1,4 +1,4 @@
-import "./CaseDetailComponents.css";
+import "./RNMCaseDetailComponents.css";
 
 const TagBubble = ({ tag }) => {
   return (

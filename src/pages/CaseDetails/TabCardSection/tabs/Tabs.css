@@ -120,7 +120,7 @@
 }
 
 .sof-overview-case-list{
-    height: 500px;
+    height: 200px;
     overflow: hidden;
     overflow-y: scroll;
 }

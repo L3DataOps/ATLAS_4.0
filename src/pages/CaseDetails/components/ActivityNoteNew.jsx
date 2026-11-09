@@ -32,7 +32,7 @@ const ActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
     "Tech Enroute",
     "In Progress",
     "Follow Up Required",
-    "Assigned to TAC",
+    "Awaiting Part",
     "Awaiting Drive Time",
     "Not Done",
     "Quote Requested",

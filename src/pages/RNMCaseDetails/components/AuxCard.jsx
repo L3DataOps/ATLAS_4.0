@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { useCase } from "../../../context/CaseContext";
-import "./CaseDetailComponents.css";
+import "./RNMCaseDetailComponents.css";
 
 import BundledCases from "./BundledCases";
 

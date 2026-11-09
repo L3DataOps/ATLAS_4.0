@@ -129,9 +129,7 @@ function Sidebar() {
         <div className="sidebar-user">
           <h3>Welcome,</h3>
 
-          <h2>
-            {user?.firstname} {user?.lastname}
-          </h2>
+          <h2>{user?.name}</h2>
         </div>
 
         <div className="sidebar-actions">

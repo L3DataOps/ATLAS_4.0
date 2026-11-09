@@ -1,3 +1,4 @@
+
 import userIcon from "../../../images/user.png";
 import "./CaseDetailComponents.css";
 
@@ -17,13 +18,11 @@ const InitialDesc = ({ caseItem, description, tags, time, casecategory }) => {
   return (
     <div className={`initial-description ${categoryClass}`}>
       <div className="init-desc-header">
+
+        {/* Creator */}
         <div className="init-desc-header-section">
           <img
-            src={
-              caseItem.createdByIcon
-                ? `http://10.40.255.21:5000/${caseItem.createdByIcon.replace(/^\/+/, "")}`
-                : userIcon
-            }
+            src={profileImage}
             alt="User Icon"
             onError={(e) => {
               e.currentTarget.onerror = null;
@@ -31,21 +30,32 @@ const InitialDesc = ({ caseItem, description, tags, time, casecategory }) => {
             }}
           />
 
-          <h4>{caseItem.createdBy}</h4>
+          <div className="init-desc-creator">
+            <h3>{caseItem?.createdBy || "Unknown User"}</h3>
+          </div>
         </div>
 
+        {/* Tags and Time */}
         <div className="init-desc-header-second-section">
-          {tags?.map((tag) => (
-            <TagBubble key={tag.name} tag={tag} />
-          ))}
+          <div className="init-desc-tags">
+            {tags?.map((tag) => (
+              <TagBubble key={tag.name} tag={tag} />
+            ))}
+          </div>
 
-          <h4>{time}</h4>
+          <div className="init-desc-time">
+            {time}
+          </div>
         </div>
+
       </div>
 
-      <div className="border"></div>
+      <div className="border" />
 
-      <p className="problem">{description}</p>
+      {/* Description */}
+      <div className="init-desc-content">
+        <p className="problem">{description || "No description provided."}</p>
+      </div>
     </div>
   );
 };

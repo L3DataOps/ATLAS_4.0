@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { useCase } from "../../../context/CaseContext";
 import AddBundledCaseModal from "./AddBundledCaseModal";
-import "./CaseDetailComponents.css";
+import "./RNMCaseDetailComponents.css";
 
 const API_URL = import.meta.env.VITE_API;
 

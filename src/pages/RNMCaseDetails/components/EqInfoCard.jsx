@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./CaseDetailComponents.css";
+import "./RNMCaseDetailComponents.css";
 import forwardIcon from "../../../images/next.png";
 import backIcon from "../../../images/back.png";
 
