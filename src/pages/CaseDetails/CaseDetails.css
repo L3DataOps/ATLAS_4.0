@@ -1,132 +1,542 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700&display=swap");
+
+/* =========================
+   GLOBAL PAGE
+========================= */
+
+.sof-case-details-page {
+  --sof-primary: #2755a0;
+  --sof-primary-dark: #1c3d70;
+  --sof-accent: #38bdf8;
+
+  --sof-text: #1e293b;
+  --sof-secondary: #64748b;
+  --sof-muted: #94a3b8;
+
+  --sof-border: #e2e8f0;
+  --sof-background: #f1f5f9;
+  --sof-card: #ffffff;
+
+  width: 100%;
+  min-height: 100vh;
+
+  padding: 22px 24px 30px;
+
+  background: #f5f7fb;
+
+  color: var(--sof-text);
+  font-family: "Raleway", sans-serif;
 }
 
-.sof-title-card{
-    background-color: white;
-    min-height: 500px;
-    width: 300px;
-    border-radius: 10px;
+/* =========================
+   COMMON CARD STYLING
+========================= */
+
+.sof-case-details-page .sof-title-card,
+.sof-case-details-page .sof-initial-description-card,
+.sof-case-details-page .sof-aux-card,
+.sof-case-details-page .sof-eq-info-card,
+.sof-case-details-page .sof-activity-section,
+.sof-case-details-page .sof-tab-section,
+.sof-case-details-page .sof-timecard-section,
+.sof-case-details-page .sof-dqc-section,
+.sof-case-details-page .sof-checklist-section {
+  background: var(--sof-card);
+
+  border: 1px solid var(--sof-border);
+  border-radius: 12px;
+
+  box-shadow: 0 2px 7px rgba(15, 35, 65, 0.035);
+
+  min-width: 0;
 }
 
-.sof-title-card img{
-    width: 15px;
+/* =========================
+   TOP LAYOUT
+========================= */
+
+.sof-case-details-page .sof-container {
+  display: grid;
+
+  grid-template-columns: 300px minmax(0, 1fr);
+
+  align-items: stretch;
+
+  gap: 18px;
+
+  width: 100%;
 }
 
-.sof-title-head{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
+/* =========================
+   LEFT CASE INFORMATION
+========================= */
+
+.sof-case-details-page .sof-title-card {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 500px;
+
+  overflow: hidden;
 }
 
-.sof-title-subhead{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 10px;
-    margin-top: -10px;
+/* =========================
+   TITLE HEADER
+========================= */
+
+.sof-case-details-page .sof-title-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 17px 16px 12px;
+
+  gap: 10px;
 }
 
-.sof-site-info{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 42%;
+.sof-case-heading {
+  min-width: 0;
 }
 
-.sof-title-subhead select {
+.sof-overline {
+  display: block;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+
+  color: var(--sof-muted);
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  margin-bottom: 5px;
+}
+
+.sof-case-heading h3 {
+  font-size: 17px;
+  font-weight: 800;
+
+  color: var(--sof-primary-dark);
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   FLAG BUTTON
+========================= */
+
+.sof-flag-button {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-shrink: 0;
+
+  background: #f8fafc;
+  border: 1px solid var(--sof-border);
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.sof-flag-button:hover:not(:disabled) {
+  background: #fff1f2;
+  border-color: #fecdd3;
+  transform: translateY(-1px);
+}
+
+.sof-flag-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sof-flag-button img {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+}
+
+/* =========================
+   SITE AND CATEGORY
+========================= */
+
+.sof-case-details-page .sof-title-subhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 10px 16px 15px;
+}
+
+.sof-case-details-page .sof-site-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: auto;
+  min-width: 0;
+
+  gap: 4px;
+}
+
+.sof-case-details-page .sof-site-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+
+  overflow-wrap: anywhere;
+}
+
+.sof-case-details-page .sof-site-info p {
+  font-family: "Roboto", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--sof-secondary);
+}
+
+/* Category dropdown */
+
+.sof-case-details-page .sof-title-subhead select {
+  min-width: 105px;
+  max-width: 125px;
+
   appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
 
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  background-color: #f8fafc;
 
-  padding: 10px ;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1f2937;
+  border: 1px solid var(--sof-border);
+  border-radius: 8px;
+
+  padding: 9px 28px 9px 10px;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+
+  color: var(--sof-text);
 
   cursor: pointer;
   outline: none;
 
-  transition: all 0.15s ease-in-out;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%2364758b' d='M5.5 7.5L10 12l4.5-4.5'/%3E%3C/svg%3E");
 
-  /* custom arrow */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%236b7280' d='M5.5 7.5L10 12l4.5-4.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 18px;
+  background-position: right 7px center;
+  background-size: 15px;
+
+  transition: all 0.2s ease;
 }
 
-/* hover */
-select:hover {
-  border-color: #cbd5e1;
+.sof-case-details-page .sof-title-subhead select:hover {
+  border-color: #94a3b8;
+  background-color: #ffffff;
 }
 
-/* focus */
-select:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+.sof-case-details-page .sof-title-subhead select:focus {
+  border-color: var(--sof-primary);
+  box-shadow: 0 0 0 3px rgba(39, 85, 160, 0.1);
 }
 
-/* optional: disabled state */
-select:disabled {
-  background-color: #f3f4f6;
-  cursor: not-allowed;
-  opacity: 0.7;
+/* =========================
+   DIVIDERS
+========================= */
+
+.sof-case-details-page .sof-border {
+  width: calc(100% - 30px);
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background: var(--sof-border);
+  border: none;
+
+  margin: 4px 15px;
 }
 
-.sof-border{
-    height: 1px;
-    border: 1px solid black;
-    margin: 8px;
+/* =========================
+   TIME SECTION
+========================= */
+
+.sof-case-details-page .sof-time-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  padding: 14px 16px;
 }
 
-.sof-container{
-    display: flex;
+
+
+/* =========================
+   TECHNICIAN SECTION
+========================= */
+
+.sof-case-details-page .tech-names {
+  padding: 14px 16px;
+
+  min-width: 0;
 }
 
-.sof-initial-description-card{
-    width: 100%;
+/* =========================
+   STATUS
+========================= */
+
+.sof-case-details-page .sof-status-section {
+  padding: 12px 16px 16px;
 }
 
-.sof-sub-container{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+.sof-case-details-page .sof-case-status-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  min-height: 36px;
+
+  margin: 0;
+
+  padding: 8px 12px;
+
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+
+  background: #dcfce7;
+  color: #15803d;
 }
 
-.sof-across{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+.sof-case-details-page .sof-case-status-detail p {
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
 }
 
-.sof-case-status-detail{
-    background-color: green;
-    color: white;
-    padding: 10px 10px;
-    border-radius: 10px;
-    margin: 10px;
-     display: flex;
-    justify-content: center;
-    align-items: center;
+/* Dynamic statuses */
+
+.sof-case-details-page .sof-case-status-detail.in-progress {
+  background: #e2fedb;
+  border-color: #06b11d;
+  color: #27b833;
 }
 
-.sof-case-status-detail p{
-    font-size: 18px;
-    font-weight: 600;
+.sof-case-details-page .sof-case-status-detail.dispatched {
+  background: #c8c7fe;
+  border-color: #8a95fd;
+  color: #0815d1;
 }
 
-.sof-across-mod{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    padding: 10px;
+.sof-case-details-page .sof-case-status-detail.tech-enroute {
+  background: #f6f7ba;
+  border-color: #e7ff0f;
+  color: #747510;
+}
+
+.sof-case-details-page .sof-case-status-detail.awaiting-part {
+  background: #fce7f3;
+  border-color: #fbcff1;
+  color: #be18b0;
+}
+
+.sof-case-details-page .sof-case-status-detail.follow-up-required {
+  background: #ffedd5;
+  border-color: #fed7aa;
+  color: #c2410c;
+}
+
+.sof-case-details-page .sof-case-status-detail.quote-requested {
+  background: #f3e8ff;
+  border-color: #e9d5ff;
+  color: #7e22ce;
+}
+
+.sof-case-details-page .sof-case-status-detail.quote-approved {
+  background: #ccfbf1;
+  border-color: #99f6e4;
+  color: #0f766e;
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.sof-case-details-page .sof-sub-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+/* Initial description */
+
+.sof-case-details-page .sof-initial-description-card {
+  width: 100%;
+  min-width: 0;
+
+  overflow: hidden;
+}
+
+/* =========================
+   DISPATCH + EQUIPMENT
+========================= */
+
+.sof-case-details-page .sof-across {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  align-items: stretch;
+
+  gap: 16px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.sof-case-details-page .sof-aux-card,
+.sof-case-details-page .sof-eq-info-card {
+  width: 100%;
+  min-width: 0;
+
+  overflow: hidden;
+}
+
+/* =========================
+   ACTIVITY + TAB SECTION
+========================= */
+
+.sof-case-details-page .sof-across-mod {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+
+  align-items: stretch;
+
+  gap: 18px;
+
+  width: 100%;
+
+  margin-top: 18px;
+}
+
+.sof-case-details-page .sof-activity-section,
+.sof-case-details-page .sof-tab-section {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* =========================
+   TIMECARD + DQC
+========================= */
+
+.sof-case-details-page .sof-metrics-row {
+  margin-top: 18px;
+}
+
+.sof-case-details-page .sof-timecard-section,
+.sof-case-details-page .sof-dqc-section {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* =========================
+   CHECKLIST
+========================= */
+
+.sof-case-details-page .sof-checklist-section {
+  width: 100%;
+  min-width: 0;
+
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.sof-loading {
+  min-height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 15px;
+
+  color: #64748b;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sof-loading-spinner {
+  width: 34px;
+  height: 34px;
+
+  border: 3px solid #e2e8f0;
+  border-top-color: #2755a0;
+  border-radius: 50%;
+
+  animation: sof-spin 0.8s linear infinite;
+}
+
+@keyframes sof-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.sof-error {
+  margin: 50px auto;
+  padding: 30px;
+
+  max-width: 450px;
+
+  text-align: center;
+
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  font-family: "Raleway", sans-serif;
+}
+
+.sof-error h2 {
+  color: #dc2626;
+  margin-bottom: 10px;
+}
+
+.sof-error p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+.sof-case-details-page button:focus-visible,
+.sof-case-details-page select:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
 }

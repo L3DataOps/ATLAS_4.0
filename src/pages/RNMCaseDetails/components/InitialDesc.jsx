@@ -1,5 +1,5 @@
 import userIcon from "../../../images/user.png";
-import "./CaseDetailComponents.css";
+import "./RNMCaseDetailComponents.css";
 
 import TagBubble from "./TagBubble";
 

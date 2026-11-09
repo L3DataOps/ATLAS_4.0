@@ -1,9 +1,11 @@
+
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useParams } from "react-router-dom";
 import { CaseProvider, useCase } from "../../context/CaseContext";
 
 import "./CaseDetails.css";
+
 import flagIcon from "../../images/flag.png";
 import redFlagIcon from "../../images/red-flag.png";
 
@@ -22,17 +24,24 @@ const API_URL = import.meta.env.VITE_API;
 const POLL_INTERVAL_MS = 1000;
 
 // =========================
-// OUTER: unchanged
+// OUTER COMPONENT
 // =========================
+
 const CaseDetails = () => {
   const { id } = useParams();
 
   const [initialCase, setInitialCase] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchCase = async () => {
       try {
+        setLoading(true);
+        setError("");
+
         const response = await fetch(`${API_URL}/cases/${id}`);
 
         if (!response.ok) {
@@ -40,19 +49,47 @@ const CaseDetails = () => {
         }
 
         const data = await response.json();
-        setInitialCase(data);
+
+        if (!cancelled) {
+          setInitialCase(data);
+        }
       } catch (err) {
         console.error(err);
+
+        if (!cancelled) {
+          setError(err.message || "Unable to load case.");
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     };
 
     fetchCase();
+
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
-  if (loading) return <h2>Loading...</h2>;
-  if (!initialCase) return <h2>Case not found.</h2>;
+  if (loading) {
+    return (
+      <div className="sof-loading">
+        <div className="sof-loading-spinner"></div>
+        <p>Loading case details...</p>
+      </div>
+    );
+  }
+
+  if (!initialCase) {
+    return (
+      <div className="sof-error">
+        <h2>Case not found</h2>
+        <p>{error || "This case could not be located."}</p>
+      </div>
+    );
+  }
 
   return (
     <CaseProvider initialCase={initialCase}>
@@ -62,8 +99,9 @@ const CaseDetails = () => {
 };
 
 // =========================
-// INNER
+// INNER COMPONENT
 // =========================
+
 const CaseDetailsContent = () => {
   const { token, user } = useAuth();
   const { caseItem, setCaseItem } = useCase();
@@ -71,9 +109,9 @@ const CaseDetailsContent = () => {
   const [category, setCategory] = useState(caseItem.category || "");
   const [togglingFlag, setTogglingFlag] = useState(false);
 
-  console.log("Rendering CaseDetailsContent with caseItem:", caseItem);
-
   const caseItemRef = useRef(caseItem);
+
+  // Keep current case available to polling
   useEffect(() => {
     caseItemRef.current = caseItem;
   }, [caseItem]);
@@ -82,8 +120,13 @@ const CaseDetailsContent = () => {
     setCategory(caseItem.category || "");
   }, [caseItem.category]);
 
+  // =========================
+  // CASE POLLING
+  // =========================
+
   useEffect(() => {
-    const id = caseItemRef.current._id;
+    const id = caseItem._id;
+
     if (!id) return;
 
     const intervalId = setInterval(async () => {
@@ -97,7 +140,9 @@ const CaseDetailsContent = () => {
         const freshCase = await response.json();
 
         setCaseItem((prev) => {
-          const changed = JSON.stringify(prev) !== JSON.stringify(freshCase);
+          const changed =
+            JSON.stringify(prev) !== JSON.stringify(freshCase);
+
           return changed ? freshCase : prev;
         });
       } catch (err) {
@@ -106,7 +151,11 @@ const CaseDetailsContent = () => {
     }, POLL_INTERVAL_MS);
 
     return () => clearInterval(intervalId);
-  }, [caseItemRef.current._id, setCaseItem]);
+  }, [caseItem._id, setCaseItem]);
+
+  // =========================
+  // CATEGORY
+  // =========================
 
   const categories = [
     "Critical",
@@ -120,6 +169,8 @@ const CaseDetailsContent = () => {
 
   const handleCategoryChange = async (e) => {
     const newCategory = e.target.value;
+    const previousCategory = category;
+
     setCategory(newCategory);
 
     try {
@@ -140,26 +191,32 @@ const CaseDetailsContent = () => {
       setCaseItem(updatedCase);
     } catch (err) {
       console.error(err);
+      setCategory(previousCategory);
     }
   };
 
   // =========================
-  // TOGGLE FLAG
-  // Adds/removes the current user's id from flaggedUsers so they
-  // can later view all cases they've flagged on a separate page.
+  // FLAG
   // =========================
-  const isFlaggedByMe = (caseItem.flaggedUsers || []).includes(user?.id);
+
+  const isFlaggedByMe = (caseItem.flaggedUsers || []).some(
+    (uid) => String(uid) === String(user?.id)
+  );
 
   const handleToggleFlag = async () => {
     if (!user?.id || togglingFlag) return;
 
     const currentFlags = caseItem.flaggedUsers || [];
+
     const updatedFlags = isFlaggedByMe
-      ? currentFlags.filter((uid) => uid !== user.id)
+      ? currentFlags.filter((uid) => String(uid) !== String(user.id))
       : [...currentFlags, user.id];
 
-    // Optimistic update
-    setCaseItem((prev) => ({ ...prev, flaggedUsers: updatedFlags }));
+    setCaseItem((prev) => ({
+      ...prev,
+      flaggedUsers: updatedFlags,
+    }));
+
     setTogglingFlag(true);
 
     try {
@@ -180,105 +237,159 @@ const CaseDetailsContent = () => {
       setCaseItem(updatedCase);
     } catch (err) {
       console.error("FLAG TOGGLE ERROR:", err);
-      // Revert on failure
-      setCaseItem((prev) => ({ ...prev, flaggedUsers: currentFlags }));
+
+      setCaseItem((prev) => ({
+        ...prev,
+        flaggedUsers: currentFlags,
+      }));
     } finally {
       setTogglingFlag(false);
     }
   };
 
+  // =========================
+  // DATE FORMAT
+  // =========================
+
   const formatDateTime = (iso) => {
-    if (!iso) {
-      return "N/A";
-    }
+    if (!iso) return "N/A";
 
     const d = new Date(iso);
 
+    if (Number.isNaN(d.getTime())) return "N/A";
+
     const date = `${d.getMonth() + 1}/${d.getDate()}/${String(
-      d.getFullYear(),
+      d.getFullYear()
     ).slice(2)}`;
 
     const time = `${String(d.getHours()).padStart(2, "0")}:${String(
-      d.getMinutes(),
+      d.getMinutes()
     ).padStart(2, "0")}`;
 
     return `${date} ${time}`;
   };
 
+  // =========================
+  // RENDER
+  // =========================
+
   return (
     <div className="sof-case-details-page">
+
+      {/* =========================
+          TOP SECTION
+      ========================= */}
+
       <div className="sof-container">
-        <div className="sof-title-card">
+
+        {/* LEFT: CASE INFORMATION */}
+
+        <aside className="sof-title-card">
+
           <div className="sof-title-head">
-            <div>
+            <div className="sof-case-heading">
+              <span className="sof-overline">CASE DETAILS</span>
+
               <h3>
-                {caseItem.equipment?.caseType}: {caseItem.caseNumber}
+                {caseItem.equipment?.caseType || "SOF"}:{" "}
+                {caseItem.caseNumber}
               </h3>
             </div>
 
-            <img
-              src={isFlaggedByMe ? redFlagIcon : flagIcon}
-              alt={isFlaggedByMe ? "Unflag case" : "Flag case"}
+            <button
+              type="button"
+              className="sof-flag-button"
               onClick={handleToggleFlag}
-              className="flag-icon"
-              style={{
-                cursor: togglingFlag ? "not-allowed" : "pointer",
-                opacity: togglingFlag ? 0.6 : 1,
-              }}
-            />
+              disabled={togglingFlag}
+              title={isFlaggedByMe ? "Remove flag" : "Flag case"}
+              aria-label={isFlaggedByMe ? "Unflag case" : "Flag case"}
+            >
+              <img
+                src={isFlaggedByMe ? redFlagIcon : flagIcon}
+                alt=""
+              />
+            </button>
           </div>
 
           <div className="sof-title-subhead">
+
             <div className="sof-site-info">
-              <h4>{caseItem.site?.siteName}</h4>
-              <p>{caseItem.site?.region?.slice(0, 4)}</p>
+              <h4>{caseItem.site?.siteName || "Unknown Site"}</h4>
+
+              <p>{caseItem.site?.region?.slice(0, 4) || "N/A"}</p>
             </div>
 
-            <select value={category} onChange={handleCategoryChange}>
+            <select
+              value={category}
+              onChange={handleCategoryChange}
+              aria-label="Case category"
+            >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
               ))}
             </select>
+
           </div>
 
-          <div className="sof-border"></div>
+          <div className="sof-border" />
 
-          <div className="time-section">
+          {/* TIME INFORMATION */}
+
+          <div className="sof-time-section">
             <TimeTile
-              label={"Created"}
+              label="Created"
               time={formatDateTime(caseItem.createdAt)}
             />
+
             <TimeTile
-              label={"Enroute"}
+              label="Enroute"
               time={formatDateTime(caseItem.techEnroute)}
             />
+
             <TimeTile
-              label={"Onsite"}
+              label="Onsite"
               time={formatDateTime(caseItem.techOnsite)}
             />
+
             <TimeTile
-              label={"Completed"}
+              label="Completed"
               time={formatDateTime(caseItem.completedAt)}
             />
           </div>
 
-          <div className="sof-border"></div>
+          <div className="sof-border" />
+
+          {/* ASSIGNED TECHNICIANS */}
 
           <div className="tech-names">
             <TechCard />
           </div>
 
-          <div className="sof-border"></div>
+          <div className="sof-border" />
 
-          <div className="sof-case-status-detail">
-            <p>{caseItem.status}</p>
+          {/* CURRENT STATUS */}
+
+          <div className="sof-status-section">
+            <span className="sof-overline">CURRENT STATUS</span>
+
+            <div
+              className={`sof-case-status-detail ${caseItem.status
+                ?.toLowerCase()
+                .replace(/\s+/g, "-")}`}
+            >
+              <p>{caseItem.status || "Unknown"}</p>
+            </div>
           </div>
-        </div>
 
-        <div className="sof-sub-container">
-          <div className="sof-initial-description-card">
+        </aside>
+
+        {/* RIGHT: DESCRIPTION AND INFORMATION */}
+
+        <main className="sof-sub-container">
+
+   
             <InitialDesc
               caseItem={caseItem}
               description={caseItem.description}
@@ -286,27 +397,74 @@ const CaseDetailsContent = () => {
               time={formatDateTime(caseItem.createdAt)}
               casecategory={caseItem.category}
             />
-          </div>
+        
+
+          {/* DISPATCH AND EQUIPMENT */}
 
           <div className="sof-across">
+
             <div className="sof-aux-card">
-              <AuxCard dispatchCenters={caseItem.dispatchCenterNotified} />
+              <AuxCard
+                dispatchCenters={caseItem.dispatchCenterNotified}
+              />
             </div>
+
             <div className="sof-eq-info-card">
               <EqInfoCard caseItem={caseItem} />
             </div>
+
           </div>
+
+        </main>
+
+      </div>
+
+      {/* =========================
+          ACTIVITY AND TABS
+      ========================= */}
+
+      <section className="sof-across-mod">
+
+        <div className="sof-activity-section">
+          <ActivityNoteSection
+            caseItem={caseItem}
+            setCaseItem={setCaseItem}
+          />
         </div>
-      </div>
-      <div className="sof-across-mod">
-        <ActivityNoteSection caseItem={caseItem} setCaseItem={setCaseItem} />
-        <TabCard caseItem={caseItem} setCaseItem={setCaseItem} />
-      </div>
-      <div className="sof-across">
-        <Timecard />
-        <DQC />
-      </div>
-      <Checklist />
+
+        <div className="sof-tab-section">
+          <TabCard
+            caseItem={caseItem}
+            setCaseItem={setCaseItem}
+          />
+        </div>
+
+      </section>
+
+      {/* =========================
+          TIME AND DQC
+      ========================= */}
+
+      <section className="sof-across sof-metrics-row">
+
+        <div className="sof-timecard-section">
+          <Timecard />
+        </div>
+
+        <div className="sof-dqc-section">
+          <DQC />
+        </div>
+
+      </section>
+
+      {/* =========================
+          CHECKLIST
+      ========================= */}
+
+      <section className="sof-checklist-section">
+        <Checklist />
+      </section>
+
     </div>
   );
 };
