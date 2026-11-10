@@ -88,6 +88,7 @@ function blankTech(row) {
   return {
     userId: row.userId,
     name: row.name,
+    phone: row.phone,
     company: row.company,
     currentStatus: null,
     firstEnrouteTime: null,
@@ -145,6 +146,10 @@ const AssignTechModal = ({
 
         const data = await res.json();
         console.log("Fetched users:", data);
+        console.log(
+          "Harper API record:",
+          data.find((u) => u.username === "aharper"),
+        );
         setUsers(data);
       } catch (err) {
         console.error(err);
@@ -220,9 +225,11 @@ const AssignTechModal = ({
   const availableUsers = users
     .filter((u) => !assignedIds.has(u._id))
     .filter((u) => {
-      const fullName = `${u.firstname} ${u.lastname}`.toLowerCase();
+      const fullName =
+        u.name || `${u.firstname || ""} ${u.lastname || ""}`.trim();
+
       return (
-        fullName.includes(searchLower) ||
+        fullName.toLowerCase().includes(searchLower) ||
         u.email?.toLowerCase().includes(searchLower)
       );
     })
@@ -234,8 +241,12 @@ const AssignTechModal = ({
         return aIsDefaultVendor ? -1 : 1;
       }
 
-      const aName = `${a.lastname} ${a.firstname}`.toLowerCase();
-      const bName = `${b.lastname} ${b.firstname}`.toLowerCase();
+      const aName = (
+        a.name || `${a.lastname || ""} ${a.firstname || ""}`
+      ).toLowerCase();
+      const bName = (
+        b.name || `${b.lastname || ""} ${b.firstname || ""}`
+      ).toLowerCase();
 
       return aName.localeCompare(bName);
     });
@@ -251,6 +262,10 @@ const AssignTechModal = ({
 
       return {
         ...t,
+        name:
+          user?.name ||
+          t.name ||
+          `${t.firstname || ""} ${t.lastname || ""}`.trim(),
         company: user?.company || t.company || "Unknown",
         _kind: "committed",
       };
@@ -261,6 +276,10 @@ const AssignTechModal = ({
 
       return {
         ...t,
+        name:
+          user?.name ||
+          t.name ||
+          `${t.firstname || ""} ${t.lastname || ""}`.trim(),
         company: user?.company || t.company || "Unknown",
         _kind: "pending",
       };
@@ -268,13 +287,25 @@ const AssignTechModal = ({
 
     ...availableUsers.map((u) => ({
       userId: u._id,
-      firstname: u.firstname,
-      lastname: u.lastname,
+      name: u.name || `${u.firstname || ""} ${u.lastname || ""}`.trim(),
+      phone: u.phone,
       company: u.company,
       _kind: "available",
       _isDefaultVendor: isDefaultVendorCompany(u.company),
     })),
-  ];
+  ].filter((row) => {
+    if (!searchLower) return true;
+
+    const name = (row.name || "").toLowerCase();
+    const phone = (row.phone || "").toLowerCase();
+    const company = (row.company || "").toLowerCase();
+
+    return (
+      name.includes(searchLower) ||
+      phone.includes(searchLower) ||
+      company.includes(searchLower)
+    );
+  });
 
   // Status change for a tech still in draft (not yet saved anywhere)
   const handleDraftStatusChange = (newStatus) => {
@@ -482,7 +513,10 @@ const AssignTechModal = ({
                 >
                   <div className="assign-tech-row-header">
                     <span>
-                      {row.firstname} {row.lastname} - {row.company}
+                      {row.name}
+                      {row.phone && ` (${row.phone})`}
+                      {" - "}
+                      {row.company}
                     </span>
 
                     {row._kind === "committed" && (
