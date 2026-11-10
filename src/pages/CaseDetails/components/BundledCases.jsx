@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { useCase } from "../../../context/CaseContext";
 import AddBundledCaseModal from "./AddBundledCaseModal";
@@ -10,6 +11,12 @@ const BundledCases = () => {
   const [showModal, setShowModal] = useState(false);
   const { token } = useAuth();
   const { caseItem, setCaseItem } = useCase();
+
+  const navigate = useNavigate();
+
+  const handleOpen = (ticket) => {
+    navigate(`/cases/${ticket._id}`);
+  };
 
   const handleRemove = async (bundledCaseId) => {
     const confirmed = window.confirm("Remove this case from the bundle?");
@@ -53,7 +60,6 @@ const BundledCases = () => {
               <div className="bundled-row" key={ticket._id}>
                 <div className="bundled-main">
                   <h4>#{ticket.caseNumber}</h4>
-
                   <p>{ticket.siteName || "No Site"}</p>
                 </div>
 
@@ -61,7 +67,7 @@ const BundledCases = () => {
 
                 <div className="bundled-status">{ticket.status}</div>
 
-                <button>Open</button>
+                <button onClick={() => handleOpen(ticket)}>Open</button>
 
                 <button
                   className="remove-case-btn"
@@ -83,7 +89,6 @@ const BundledCases = () => {
           onClose={() => setShowModal(false)}
           onUpdated={(updatedCase) => {
             setCaseItem(updatedCase);
-
             setShowModal(false);
           }}
         />
