@@ -252,7 +252,14 @@ const AssignTechModal = ({
       techPhone: tech.techPhone,
       _kind: "available",
     })),
-  ];
+  ].filter((row) => {
+    if (!searchLower) return true;
+
+    const name = (row.techName || "").toLowerCase();
+    const phone = (row.techPhone || "").toLowerCase();
+
+    return name.includes(searchLower) || phone.includes(searchLower);
+  });
 
   // ========================================
   // DRAFT STATUS
