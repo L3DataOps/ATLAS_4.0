@@ -135,7 +135,7 @@ const AssignTechModal = ({
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`${API_URL}/user`, {
+        const res = await fetch(`${API_URL}/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

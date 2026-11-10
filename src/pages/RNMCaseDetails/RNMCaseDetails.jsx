@@ -65,6 +65,8 @@ const CaseDetailsContent = () => {
   const [category, setCategory] = useState(caseItem.category || "");
   const [togglingFlag, setTogglingFlag] = useState(false);
 
+  console.log("Rendering CaseDetailsContent with caseItem:", caseItem);
+
   const caseItemRef = useRef(caseItem);
   useEffect(() => {
     caseItemRef.current = caseItem;

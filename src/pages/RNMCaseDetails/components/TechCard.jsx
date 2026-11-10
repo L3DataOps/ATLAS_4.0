@@ -25,9 +25,10 @@ const TechCard = () => {
         <div className="tech-card-empty">No technicians assigned</div>
       ) : (
         techs.map((tech, index) => (
-          <div className="tech-card-row" key={tech._id || index}>
+          <div className="tech-card-row" key={tech.rnmTechId || index}>
             <div className="tech-name">
-              {tech.firstname} {tech.lastname}
+              {tech.techName}
+              {tech.techPhone && ` - ${tech.techPhone}`}
             </div>
 
             <div className="tech-time">

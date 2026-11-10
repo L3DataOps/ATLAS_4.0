@@ -36,31 +36,36 @@ const RNMActivityNoteNew = ({ onSave, onCancel, caseItem }) => {
   const activityNoteStatuses = ["Customer Facing", "Internal", "Resolved"];
 
   // ====================================
-  // Load RNM tags (plain strings for the equipment type)
+  // Load RNM tags based on equipment type
+  // Same logic as CreateRemote.jsx
   // ====================================
   useEffect(() => {
-    if (!caseItem?.equipment?.type) {
-      setTags([]);
-      return;
-    }
+    setTags([]);
+    setSelectedTags([]);
+
+    if (!caseItem?.equipment) return;
 
     const fetchTags = async () => {
       try {
-        const res = await fetch(
-          `${API_URL}/rnm/tags/${encodeURIComponent(caseItem.equipment.type)}`,
-        );
-        if (!res.ok) throw new Error("Failed to fetch tags");
+        const type = caseItem.equipment.type ?? "null";
 
-        setTags(await res.json());
+        const res = await fetch(
+          `${API_URL}/rnm/tags/${encodeURIComponent(type)}`,
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch RNM tags");
+        }
+
+        const data = await res.json();
+        setTags(data);
       } catch (err) {
-        console.error(err);
+        console.error("RNM ACTIVITY NOTE TAG ERROR:", err);
         setTags([]);
       }
     };
 
     fetchTags();
-    // Type only: the case is polled every second, so depending on the
-    // whole object would refetch tags constantly.
   }, [caseItem?.equipment?.type]);
 
   const toggleTag = (tagName) => {
