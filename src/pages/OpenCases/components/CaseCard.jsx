@@ -106,6 +106,11 @@ const CaseCard = ({ case: caseItem }) => {
             caseItem.tags[0],
           )?.name || "No Tags"}
         </h5>
+        <h6>
+          {caseItem.description?.length > 100
+            ? `${caseItem.description.slice(0, 100)}...`
+            : caseItem.description}
+        </h6>
       </div>
       <div className="section">
         <h5>{formatElapsedTime(caseItem.createdAt)}</h5>

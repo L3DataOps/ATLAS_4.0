@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useParams } from "react-router-dom";
@@ -98,6 +97,10 @@ const CaseDetails = () => {
   );
 };
 
+const handleExportPDF = () => {
+  window.print();
+};
+
 // =========================
 // INNER COMPONENT
 // =========================
@@ -105,6 +108,7 @@ const CaseDetails = () => {
 const CaseDetailsContent = () => {
   const { token, user } = useAuth();
   const { caseItem, setCaseItem } = useCase();
+  console.log(caseItem);
 
   const [category, setCategory] = useState(caseItem.category || "");
   const [togglingFlag, setTogglingFlag] = useState(false);
@@ -140,8 +144,7 @@ const CaseDetailsContent = () => {
         const freshCase = await response.json();
 
         setCaseItem((prev) => {
-          const changed =
-            JSON.stringify(prev) !== JSON.stringify(freshCase);
+          const changed = JSON.stringify(prev) !== JSON.stringify(freshCase);
 
           return changed ? freshCase : prev;
         });
@@ -200,7 +203,7 @@ const CaseDetailsContent = () => {
   // =========================
 
   const isFlaggedByMe = (caseItem.flaggedUsers || []).some(
-    (uid) => String(uid) === String(user?.id)
+    (uid) => String(uid) === String(user?.id),
   );
 
   const handleToggleFlag = async () => {
@@ -259,11 +262,11 @@ const CaseDetailsContent = () => {
     if (Number.isNaN(d.getTime())) return "N/A";
 
     const date = `${d.getMonth() + 1}/${d.getDate()}/${String(
-      d.getFullYear()
+      d.getFullYear(),
     ).slice(2)}`;
 
     const time = `${String(d.getHours()).padStart(2, "0")}:${String(
-      d.getMinutes()
+      d.getMinutes(),
     ).padStart(2, "0")}`;
 
     return `${date} ${time}`;
@@ -275,24 +278,20 @@ const CaseDetailsContent = () => {
 
   return (
     <div className="sof-case-details-page">
-
       {/* =========================
           TOP SECTION
       ========================= */}
 
       <div className="sof-container">
-
         {/* LEFT: CASE INFORMATION */}
 
         <aside className="sof-title-card">
-
           <div className="sof-title-head">
             <div className="sof-case-heading">
               <span className="sof-overline">CASE DETAILS</span>
 
               <h3>
-                {caseItem.equipment?.caseType || "SOF"}:{" "}
-                {caseItem.caseNumber}
+                {caseItem.equipment?.caseType || "SOF"}: {caseItem.caseNumber}
               </h3>
             </div>
 
@@ -304,15 +303,11 @@ const CaseDetailsContent = () => {
               title={isFlaggedByMe ? "Remove flag" : "Flag case"}
               aria-label={isFlaggedByMe ? "Unflag case" : "Flag case"}
             >
-              <img
-                src={isFlaggedByMe ? redFlagIcon : flagIcon}
-                alt=""
-              />
+              <img src={isFlaggedByMe ? redFlagIcon : flagIcon} alt="" />
             </button>
           </div>
 
           <div className="sof-title-subhead">
-
             <div className="sof-site-info">
               <h4>{caseItem.site?.siteName || "Unknown Site"}</h4>
 
@@ -330,7 +325,6 @@ const CaseDetailsContent = () => {
                 </option>
               ))}
             </select>
-
           </div>
 
           <div className="sof-border" />
@@ -382,41 +376,31 @@ const CaseDetailsContent = () => {
               <p>{caseItem.status || "Unknown"}</p>
             </div>
           </div>
-
         </aside>
 
         {/* RIGHT: DESCRIPTION AND INFORMATION */}
 
         <main className="sof-sub-container">
-
-   
-            <InitialDesc
-              caseItem={caseItem}
-              description={caseItem.description}
-              tags={caseItem.tags}
-              time={formatDateTime(caseItem.createdAt)}
-              casecategory={caseItem.category}
-            />
-        
+          <InitialDesc
+            caseItem={caseItem}
+            description={caseItem.description}
+            tags={caseItem.tags}
+            time={formatDateTime(caseItem.createdAt)}
+            casecategory={caseItem.category}
+          />
 
           {/* DISPATCH AND EQUIPMENT */}
 
           <div className="sof-across">
-
             <div className="sof-aux-card">
-              <AuxCard
-                dispatchCenters={caseItem.dispatchCenterNotified}
-              />
+              <AuxCard dispatchCenters={caseItem.dispatchCenterNotified} />
             </div>
 
             <div className="sof-eq-info-card">
               <EqInfoCard caseItem={caseItem} />
             </div>
-
           </div>
-
         </main>
-
       </div>
 
       {/* =========================
@@ -424,21 +408,13 @@ const CaseDetailsContent = () => {
       ========================= */}
 
       <section className="sof-across-mod">
-
         <div className="sof-activity-section">
-          <ActivityNoteSection
-            caseItem={caseItem}
-            setCaseItem={setCaseItem}
-          />
+          <ActivityNoteSection caseItem={caseItem} setCaseItem={setCaseItem} />
         </div>
 
         <div className="sof-tab-section">
-          <TabCard
-            caseItem={caseItem}
-            setCaseItem={setCaseItem}
-          />
+          <TabCard caseItem={caseItem} setCaseItem={setCaseItem} />
         </div>
-
       </section>
 
       {/* =========================
@@ -446,7 +422,6 @@ const CaseDetailsContent = () => {
       ========================= */}
 
       <section className="sof-across sof-metrics-row">
-
         <div className="sof-timecard-section">
           <Timecard />
         </div>
@@ -454,7 +429,6 @@ const CaseDetailsContent = () => {
         <div className="sof-dqc-section">
           <DQC />
         </div>
-
       </section>
 
       {/* =========================
@@ -464,7 +438,6 @@ const CaseDetailsContent = () => {
       <section className="sof-checklist-section">
         <Checklist />
       </section>
-
     </div>
   );
 };
