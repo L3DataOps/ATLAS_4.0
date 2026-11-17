@@ -16,11 +16,13 @@ import RNMOpenCases from "./pages/RNMOpenCases/RNMOpenCases";
 import RnmCaseDetails from "./pages/RNMCaseDetails/RNMCaseDetails";
 import RNMClosedCases from "./pages/RNMClosedCases/RNMClosedCases";
 import FlaggedCases from "./pages/FlaggedCases/FlaggedCases";
+import XlvRoutes from "./xlv/XlvRoutes";
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/xlv/*" element={<XlvRoutes />} />
 
       <Route
         path="/create-case"
