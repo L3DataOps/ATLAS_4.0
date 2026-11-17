@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 import "./RNMOpenCases.css";
 import SearchTile from "./components/SearchTile";
@@ -96,6 +96,18 @@ const RNMOpenCases = () => {
     );
   });
 
+  const customerOptions = useMemo(
+    () =>
+      [
+        ...new Set(
+          cases
+            .map((c) => c.customer?.customerName)
+            .filter((v) => typeof v === "string" && v.trim() !== ""),
+        ),
+      ].sort(),
+    [cases],
+  );
+
   return (
     <div>
       <SearchBar value={search} onChange={setSearch} />
@@ -110,6 +122,7 @@ const RNMOpenCases = () => {
           title="Customer"
           value={filters.customer}
           onChange={(v) => updateFilter("customer", v)}
+          options={customerOptions}
         />
 
         <SearchTile

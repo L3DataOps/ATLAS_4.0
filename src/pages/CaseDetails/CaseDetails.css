@@ -284,10 +284,18 @@
    TECHNICIAN SECTION
 ========================= */
 
-.sof-case-details-page .tech-names {
+.sof-case-details-page {
   padding: 14px 16px;
 
   min-width: 0;
+}
+
+.tech-names {
+  padding: 0px;
+  height: 150px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;;
 }
 
 /* =========================

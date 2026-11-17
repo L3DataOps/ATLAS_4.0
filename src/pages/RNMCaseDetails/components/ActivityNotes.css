@@ -4,8 +4,9 @@
   padding: 10px;
   background: #f9f9f9;
   border-radius: 8px;
-  height:100%;
+  height: 600px;
   overflow-y: scroll;
+ 
 }
 
 .activity-notes-container {
@@ -255,4 +256,9 @@ select {
   border-radius: 10px;
   cursor: pointer;
    white-space: nowrap;
+}
+
+.across{
+  display: flex;
+  justify-content: space-between;
 }

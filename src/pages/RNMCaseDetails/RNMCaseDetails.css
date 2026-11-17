@@ -1,0 +1,584 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700&display=swap");
+
+/* =========================
+   GLOBAL PAGE
+========================= */
+
+.rnm-case-details-page {
+  --rnm-primary: #2755a0;
+  --rnm-primary-dark: #1c3d70;
+  --rnm-accent: #38bdf8;
+
+  --rnm-text: #1e293b;
+  --rnm-secondary: #64748b;
+  --rnm-muted: #94a3b8;
+
+  --rnm-border: #e2e8f0;
+  --rnm-background: #f1f5f9;
+  --rnm-card: #ffffff;
+
+  /* Column so the main container can grow to fill the page */
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+
+  padding: 22px 24px 30px;
+
+  background: #f5f7fb;
+
+  color: var(--rnm-text);
+  font-family: "Raleway", sans-serif;
+}
+
+/* =========================
+   COMMON CARD STYLING
+========================= */
+
+.rnm-case-details-page .rnm-title-card,
+.rnm-case-details-page .rnm-initial-description-card,
+.rnm-case-details-page .rnm-aux-card,
+.rnm-case-details-page .rnm-eq-info-card,
+.rnm-case-details-page .rnm-activity-section,
+.rnm-case-details-page .rnm-tab-section,
+.rnm-case-details-page .rnm-timecard-section,
+.rnm-case-details-page .rnm-dqc-section,
+.rnm-case-details-page .rnm-checklist-section {
+  background: var(--rnm-card);
+
+  border: 1px solid var(--rnm-border);
+  border-radius: 12px;
+
+  box-shadow: 0 2px 7px rgba(15, 35, 65, 0.035);
+
+  min-width: 0;
+}
+
+/* =========================
+   TOP LAYOUT
+========================= */
+
+.rnm-case-details-page .rnm-container {
+  display: grid;
+
+  grid-template-columns: 300px minmax(0, 1fr);
+
+  align-items: stretch;
+
+  gap: 18px;
+
+  width: 100%;
+
+  /* Grow to fill the leftover height of the page */
+  flex: 1;
+}
+
+/* =========================
+   LEFT CASE INFORMATION
+========================= */
+
+.rnm-case-details-page .rnm-title-card {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 500px;
+
+  overflow: hidden;
+}
+
+/* =========================
+   TITLE HEADER
+========================= */
+
+.rnm-case-details-page .rnm-title-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 17px 16px 12px;
+
+  gap: 10px;
+}
+
+.rnm-case-heading {
+  min-width: 0;
+}
+
+.rnm-overline {
+  display: block;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+
+  color: var(--rnm-muted);
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  margin-bottom: 5px;
+}
+
+.rnm-case-heading h3 {
+  font-size: 17px;
+  font-weight: 800;
+
+  color: var(--rnm-primary-dark);
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   FLAG BUTTON
+========================= */
+
+.rnm-flag-button {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-shrink: 0;
+
+  background: #f8fafc;
+  border: 1px solid var(--rnm-border);
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.rnm-flag-button:hover:not(:disabled) {
+  background: #fff1f2;
+  border-color: #fecdd3;
+  transform: translateY(-1px);
+}
+
+.rnm-flag-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rnm-flag-button img {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+}
+
+/* =========================
+   SITE AND CATEGORY
+========================= */
+
+.rnm-case-details-page .rnm-title-subhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 10px 16px 15px;
+}
+
+.rnm-case-details-page .rnm-site-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: auto;
+  min-width: 0;
+
+  gap: 4px;
+}
+
+.rnm-case-details-page .rnm-site-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+
+  overflow-wrap: anywhere;
+}
+
+.rnm-case-details-page .rnm-site-info p {
+  font-family: "Roboto", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--rnm-secondary);
+}
+
+/* Category dropdown */
+
+.rnm-case-details-page .rnm-title-subhead select {
+  min-width: 105px;
+  max-width: 125px;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background-color: #f8fafc;
+
+  border: 1px solid var(--rnm-border);
+  border-radius: 8px;
+
+  padding: 9px 28px 9px 10px;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+
+  color: var(--rnm-text);
+
+  cursor: pointer;
+  outline: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%2364758b' d='M5.5 7.5L10 12l4.5-4.5'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+  background-size: 15px;
+
+  transition: all 0.2s ease;
+}
+
+.rnm-case-details-page .rnm-title-subhead select:hover {
+  border-color: #94a3b8;
+  background-color: #ffffff;
+}
+
+.rnm-case-details-page .rnm-title-subhead select:focus {
+  border-color: var(--rnm-primary);
+  box-shadow: 0 0 0 3px rgba(39, 85, 160, 0.1);
+}
+
+/* =========================
+   DIVIDERS
+========================= */
+
+.rnm-case-details-page .rnm-border {
+  width: calc(100% - 30px);
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background: var(--rnm-border);
+  border: none;
+
+  margin: 4px 15px;
+}
+
+/* =========================
+   TIME SECTION
+========================= */
+
+.rnm-case-details-page .rnm-time-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;      /* the two rows share the height equally */
+
+  flex: 1;                  /* take all leftover height in the left card */
+  min-height: 0;
+
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+/* Make each tile fill its grid cell */
+.rnm-case-details-page .rnm-time-section > * {
+  height: 100%;
+  min-width: 0;
+}
+
+/* =========================
+   TECHNICIAN SECTION
+========================= */
+
+.rnm-case-details-page .tech-names {
+  padding: 14px 16px;
+
+  min-width: 0;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.rnm-case-details-page .rnm-status-section {
+  padding: 12px 16px 16px;
+}
+
+.rnm-case-details-page .rnm-case-status-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  min-height: 36px;
+
+  margin: 0;
+
+  padding: 8px 12px;
+
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.rnm-case-details-page .rnm-case-status-detail p {
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Dynamic statuses */
+
+.rnm-case-details-page .rnm-case-status-detail.in-progress {
+  background: #e2fedb;
+  border-color: #06b11d;
+  color: #27b833;
+}
+
+.rnm-case-details-page .rnm-case-status-detail.dispatched {
+  background: #c8c7fe;
+  border-color: #8a95fd;
+  color: #0815d1;
+}
+
+.rnm-case-details-page .rnm-case-status-detail.tech-enroute {
+  background: #f6f7ba;
+  border-color: #e7ff0f;
+  color: #747510;
+}
+
+.rnm-case-details-page .rnm-case-status-detail.awaiting-part {
+  background: #fce7f3;
+  border-color: #fbcff1;
+  color: #be18b0;
+}
+
+.rnm-case-details-page .rnm-case-status-detail.follow-up-required {
+  background: #ffedd5;
+  border-color: #fed7aa;
+  color: #c2410c;
+}
+
+.rnm-case-details-page .rnm-case-status-detail.quote-requested {
+  background: #f3e8ff;
+  border-color: #e9d5ff;
+  color: #7e22ce;
+}
+
+.rnm-case-details-page .rnm-case-status-detail.quote-approved {
+  background: #ccfbf1;
+  border-color: #99f6e4;
+  color: #0f766e;
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.rnm-case-details-page .rnm-sub-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+/* Initial description */
+
+.rnm-case-details-page .rnm-initial-description-card {
+  width: 100%;
+  min-width: 0;
+
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* =========================
+   DISPATCH + EQUIPMENT
+========================= */
+
+/* Shared grid (also used by the metrics row) */
+.rnm-case-details-page .rnm-across {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Only the equipment row inside the right column fills the page */
+.rnm-case-details-page .rnm-sub-container > .rnm-across {
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1;
+}
+
+.rnm-case-details-page .rnm-eq-info-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.rnm-case-details-page .rnm-eq-info-card .tab-card {
+  flex: 1;
+  width: 100%;
+  height: auto;
+  min-height: 360px;
+  margin: 0;
+}
+/* =========================
+   ACTIVITY + TAB SECTION
+========================= */
+
+.rnm-case-details-page .rnm-across-mod {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+
+  align-items: stretch;
+
+  gap: 18px;
+
+  width: 100%;
+
+  margin-top: 18px;
+}
+
+/* =========================
+   ACTIVITY SECTION
+========================= */
+
+.rnm-case-details-page .rnm-across-mod {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 18px;
+  width: 100%;
+  margin-top: 18px;
+}
+
+.rnm-case-details-page .rnm-activity-section,
+.rnm-case-details-page .rnm-tab-section {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.rnm-case-details-page .rnm-metrics-row {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 18px;
+}
+
+/* =========================
+   TIMECARD + DQC
+========================= */
+
+.rnm-case-details-page .rnm-metrics-row {
+  margin-top: 18px;
+}
+
+.rnm-case-details-page .rnm-timecard-section,
+.rnm-case-details-page .rnm-dqc-section {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* =========================
+   CHECKLIST
+========================= */
+
+.rnm-case-details-page .rnm-checklist-section {
+  width: 100%;
+  min-width: 0;
+
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.rnm-loading {
+  min-height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 15px;
+
+  color: #64748b;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rnm-loading-spinner {
+  width: 34px;
+  height: 34px;
+
+  border: 3px solid #e2e8f0;
+  border-top-color: #2755a0;
+  border-radius: 50%;
+
+  animation: rnm-spin 0.8s linear infinite;
+}
+
+@keyframes rnm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.rnm-error {
+  margin: 50px auto;
+  padding: 30px;
+
+  max-width: 450px;
+
+  text-align: center;
+
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  font-family: "Raleway", sans-serif;
+}
+
+.rnm-error h2 {
+  color: #dc2626;
+  margin-bottom: 10px;
+}
+
+.rnm-error p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+.rnm-case-details-page button:focus-visible,
+.rnm-case-details-page select:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}

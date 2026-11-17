@@ -3,50 +3,92 @@ import { useAuth } from "../../context/AuthContext";
 import { useParams } from "react-router-dom";
 import { CaseProvider, useCase } from "../../context/CaseContext";
 
-import "./CaseDetails.css";
+import "./RNMCaseDetails.css";
+
 import flagIcon from "../../images/flag.png";
 import redFlagIcon from "../../images/red-flag.png";
 
 import TimeTile from "./components/TimeTile";
 import InitialDesc from "./components/InitialDesc";
+import AuxCard from "./components/AuxCard";
 import EqInfoCard from "./components/EqInfoCard";
 import ActivityNoteSection from "./components/ActivityNoteSection";
 import TabCard from "./TabCardSection/TabCard";
 import Timecard from "./components/Timecard";
 import TechCard from "./components/TechCard";
+import DQC from "./components/DQC";
+import Checklist from "./components/Checklist";
 
 const API_URL = import.meta.env.VITE_API;
-const RNM_CASE_URL = `${API_URL}/rnm/case`;
 const POLL_INTERVAL_MS = 1000;
 
 // =========================
-// OUTER: fetch once, then hand off to the provider
+// OUTER COMPONENT
 // =========================
-const RNMCaseDetails = () => {
+
+const CaseDetails = () => {
   const { id } = useParams();
 
   const [initialCase, setInitialCase] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchCase = async () => {
       try {
-        const response = await fetch(`${RNM_CASE_URL}/${id}`);
-        if (!response.ok) throw new Error("Failed to fetch case.");
+        setLoading(true);
+        setError("");
 
-        setInitialCase(await response.json());
+        const response = await fetch(`${API_URL}/rnm/case/${id}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch case.");
+        }
+
+        const data = await response.json();
+
+        if (!cancelled) {
+          setInitialCase(data);
+        }
       } catch (err) {
         console.error(err);
+
+        if (!cancelled) {
+          setError(err.message || "Unable to load case.");
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     };
 
     fetchCase();
+
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
-  if (loading) return <h2>Loading...</h2>;
-  if (!initialCase) return <h2>Case not found.</h2>;
+  if (loading) {
+    return (
+      <div className="rnm-loading">
+        <div className="rnm-loading-spinner"></div>
+        <p>Loading case details...</p>
+      </div>
+    );
+  }
+
+  if (!initialCase) {
+    return (
+      <div className="rnm-error">
+        <h2>Case not found</h2>
+        <p>{error || "This case could not be located."}</p>
+      </div>
+    );
+  }
 
   return (
     <CaseProvider initialCase={initialCase}>
@@ -55,19 +97,25 @@ const RNMCaseDetails = () => {
   );
 };
 
+const handleExportPDF = () => {
+  window.print();
+};
+
 // =========================
-// INNER
+// INNER COMPONENT
 // =========================
+
 const CaseDetailsContent = () => {
   const { token, user } = useAuth();
   const { caseItem, setCaseItem } = useCase();
+  console.log(caseItem);
 
   const [category, setCategory] = useState(caseItem.category || "");
   const [togglingFlag, setTogglingFlag] = useState(false);
 
-  console.log("Rendering CaseDetailsContent with caseItem:", caseItem);
-
   const caseItemRef = useRef(caseItem);
+
+  // Keep current case available to polling
   useEffect(() => {
     caseItemRef.current = caseItem;
   }, [caseItem]);
@@ -76,47 +124,60 @@ const CaseDetailsContent = () => {
     setCategory(caseItem.category || "");
   }, [caseItem.category]);
 
-  // Poll for updates made by other users
+  // =========================
+  // CASE POLLING
+  // =========================
+
   useEffect(() => {
-    const id = caseItemRef.current._id;
+    const id = caseItem._id;
+
     if (!id) return;
 
     const intervalId = setInterval(async () => {
       try {
-        const response = await fetch(`${RNM_CASE_URL}/${id}`);
-        if (!response.ok) throw new Error("Failed to refresh case.");
+        const response = await fetch(`${API_URL}/cases/${id}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to refresh case.");
+        }
 
         const freshCase = await response.json();
 
-        setCaseItem((prev) =>
-          JSON.stringify(prev) !== JSON.stringify(freshCase) ? freshCase : prev,
-        );
+        setCaseItem((prev) => {
+          const changed = JSON.stringify(prev) !== JSON.stringify(freshCase);
+
+          return changed ? freshCase : prev;
+        });
       } catch (err) {
-        console.error("RNM CASE POLL ERROR:", err);
+        console.error("CASE POLL ERROR:", err);
       }
     }, POLL_INTERVAL_MS);
 
     return () => clearInterval(intervalId);
-  }, [caseItemRef.current._id, setCaseItem]);
+  }, [caseItem._id, setCaseItem]);
+
+  // =========================
+  // CATEGORY
+  // =========================
 
   const categories = [
     "Critical",
     "Major",
     "Minor",
     "Network",
-    "Maintenance",
+    "Facilities",
+    "Civil",
     "Site Access",
   ];
 
-  // =========================
-  // PATCH CATEGORY
-  // =========================
   const handleCategoryChange = async (e) => {
     const newCategory = e.target.value;
+    const previousCategory = category;
+
     setCategory(newCategory);
 
     try {
-      const response = await fetch(`${RNM_CASE_URL}/${caseItem._id}`, {
+      const response = await fetch(`${API_URL}/cases/${caseItem._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -125,33 +186,44 @@ const CaseDetailsContent = () => {
         body: JSON.stringify({ category: newCategory }),
       });
 
-      if (!response.ok) throw new Error("Failed to update category");
+      if (!response.ok) {
+        throw new Error("Failed to update category");
+      }
 
-      setCaseItem(await response.json());
+      const updatedCase = await response.json();
+      setCaseItem(updatedCase);
     } catch (err) {
       console.error(err);
-      setCategory(caseItem.category || ""); // revert on failure
+      setCategory(previousCategory);
     }
   };
 
   // =========================
-  // TOGGLE FLAG
+  // FLAG
   // =========================
-  const isFlaggedByMe = (caseItem.flaggedUsers || []).includes(user?.id);
+
+  const isFlaggedByMe = (caseItem.flaggedUsers || []).some(
+    (uid) => String(uid) === String(user?.id),
+  );
 
   const handleToggleFlag = async () => {
     if (!user?.id || togglingFlag) return;
 
     const currentFlags = caseItem.flaggedUsers || [];
+
     const updatedFlags = isFlaggedByMe
-      ? currentFlags.filter((uid) => uid !== user.id)
+      ? currentFlags.filter((uid) => String(uid) !== String(user.id))
       : [...currentFlags, user.id];
 
-    setCaseItem((prev) => ({ ...prev, flaggedUsers: updatedFlags }));
+    setCaseItem((prev) => ({
+      ...prev,
+      flaggedUsers: updatedFlags,
+    }));
+
     setTogglingFlag(true);
 
     try {
-      const response = await fetch(`${RNM_CASE_URL}/${caseItem._id}`, {
+      const response = await fetch(`${API_URL}/cases/${caseItem._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -160,63 +232,94 @@ const CaseDetailsContent = () => {
         body: JSON.stringify({ flaggedUsers: updatedFlags }),
       });
 
-      if (!response.ok) throw new Error("Failed to update flag");
+      if (!response.ok) {
+        throw new Error("Failed to update flag");
+      }
 
-      setCaseItem(await response.json());
+      const updatedCase = await response.json();
+      setCaseItem(updatedCase);
     } catch (err) {
       console.error("FLAG TOGGLE ERROR:", err);
-      setCaseItem((prev) => ({ ...prev, flaggedUsers: currentFlags }));
+
+      setCaseItem((prev) => ({
+        ...prev,
+        flaggedUsers: currentFlags,
+      }));
     } finally {
       setTogglingFlag(false);
     }
   };
 
+  // =========================
+  // DATE FORMAT
+  // =========================
+
   const formatDateTime = (iso) => {
     if (!iso) return "N/A";
 
     const d = new Date(iso);
-    const date = `${d.getMonth() + 1}/${d.getDate()}/${String(d.getFullYear()).slice(2)}`;
-    const time = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+
+    if (Number.isNaN(d.getTime())) return "N/A";
+
+    const date = `${d.getMonth() + 1}/${d.getDate()}/${String(
+      d.getFullYear(),
+    ).slice(2)}`;
+
+    const time = `${String(d.getHours()).padStart(2, "0")}:${String(
+      d.getMinutes(),
+    ).padStart(2, "0")}`;
 
     return `${date} ${time}`;
   };
 
+  // =========================
+  // RENDER
+  // =========================
+
   return (
-    <div className="case-details-page">
-      <div className="container">
-        <div className="title-card">
-          <div className="title-head">
-            <div>
+    <div className="rnm-case-details-page">
+      {/* =========================
+          TOP SECTION
+      ========================= */}
+
+      <div className="rnm-container">
+        {/* LEFT: CASE INFORMATION */}
+
+        <aside className="rnm-title-card">
+          <div className="rnm-title-head">
+            <div className="rnm-case-heading">
+              <span className="rnm-overline">CASE DETAILS</span>
+
               <h3>
                 {caseItem.equipment?.caseType || "Remote"}:{" "}
                 {caseItem.caseNumber}
               </h3>
             </div>
 
-            <img
-              src={isFlaggedByMe ? redFlagIcon : flagIcon}
-              alt={isFlaggedByMe ? "Unflag case" : "Flag case"}
+            <button
+              type="button"
+              className="rnm-flag-button"
               onClick={handleToggleFlag}
-              className="flag-icon"
-              style={{
-                cursor: togglingFlag ? "not-allowed" : "pointer",
-                opacity: togglingFlag ? 0.6 : 1,
-              }}
-            />
+              disabled={togglingFlag}
+              title={isFlaggedByMe ? "Remove flag" : "Flag case"}
+              aria-label={isFlaggedByMe ? "Unflag case" : "Flag case"}
+            >
+              <img src={isFlaggedByMe ? redFlagIcon : flagIcon} alt="" />
+            </button>
           </div>
 
-          <div className="title-subhead">
-            <div className="site-info">
-              <h4>{caseItem.customer?.customerName}</h4>
-              <p>
-                {caseItem.site?.siteName}
-                {caseItem.site?.siteNumber
-                  ? ` (${caseItem.site.siteNumber})`
-                  : ""}
-              </p>
+          <div className="rnm-title-subhead">
+            <div className="rnm-site-info">
+              <h4>{caseItem.site?.siteName || "Unknown Site"}</h4>
+
+              <p>{caseItem.site?.region?.slice(0, 4) || "N/A"}</p>
             </div>
 
-            <select value={category} onChange={handleCategoryChange}>
+            <select
+              value={category}
+              onChange={handleCategoryChange}
+              aria-label="Case category"
+            >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
@@ -225,68 +328,99 @@ const CaseDetailsContent = () => {
             </select>
           </div>
 
-          <div className="border"></div>
+          <div className="rnm-border" />
 
-          <div className="time-section">
+          {/* TIME INFORMATION */}
+
+          <div className="rnm-time-section">
             <TimeTile
-              label={"Created"}
+              label="Created"
               time={formatDateTime(caseItem.createdAt)}
             />
+
             <TimeTile
-              label={"Enroute"}
+              label="Enroute"
               time={formatDateTime(caseItem.techEnroute)}
             />
+
             <TimeTile
-              label={"Onsite"}
+              label="Onsite"
               time={formatDateTime(caseItem.techOnsite)}
             />
+
             <TimeTile
-              label={"Completed"}
+              label="Completed"
               time={formatDateTime(caseItem.completedAt)}
             />
           </div>
 
-          <div className="border"></div>
+          <div className="rnm-border" />
+
+          {/* ASSIGNED TECHNICIANS */}
 
           <div className="tech-names">
             <TechCard />
           </div>
 
-          <div className="border"></div>
+          <div className="rnm-border" />
 
-          <div className="case-status-detail">
-            <p>{caseItem.status}</p>
+          {/* CURRENT STATUS */}
+
+          <div className="rnm-status-section">
+            <span className="rnm-overline">CURRENT STATUS</span>
+
+            <div
+              className={`rnm-case-status-detail ${caseItem.status
+                ?.toLowerCase()
+                .replace(/\s+/g, "-")}`}
+            >
+              <p>{caseItem.status || "Unknown"}</p>
+            </div>
           </div>
-        </div>
+        </aside>
 
-        <div className="sub-container">
-          <div className="initial-description-card">
-            <InitialDesc
-              caseItem={caseItem}
-              description={caseItem.description}
-              tags={caseItem.tags}
-              time={formatDateTime(caseItem.createdAt)}
-              casecategory={caseItem.category}
-            />
-          </div>
+        {/* RIGHT: DESCRIPTION AND INFORMATION */}
 
-          <div className="across">
-            <div className="eq-info-card">
+        <main className="rnm-sub-container">
+          <InitialDesc
+            caseItem={caseItem}
+            description={caseItem.description}
+            tags={caseItem.tags}
+            time={formatDateTime(caseItem.createdAt)}
+            casecategory={caseItem.category}
+          />
+
+          {/* DISPATCH AND EQUIPMENT */}
+
+          <div className="rnm-across">
+            <div className="rnm-eq-info-card">
               <TabCard caseItem={caseItem} setCaseItem={setCaseItem} />
             </div>
           </div>
+        </main>
+      </div>
+
+      {/* =========================
+          ACTIVITY AND TABS
+      ========================= */}
+
+      <section className="rnm-across-mod">
+        <div className="rnm-activity-section">
+          <ActivityNoteSection caseItem={caseItem} setCaseItem={setCaseItem} />
         </div>
-      </div>
+      </section>
 
-      <div className="across-mod">
-        <ActivityNoteSection caseItem={caseItem} setCaseItem={setCaseItem} />
-      </div>
+      {/* =========================
+          TIME AND DQC
+      ========================= */}
 
-      <div className="across-mod">
-        <Timecard />
-      </div>
+      <section className="rnm-across rnm-metrics-row">
+        <div className="rnm-timecard-section">
+          <Timecard />
+        </div>
+      </section>
     </div>
   );
 };
 
-export default RNMCaseDetails;
+export default CaseDetails;

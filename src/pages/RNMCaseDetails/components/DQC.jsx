@@ -1,5 +1,5 @@
 import { useCase } from "../../../context/CaseContext";
-import "./subcss.css";
+import "./rnmsubcss.css";
 
 const DQC = () => {
   const { caseItem } = useCase();

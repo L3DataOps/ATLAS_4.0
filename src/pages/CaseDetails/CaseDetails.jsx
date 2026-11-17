@@ -338,6 +338,11 @@ const CaseDetailsContent = () => {
             />
 
             <TimeTile
+              label="Completed"
+              time={formatDateTime(caseItem.completedAt)}
+            />
+
+            <TimeTile
               label="Enroute"
               time={formatDateTime(caseItem.techEnroute)}
             />
@@ -345,11 +350,6 @@ const CaseDetailsContent = () => {
             <TimeTile
               label="Onsite"
               time={formatDateTime(caseItem.techOnsite)}
-            />
-
-            <TimeTile
-              label="Completed"
-              time={formatDateTime(caseItem.completedAt)}
             />
           </div>
 

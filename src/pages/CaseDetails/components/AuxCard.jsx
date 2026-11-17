@@ -35,21 +35,14 @@ const AuxCard = ({ dispatchCenters }) => {
       ? "OFF NETWORK"
       : "ON NETWORK";
 
-    // Get logged-in user's name
-    const firstName = user?.firstname || user?.firstName || "";
-    const lastName = user?.lastname || user?.lastName || "";
-
-    const userName = `${firstName} ${lastName}`.trim() || "User";
-
     // Create the case note
     const newNote = {
-      text: `${userName} notified ${dispatch.dispatchName} that the site is ${notificationStatus}.`,
+      text: `${user.name} notified ${dispatch.dispatchName} that the site is ${notificationStatus}.`,
       status: caseItem.status,
       activityNoteStatus: "Customer Facing",
       tags: ["System Generated", "Dispatch Notification"],
       createdBy: {
-        firstname: "ATLAS System",
-        lastname: "Notification",
+        name: "ATLAS System Notification",
       },
       createdAt: new Date().toISOString(),
     };
